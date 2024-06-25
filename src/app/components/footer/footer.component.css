@@ -21,25 +21,17 @@
     flex: 1;
     padding: 0 20px;
 }
-
 .footer-content .social-icons {
     list-style-type: none;
     padding: 0;
     display: flex;
     justify-content: center;
 }
-
 .footer-content .social-icons li {
     margin: 0 10px;
 }
-
-.footer-content .social-icons li a {
-    color: #a4b1cd;
-    font-size: 20px;
-}
-
-.footer-content .social-icons li a:hover {
-    color: #ddd;
+.footer-content .social-icons li a img:hover {
+    opacity: 0.7;
 }
 
 .legal {

@@ -9,5 +9,10 @@ import { RouterModule } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
+  isLoaded = false;
+  constructor() {
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 100);
+  }
 }

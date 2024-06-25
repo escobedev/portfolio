@@ -5,11 +5,15 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-image: url('../../../public/assets/profile.jpg');
-    background-size: cover;
-    background-position: center;
+    background-color: transparent;
     min-height: 500px;
+    opacity: 0;
+    transition: 0.5s ease-out;
 }
+.home[data-loaded="true"] {
+    opacity: 1;
+}
+
 .home h1 {
     color: #fff;
 }

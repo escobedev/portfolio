@@ -1,22 +1,33 @@
 .contact {
-    background-color: #f9f9f9;
-    padding: 20px;
+    background-color: transparent;
     text-align: justify;
     opacity: 0;
-    transition: opacity 0.5s ease-out;
+    transition: 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .contact[data-loaded="true"] {
     opacity: 1;
 }
+.contact h2 {
+    padding: 0px;
+    margin-top: 40px;
+    color: #fff;
+}
 
 .contact-content {
-    margin: 0 auto;
-    max-width: 800px;
+    margin: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .wrap {
-    margin: 20px 0;
     display: flex;
+    width: 100%;
+    max-width: 800px;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-evenly;
@@ -24,15 +35,25 @@
 
 .side {
     flex-grow: 1;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.hidden {
-    display: none;
+.contact-form {
+    width: 100%;
+    margin: 20px 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
 }
 
 .contact-form, .contact-info, .social-media {
-    padding: 20px 20px;
-    box-sizing: border-box;
+    padding: 20px;
+    max-width: 350px;
 }
 .contact form {
     display: flex;
@@ -58,4 +79,43 @@
     padding: 10px 20px;
     margin: 20px 0 0 0;
     border-radius: 5px;
+}
+
+.contact-info, .social-media {
+    color: #fff;
+    background-color: #33333333;
+    border-radius: 20px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+.contact-info p a {
+    color: #f9f9f9;
+    text-decoration: none;
+}
+.contact-info p a:hover {
+    color: #00b5b8;
+    text-decoration: underline;
+}
+
+.social-media {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+.social-icons li {
+    margin: 0 10px;
+}
+.social-icons li a img {
+    opacity: 0.9;
+}
+.social-icons li a img:hover {
+    opacity: 1;
 }
