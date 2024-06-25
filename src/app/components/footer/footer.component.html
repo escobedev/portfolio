@@ -1,0 +1,36 @@
+<footer class="footer">
+    <div class="footer-content">
+      <div class="contact-info">
+        <h4>Contact</h4>
+        <p>Email: bruno.jair.ea&#64;gmail.com</p>
+        <p>Phone: <a href="https://wa.me/51992023441" target="_blank">+51 992 023 441</a></p>
+        <!-- Add more contact details as necessary -->
+      </div>
+      <div class="social-media">
+        <h4>Follow Me</h4>
+        <ul class="social-icons">
+          <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="assets/linkedin-footer.png" alt="LinkedIn"></a></li>
+          <li><a href="https://github.com/CallistoScope" target="_blank"><img width="40px" src="assets/github-footer.png" alt="GitHub"></a></li>
+          <li><a href="https://x.com/brunoescobedo" target="_blank"><img width="40px" src="assets/twitter-footer.png" alt="Twitter"></a></li>
+          <!-- Add more social media icons as necessary -->
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>&copy; 2024 Bruno Escobedo. All rights reserved.</p>
+      <p><a (click)="openPrivacyPolicy()">Privacy Policy</a> | <a (click)="openTermsOfService()">Terms of Service</a></p>
+    </div>
+</footer>
+@if (privacyPolicyVisible) {
+  <button class="close-button" (click)="closeDialog()">&times;</button>
+  <div class="dialog">
+      <app-privacy-policy />
+  </div>
+}
+@else if (termsOfServiceVisible) {
+  <button class="close-button" (click)="closeDialog()">&times;</button>
+  <div class="dialog">
+      <app-terms-of-service />
+  </div>
+}
+  

@@ -1,0 +1,14 @@
+<div class="navbar">
+  <button class="toggle-btn" (click)="toggleNav()">☰</button>
+  <nav class="sidebar" [class.active]="isNavActive">
+    <ul>
+      <li><button class="toggle-btn" (click)="toggleNav()">&times;</button></li>
+      <li><a routerLink="/" (click)="toggleNav()">Home</a></li>
+      <li><a routerLink="/about" (click)="toggleNav()">About</a></li>
+      <li><a routerLink="/projects" (click)="toggleNav()">Projects</a></li>
+      <li><a routerLink="/skills" (click)="toggleNav()">Skills</a></li>
+      <li><a routerLink="/experience" (click)="toggleNav()">Experience</a></li>
+      <li><a routerLink="/contact" (click)="toggleNav()">Contact</a></li>
+    </ul>
+  </nav>
+</div>

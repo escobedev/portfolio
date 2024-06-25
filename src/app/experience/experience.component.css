@@ -1,0 +1,23 @@
+.experience {
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: justify;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+.experience[data-loaded="true"] {
+    opacity: 1;
+}
+
+.experience-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.job-entry {
+    margin: 40px 20px;
+}

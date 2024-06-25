@@ -1,0 +1,29 @@
+.home {
+    text-align: center;
+    padding: 5% 20px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url('../../../public/assets/profile.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+}
+.home h1 {
+    color: #fff;
+}
+.home p {
+    color: #ddd;
+}
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+}
+.buttons button {
+    flex: 1;
+    text-wrap: nowrap;
+}
