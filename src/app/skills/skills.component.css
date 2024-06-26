@@ -16,12 +16,27 @@
     color: #fff;
 }
 
-.skills-content {
+.skills-content, .skills-overview {
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: top;
+}
+
+.skills-overview-content {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 10px;
+    background-color: #1a2332;
+    border: 1px solid #202837;
+    color: #a4b1cd;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.thm-overview {
+    width: 100%;
 }
 
 .skills-container {

@@ -2,6 +2,7 @@ export interface Badge {
     name: string;
     image: string;
     type: string;
+    level: string;
 }
 
 export const badges: Badge[] = [
@@ -10,91 +11,109 @@ export const badges: Badge[] = [
         name: 'HTML',
         image: 'assets/html.svg',
         type: 'language',
+        level: 'Advanced',
     },
     {
         name: 'CSS',
         image: 'assets/css.svg',
         type: 'language',
+        level: 'Advanced',
     },
     {
         name: 'JavaScript',
         image: 'assets/js.png',
         type: 'language',
+        level: 'Advanced',
     },
     {
         name: 'TypeScript',
         image: 'assets/ts.svg',
         type: 'language',
+        level: 'Intermediate',
     },
     {
         name: 'C',
         image: 'assets/c.png',
         type: 'language',
+        level: 'Intermediate',
     },
     {
         name: 'C++',
         image: 'assets/cpp.svg',
         type: 'language',
+        level: 'Intermediate',
     },
     {
         name: 'C#',
         image: 'assets/csharp.svg',
         type: 'language',
+        level: 'Basic',
     },
     {
         name: 'Java',
         image: 'assets/java.png',
         type: 'language',
+        level: 'Basic',
     },
     {
         name: 'Python',
         image: 'assets/python.png',
         type: 'language',
+        level: 'Intermediate',
     },
     {
         name: 'SQL',
         image: 'assets/sql.png',
         type: 'language',
+        level: 'Intermediate',
     },
     {
         name: 'PHP',
         image: 'assets/php.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'Ruby',
         image: 'assets/ruby.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'Swift',
         image: 'assets/swift.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'Rust',
         image: 'assets/rust.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'Go',
         image: 'assets/go.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'Scala',
         image: 'assets/scala.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'Kotlin',
         image: 'assets/kotlin.png',
         type: 'language',
+        level: '',
     },
     {
         name: 'R',
         image: 'assets/r.png',
         type: 'language',
+        level: '',
     },
 
     /* Front-End Tools */
@@ -102,113 +121,135 @@ export const badges: Badge[] = [
         name: 'Bootstrap',
         image: 'https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg',
         type: 'frontend',
+        level: '',
     },
     {
         name: 'Tailwind CSS',
         image: 'https://tailwindcss.com/img/logos/workflow-logo.svg',
         type: 'frontend',
+        level: '',
     },
     {
         name: 'React',
         image: 'https://reactjs.org/logo-og.png',
         type: 'frontend',
+        level: '',
     },
     {
         name: 'Angular',
         image: 'assets/angular.ico',
         type: 'frontend',
+        level: 'Intermediate',
     },
     {
         name: 'Vue.js',
         image: 'https://vuejs.org/images/logo.png',
         type: 'frontend',
+        level: '',
     },
     {
         name: 'Svelte',
         image: 'https://svelte.dev/img/svelte-logo.png',
         type: 'frontend',
+        level: '',
     },
     {
         name: 'Nuxt.js',
         image: 'https://img.nuxtjs.org/icon.png',
         type: 'frontend',
+        level: '',
     },
     {
         name: 'Next.js',
         image: 'https://nextjs.org/static/twitter-cards/card.png',
         type: 'frontend',
+        level: '',
     },
 
     /* Back-End Frameworks */
     {
         name: 'Node.js',
-        image: 'https://nodejs.org/static/images/logo.svg',
+        image: 'assets/nodejs.svg',
         type: 'backend',
+        level: 'Basic',
     },
     {
         name: 'Express.js',
         image: 'https://expressjs.com/images/express.png',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Nginx',
         image: 'assets/nginx.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Apache',
         image: 'assets/apache.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Tomcat',
         image: 'assets/tomcat.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'IIS',
         image: 'assets/iis.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Flask',
         image: 'assets/flask.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Django',
         image: 'assets/django.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'FastAPI',
         image: 'assets/fastapi.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Express',
         image: 'assets/express.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Laravel',
         image: 'assets/laravel.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Spring',
         image: 'assets/spring.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'Ruby on Rails',
         image: 'assets/rails.svg',
         type: 'backend',
+        level: '',
     },
     {
         name: 'ASP.NET',
         image: 'assets/aspnet.svg',
         type: 'backend',
+        level: '',
     },
 
     /* Databases */
@@ -216,113 +257,135 @@ export const badges: Badge[] = [
         name: 'MySQL',
         image: 'https://www.mysql.com/common/logos/logo-mysql-170x115.png',
         type: 'database',
+        level: 'Intermediate',
     },
     {
         name: 'PostgreSQL',
         image: 'assets/postgresql.svg',
         type: 'database',
+        level: '',
     },
     {
         name: 'MongoDB',
         image: 'assets/mongodb.png',
         type: 'database',
+        level: '',
     },
     {
         name: 'Firebase',
         image: 'assets/firebase.png',
         type: 'database',
+        level: 'Basic',
     },
     {
         name: 'Redis',
         image: 'assets/redis.svg',
         type: 'database',
+        level: '',
     },
     {
         name: 'Oracle',
         image: 'assets/oracle.svg',
         type: 'database',
+        level: '',
     },
     {
         name: 'SQLite',
         image: 'assets/sqlite.svg',
         type: 'database',
+        level: 'Intermediate',
     },
 
     /* Data */
     {
         name: 'Excel',
         image: 'assets/excel.svg',
-        type: 'data'
+        type: 'data',
+        level: 'Advanced',
     },
     {
         name: 'Tableau',
         image: 'assets/tableau.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
     {
         name: 'Power BI',
-        image: 'assets/powerbi.svg',
-        type: 'data'
+        image: 'assets/power-bi.svg',
+        type: 'data',
+        level: 'Basic',
     },
     {
         name: 'Google Sheets',
         image: 'assets/google-sheets.svg',
-        type: 'data'
+        type: 'data',
+        level: 'Advanced',
     },
     {
-        name: 'AppScript',
-        image: 'assets/app-script.svg',
-        type: 'data'
+        name: 'Apps Script',
+        image: 'assets/apps-script.svg',
+        type: 'data',
+        level: '',
     },
     {
         name: 'AppSheet',
-        image: 'assets/app-sheet.svg',
-        type: 'data'
+        image: 'assets/appsheet.svg',
+        type: 'data',
+        level: 'Intermediate',
     },
     {
         name: 'Pandas',
         image: 'assets/pandas.svg',
-        type: 'data'
+        type: 'data',
+        level: 'Intermediate',
     },
     {
         name: 'NumPy',
         image: 'assets/numpy.svg',
-        type: 'data'
+        type: 'data',
+        level: 'Advanced',
     },
     {
         name: 'Matplotlib',
         image: 'assets/matplotlib.svg',
-        type: 'data'
+        type: 'data',
+        level: 'Advanced',
     },
     {
         name: 'Seaborn',
         image: 'assets/seaborn.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
     {
         name: 'Scikit-Learn',
         image: 'assets/scikit-learn.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
     {
         name: 'TensorFlow',
         image: 'assets/tensorflow.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
     {
         name: 'Keras',
         image: 'assets/keras.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
     {
         name: 'PyTorch',
         image: 'assets/pytorch.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
     {
         name: 'Spark',
         image: 'assets/spark.svg',
-        type: 'data'
+        type: 'data',
+        level: '',
     },
 
     /* Version Control */
@@ -330,16 +393,19 @@ export const badges: Badge[] = [
         name: 'Git',
         image: 'https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png',
         type: 'version-control',
+        level: '',
     },
     {
         name: 'GitHub',
         image: 'assets/github.svg',
         type: 'version-control',
+        level: 'Basic',
     },
     {
         name: 'GitLab',
         image: 'assets/gitlab.svg',
         type: 'version-control',
+        level: '',
     },
 
     /* Package Managers */
@@ -347,21 +413,25 @@ export const badges: Badge[] = [
         name: 'NPM',
         image: 'https://static-production.npmjs.com/b0f1a8318363185cc2ea6a40ac23eeb2.png',
         type: 'package-manager',
+        level: '',
     },
     {
         name: 'Yarn',
         image: 'https://classic.yarnpkg.com/favicon.ico',
         type: 'package-manager',
+        level: '',
     },
     {
         name: 'NuGet',
         image: 'assets/nuget.svg',
         type: 'package-manager',
+        level: '',
     },
     {
         name: 'Maven',
         image: 'assets/maven.svg',
         type: 'package-manager',
+        level: '',
     },
 
     /* Cloud */
@@ -369,105 +439,125 @@ export const badges: Badge[] = [
         name: 'AWS',
         image: 'https://aws.amazon.com/favicon.ico',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'Azure',
         image: 'assets/azure.png',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'Google Cloud',
         image: 'assets/google-cloud.svg',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'Digital Ocean',
         image: 'assets/digital-ocean.svg',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'Heroku',
         image: 'assets/heroku.svg',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'Alibaba Cloud',
         image: 'assets/alibaba-cloud.svg',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'IBM Cloud',
         image: 'assets/ibm-cloud.svg',
         type: 'cloud',
+        level: '',
     },
     {
         name: 'SAP Cloud',
         image: 'assets/sap-cloud.svg',
         type: 'cloud',
+        level: '',
     },
 
     /* Operating Systems */
     {
         name: 'Linux',
-        image: 'assets/linux.svg',
+        image: 'assets/linux.png',
         type: 'operating-system',
+        level: 'Basic',
     },
     {
         name: 'Windows',
         image: 'assets/windows.svg',
         type: 'operating-system',
+        level: 'Basic',
     },
     {
         name: 'MacOS',
         image: 'assets/macos.svg',
         type: 'operating-system',
+        level: '',
     },
     {
         name: 'Ubuntu',
         image: 'assets/ubuntu.svg',
         type: 'operating-system',
+        level: 'Basic',
     },
     {
         name: 'Debian',
         image: 'assets/debian.svg',
         type: 'operating-system',
+        level: '',
     },
     {
         name: 'Red Hat',
         image: 'assets/redhat.svg',
-        type: 'operating-system'
+        type: 'operating-system',
+        level: '',
     },
     {
         name: 'Fedora',
         image: 'assets/fedora.svg',
-        type: 'operating-system'
+        type: 'operating-system',
+        level: '',
     },
     {
         name: 'CentOS',
         image: 'assets/centos.svg',
-        type: 'operating-system'
+        type: 'operating-system',
+        level: '',
     },
     {
         name: 'Kali Linux',
         image: 'assets/kali-linux.svg',
         type: 'operating-system',
+        level: '',
     },
     {
         name: 'ParrotOS',
-        image: 'assets/parrotos.svg',
+        image: 'https://www.parrotsec.org/favicon.png',
         type: 'operating-system',
+        level: 'Basic',
     },
 
     /* VMs */
     {
         name: 'VirtualBox',
-        image: 'assets/virtualbox.svg',
+        image: 'assets/virtualbox.png',
         type: 'vm-platform',
+        level: 'Intermediate',
     },
     {
         name: 'VMware',
         image: 'assets/vmware.svg',
         type: 'vm-platform',
+        level: 'Basic',
     },
 
     /* Containers */
@@ -475,246 +565,294 @@ export const badges: Badge[] = [
         name: 'Docker',
         image: 'https://www.docker.com/favicon.ico',
         type: 'container-platform',
+        level: '',
     },
     {
         name: 'Kubernetes',
         image: 'assets/kubernetes.svg',
         type: 'container-platform',
+        level: '',
     },
     {
         name: 'Amazon ECS',
         image: 'assets/amazon-ecs.svg',
         type: 'container-platform',
+        level: '',
     },
     {
         name: 'Azure Container Apps',
         image: 'assets/azure-container-apps.svg',
         type: 'container-platform',
+        level: '',
     },
     {
         name: 'Google Container Engine',
         image: 'assets/google-container-engine.svg',
         type: 'container-platform',
+        level: '',
     },
     {
         name: 'IBM Cloud Foundry',
         image: 'assets/ibm-cloud-foundry.svg',
         type: 'container-platform',
+        level: '',
     },
 
     /* Cybersecurity */
     {
         name: 'Nmap',
-        image: 'assets/nmap.svg',
+        image: 'assets/nmap.png',
         type: 'cybersecurity',
+        level: 'Intermediate',
     },
     {
         name: 'Wireshark',
-        image: 'assets/wireshark.svg',
-        type: 'cybersecurity'
+        image: 'https://www.wireshark.org/favicon.ico',
+        type: 'cybersecurity',
+        level: 'Intermediate',
     },
     {
         name: 'BurpSuite',
         image: 'assets/burp-suite.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Metasploit',
         image: 'assets/metasploit.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'EternalBlue',
         image: 'assets/eternalblue.svg',
-        type: 'cybersecurity'
+        type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Nessus',
         image: 'assets/nessus.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Grafana',
         image: 'assets/grafana.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Kibana',
         image: 'assets/kibana.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Palo Alto Networks',
         image: 'assets/palo-alto-networks.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Sophos',
         image: 'assets/sophos.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Kaspersky',
         image: 'assets/kaspersky.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Fortinet',
         image: 'assets/fortinet.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Trend Micro',
         image: 'assets/trend-micro.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Cisco',
         image: 'assets/cisco.svg',
         type: 'cybersecurity',
+        level: 'Basic',
     },
     {
         name: 'Symantec',
         image: 'assets/symantec.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'OWASP TOP 10',
         image: 'assets/owasp-top-10.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Cryptography',
         image: 'assets/cryptography.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Hashing',
         image: 'assets/hashing.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Encryption',
         image: 'assets/encryption.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Digital Signature',
         image: 'assets/digital-signature.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Key Management',
         image: 'assets/key-management.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Network Security',
         image: 'assets/network-security.svg',
         type: 'cybersecurity',
+        level: '',
     },
     {
         name: 'Vulnerability Assessment',
         image: 'assets/vulnerability-assessment.svg',
         type: 'cybersecurity',
+        level: '',
     },
 
     /* Spoken Languages */
     {
         name: 'Spanish',
-        image: 'assets/spain.svg',
+        image: 'assets/peru.png',
         type: 'spoken-language',
+        level: 'Native',
     },
     {
         name: 'English',
-        image: 'assets/united-kingdom.svg',
+        image: 'assets/english.png',
         type: 'spoken-language',
+        level: 'B2',
     },
     {
         name: 'Portuguese',
-        image: 'assets/portugal.svg',
+        image: 'assets/brasil.png',
         type: 'spoken-language',
+        level: 'A2',
     },
     {
         name: 'French',
-        image: 'assets/france.svg',
+        image: 'assets/french.png',
         type: 'spoken-language',
+        level: 'A1',
     },
     {
         name: 'Italian',
-        image: 'assets/italy.svg',
+        image: 'assets/italian.png',
         type: 'spoken-language',
+        level: '',
     },
     {
         name: 'German',
-        image: 'assets/germany.svg',
+        image: 'assets/german.png',
         type: 'spoken-language',
+        level: 'A1',
     },
     {
         name: 'Chinese',
-        image: 'assets/china.svg',
+        image: 'assets/chinese.png',
         type: 'spoken-language',
+        level: '',
     },
 
     /* Soft Skills */
     {
         name: 'Leadership',
-        image: 'assets/leadership.svg',
+        image: 'assets/leadership.png',
         type: 'soft-skill',
+        level: '',
     },
     {
         name: 'Teamwork',
-        image: 'assets/teamwork.svg',
+        image: 'assets/teamwork.png',
         type: 'soft-skill',
+        level: '',
     },
     {
         name: 'Problem-Solving',
-        image: 'assets/problem-solving.svg',
+        image: 'assets/problem-solving.png',
         type: 'soft-skill',
+        level: '4',
     },
     {
         name: 'Time Management',
-        image: 'assets/time-management.svg',
+        image: 'assets/time-management.png',
         type: 'soft-skill',
+        level: '3',
     },
     {
         name: 'Communication',
-        image: 'assets/communication.svg',
+        image: 'assets/communication.png',
         type: 'soft-skill',
+        level: '',
     },
     {
         name: 'Critical Thinking',
-        image: 'assets/critical-thinking.svg',
+        image: 'assets/critical-thinking.png',
         type: 'soft-skill',
+        level: '4',
     },
     {
         name: 'Self-Esteem',
-        image: 'assets/self-esteem.svg',
+        image: 'assets/self-esteem.png',
         type: 'soft-skill',
+        level: '5',
     },
     {
         name: 'Empathy',
-        image: 'assets/empathy.svg',
+        image: 'assets/empathy.png',
         type: 'soft-skill',
+        level: '4',
     },
     {
         name: 'Collaboration',
-        image: 'assets/collaboration.svg',
+        image: 'assets/collaboration.png',
         type: 'soft-skill',
+        level: '4',
     },
     {
         name: 'Adaptability',
-        image: 'assets/adaptability.svg',
+        image: 'assets/adaptability.png',
         type: 'soft-skill',
+        level: '5',
     },
     {
         name: 'Flexibility',
-        image: 'assets/flexibility.svg',
+        image: 'assets/flexibility.png',
         type: 'soft-skill',
+        level: '5',
     },
     {
         name: 'Creativity',
-        image: 'assets/creativity.svg',
+        image: 'assets/creativity.png',
         type: 'soft-skill',
+        level: '5',
     },
 ];

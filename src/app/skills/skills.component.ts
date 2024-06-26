@@ -24,11 +24,7 @@ export class SkillsComponent {
   }
 
   languages = [
-    'HTML', 'CSS', 'JavaScript', 'TypeScript', 'C', 'C++',
-    //'C#',
-    //'Java',
-    'Python',
-    'SQL',
+    'HTML', 'CSS', 'JavaScript', 'TypeScript', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL',
     //'PHP',
     //'Ruby',
     //'Swift',
@@ -160,7 +156,7 @@ export class SkillsComponent {
     //'Kaspersky',
     //'Fortinet',
     //'Trend Micro',
-    //'Cisco',
+    'Cisco',
     //'Symantec',
     //'OWASP TOP 10',
     //'Cryptography',
