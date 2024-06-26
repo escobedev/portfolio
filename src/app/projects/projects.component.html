@@ -1,53 +1,27 @@
 <section class="projects" [attr.data-loaded]="isLoaded">
     <h2>Projects</h2>
     <div class="projects-content">
-        <div class="project-entry hidden">
-            <h3>E-commerce Website</h3>
-            <p><strong>Technologies:</strong></p>
-            <div class="badges-container">
-                <span class="badge"><img src="favicon.ico" alt="Angular">Angular</span>
-                <span class="badge"><img src="assets/bootstrap.svg" alt="Bootstrap">Bootstrap</span>
-                <span class="badge"><img src="assets/ts.svg" alt="TypeScript">TypeScript</span>
-                <span class="badge"><img src="assets/html.svg" alt="HTML5">HTML5</span>
-                <span class="badge"><img src="assets/css.svg" alt="CSS3">CSS3</span>
-                <span class="badge"><img src="assets/firebase.png" alt="Firebase">Firebase</span>
-            </div>
-            <ul>
-                <li>Developed a responsive e-commerce platform using Angular and Firebase.</li>
-                <li>Implemented user authentication, product catalog management, and real-time order processing.</li>
-                <li>Increased conversion rates by 20% through responsive design and streamlined checkout process.</li>
-            </ul>
-            <div class="project-links-wrapper">
-                <div class="project-links">
-                    <a href="[Link to live demo]" target="_blank"><img width="40px" src="assets/firebase.png" alt="Firebase App">Live Demo</a>
-                    <a href="[Link to GitHub repository]" target="_blank"><img width="40px" src="assets/github.svg" alt="GitHub">GitHub</a>
+        @for (project of projects; track $index) {
+            <div class="project-entry">
+                <h3>{{ project.name }}</h3>
+                <p><strong>Technologies:</strong></p>
+                <div class="badges-container">
+                    @for (badge of project.technologies; track $index) {
+                        <span class="badge"><img src="{{ badge.image }}" alt="{{ badge.name }}">{{ badge.name }}</span>
+                    }
+                </div>
+                <ul>
+                    @for (detail of project.details; track $index) {
+                        <li>{{ detail }}</li>
+                    }
+                </ul>
+                <div class="project-links-wrapper">
+                    <div class="project-links">
+                        <a href="{{ project.link }}" target="_blank"><img width="40px" src="assets/firebase.png" alt="Firebase App">Live Demo</a>
+                        <a href="{{ project.github }}" target="_blank"><img width="40px" src="assets/github.svg" alt="GitHub">GitHub</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="project-entry">
-            <h3>Portfolio Website</h3>
-            <p><strong>Technologies:</strong></p>
-            <div class="badges-container">
-                <span class="badge"><img src="favicon.ico" alt="Angular">Angular</span>
-                <span class="badge"><img src="assets/ts.svg" alt="TypeScript">TypeScript</span>
-                <span class="badge"><img src="assets/html.svg" alt="HTML5">HTML5</span>
-                <span class="badge"><img src="assets/css.svg" alt="CSS3">CSS3</span>
-                <span class="badge"><img src="assets/firebase.png" alt="Firebase">Firebase</span>
-            </div>
-            <ul>
-                <li>Designed and developed a modern portfolio website to showcase skills and projects.</li>
-                <li>Implemented responsive design principles and SEO best practices for enhanced visibility.</li>
-                <li>Received positive feedback from peers and potential clients on user experience and design.</li>
-            </ul>
-            <div class="project-links-wrapper">
-                <div class="project-links">
-                    <a href="https://brunoescobedoa.web.app" target="_blank"><img width="40px" src="assets/firebase.png" alt="Firebase App">Live Demo</a>
-                    <a href="https://github.com/CallistoScope/portfolio" target="_blank"><img width="40px" src="assets/github.svg" alt="GitHub">GitHub</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Repeat project-entry structure for each project -->
+        }
     </div>
 </section>

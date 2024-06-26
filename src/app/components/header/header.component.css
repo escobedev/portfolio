@@ -24,12 +24,13 @@
 .navbar .sidebar {
     position: fixed;
     top: 0;
-    right: -150px;
+    right: -200px;
     height: 100%;
-    width: 150px;
+    width: 200px;
     background-color: #141d2b;
     overflow-x: hidden;
     transition: 0.5s;
+    z-index: 99;
 }
 
 .navbar .sidebar.active {

@@ -1,23 +1,80 @@
 .skills {
-    background-color: #f9f9f9;
-    padding: 20px;
+    background-color: transparent;
     text-align: justify;
     opacity: 0;
-    transition: opacity 0.5s ease-out;
+    transition: 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .skills[data-loaded="true"] {
     opacity: 1;
 }
+.skills h2 {
+    padding: 0px;
+    margin-top: 40px;
+    color: #fff;
+}
 
 .skills-content {
-    max-width: 800px;
-    margin: 0 auto;
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: top;
 }
 
-.hidden {
-    display: none;
+.skills-container {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 20px;
 }
 
-.technical-skills, .soft-skills, .industry-knowledge {
-    margin: 40px 20px;
+.skills-container h3 {
+    margin: 10px;
+    color: #00b5b8;
+    text-align: center;
+}
+
+.skills-container ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.skills-container ul:last-child {
+    margin-bottom: 0;
+}
+
+.skills-container ul li {
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    flex-grow: 1;
+}
+
+.skill-set {
+    font-weight: bold;
+    margin: 10px;
+    color: #00b5b888;
+    text-align: center;
+}
+
+.badges-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badges-container {
+    margin: 10px;
 }

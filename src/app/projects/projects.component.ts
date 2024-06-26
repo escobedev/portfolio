@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { projects } from '../interfaces/project.interface';
 
 @Component({
   selector: 'app-projects',
@@ -14,4 +15,6 @@ export class ProjectsComponent {
       this.isLoaded = true;
     }, 100);
   }
+
+  projects = projects;
 }
