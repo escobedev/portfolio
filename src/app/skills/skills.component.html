@@ -1,60 +1,33 @@
 <section class="skills" [attr.data-loaded]="isLoaded">
-    <h2>Skills</h2>
-    <div class="skills-overview">
-        <div class="skills-overview-content"> 
-            <div class="thm-overview">
-                <app-thm-badge />
-            </div> 
-            <div class="htb-overview">
-                
+    <div class="chunk">
+        <h2>Skills</h2>
+        <div class="skills-overview">
+            <div class="skills-overview-content"> 
+                <div class="thm-overview">
+                    <app-thm-badge />
+                </div> 
+                <div class="htb-overview">
+                    
+                </div>
             </div>
         </div>
     </div>
     <div class="skills-content">
-        <div class="technical-skills skills-container">
-            <h3>Technical Skills</h3>
-            <ul>
-                @for (skill of technicalSkills; track $index) {
-                    @if(skill.badges.length > 0) {
-                        <li>
-                            <div class="skill-set">{{ skill.name }}</div>
-                            <div class="badges-wrapper">
-                                <div class="badges-container">
-                                    @for (badge of skill.badges; track $index) {
-                                        <span class="badge"><img src="{{ badge.image }}" alt="{{ badge.name }}">{{ badge.name }}</span>
-                                    }
-                                </div>
-                            </div>
-                        </li>
-                    }
-                }
-            </ul>
-        </div>
-        
-        <div class="soft-skills skills-container">
-            <h3>Soft Skills</h3>
-            <ul>
-                @for (skill of softSkills; track $index) {
-                    <li>
-                        <div class="skill-set">{{ skill.name }}</div>
-                        <div class="badges-container">
-                            @for (badge of skill.badges; track $index) {
-                                <span class="badge"><img src="{{ badge.image }}" alt="{{ badge.name }}">{{ badge.name }}</span>
-                            }
-                        </div>
-                    </li>
-                }                
-            </ul>
-        </div>
-    </div>
-        
-    <div class="industry-knowledge skills-container hidden">
-        <h3>Industry Knowledge</h3>
-        <ul>
-            <li>Familiarity with e-commerce platforms and payment gateways.</li>
-            <li>Understanding of Agile methodologies and Scrum framework.</li>
-            <li>Knowledge of UX/UI design principles for web applications.</li>
-        </ul>
+        @defer (on viewport; prefetch on viewport) {
+            <app-skills-box [box]="Boxes[0]" />
+        } @placeholder {
+            <app-skills-box [box]="Boxes[0]" [transparent]="true" />
+        } @loading (minimum 1s){
+            <app-skills-box [box]="Boxes[0]" [animate]="true" />
+        }
+
+        @defer (on viewport; prefetch on viewport) {
+            <app-skills-box [box]="Boxes[1]" />
+        } @placeholder {
+            <app-skills-box [box]="Boxes[1]" [transparent]="true" />
+        } @loading (minimum 1s){
+            <app-skills-box [box]="Boxes[1]" [animate]="true" />
+        }
     </div>
     
     <!-- Add certifications, tools, or additional skills as necessary -->

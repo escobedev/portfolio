@@ -550,13 +550,13 @@ export const badges: Badge[] = [
     {
         name: 'VirtualBox',
         image: 'assets/virtualbox.png',
-        type: 'vm-platform',
+        type: 'virtualization',
         level: 'Intermediate',
     },
     {
         name: 'VMware',
         image: 'assets/vmware.svg',
-        type: 'vm-platform',
+        type: 'virtualization',
         level: 'Basic',
     },
 
@@ -564,37 +564,37 @@ export const badges: Badge[] = [
     {
         name: 'Docker',
         image: 'https://www.docker.com/favicon.ico',
-        type: 'container-platform',
+        type: 'virtualization',
         level: '',
     },
     {
         name: 'Kubernetes',
         image: 'assets/kubernetes.svg',
-        type: 'container-platform',
+        type: 'virtualization',
         level: '',
     },
     {
         name: 'Amazon ECS',
         image: 'assets/amazon-ecs.svg',
-        type: 'container-platform',
+        type: 'virtualization',
         level: '',
     },
     {
         name: 'Azure Container Apps',
         image: 'assets/azure-container-apps.svg',
-        type: 'container-platform',
+        type: 'virtualization',
         level: '',
     },
     {
         name: 'Google Container Engine',
         image: 'assets/google-container-engine.svg',
-        type: 'container-platform',
+        type: 'virtualization',
         level: '',
     },
     {
         name: 'IBM Cloud Foundry',
         image: 'assets/ibm-cloud-foundry.svg',
-        type: 'container-platform',
+        type: 'virtualization',
         level: '',
     },
 

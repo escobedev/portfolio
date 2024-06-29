@@ -1,12 +1,12 @@
 .home {
+    height: 100svh;
     text-align: center;
-    padding: 5% 20px;
+    padding: 20px;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: transparent;
-    min-height: 500px;
     opacity: 0;
     transition: 0.5s ease-out;
 }

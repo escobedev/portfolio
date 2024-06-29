@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { ThmBadgeComponent } from '../components/badges/thm-badge/thm-badge.component';
 import { badges } from '../interfaces/badge.interface';
+import { SkillsBoxComponent } from './skills-box/skills-box.component';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [ ThmBadgeComponent ],
+  imports: [ ThmBadgeComponent, SkillsBoxComponent ],
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.css'
 })
 export class SkillsComponent {
   isLoaded = false;
+
   constructor() {
     setTimeout(() => {
       this.isLoaded = true;
@@ -128,12 +130,9 @@ export class SkillsComponent {
     'ParrotOS',
   ];
 
-  vmPlatforms = [
+  virtualization = [
     'VirtualBox',
     'VMware',
-  ];
-
-  containerPlatforms = [
     //'Docker',
     //'Kubernetes',
     //'Amazon ECS',
@@ -202,13 +201,18 @@ export class SkillsComponent {
     { name: 'Version Control', badges: this.getBadges(this.versionControl) },
     { name: 'Package Managers', badges: this.getBadges(this.packageManagers) },
     { name: 'Cloud', badges: this.getBadges(this.cloud) },
-    { name: 'Operating Systems', badges: this.getBadges(this.operatingSystems) },    { name: 'VM Platforms', badges: this.getBadges(this.vmPlatforms) },
-    { name: 'Container Platforms', badges: this.getBadges(this.containerPlatforms) },
+    { name: 'Operating Systems', badges: this.getBadges(this.operatingSystems) },
+    { name: 'Virtualization', badges: this.getBadges(this.virtualization) },
     { name: 'Cybersecurity', badges: this.getBadges(this.cybersecurity) },
   ];
 
   softSkills = [
     { name: 'Spoken Languages', badges: this.getBadges(this.spokenLanguages) },
     { name: 'Soft Skills', badges: this.getBadges(this.softs) },
+  ];
+
+  Boxes = [
+    { name: 'Technical Skills', skills: this.technicalSkills },
+    { name: 'Soft Skills', skills: this.softSkills },
   ];
 }

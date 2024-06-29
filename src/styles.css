@@ -55,6 +55,14 @@ button:hover {
     height: 15px;
 }
 
+.chunk {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .hidden {
     display: none;
 }
