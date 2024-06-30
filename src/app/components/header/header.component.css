@@ -67,6 +67,12 @@
     color: #ddd;
 }
 
+.logo img {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
 /* Media query for mobile screens */
 @media (min-width: 560px) {
     .navbar .toggle-btn {
@@ -89,5 +95,9 @@
     }
     .navbar .sidebar ul li a {
         border-bottom: none;
+    }
+
+    .logo img {
+        display: none;
     }
 }
