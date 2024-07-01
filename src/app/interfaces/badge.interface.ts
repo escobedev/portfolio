@@ -855,4 +855,49 @@ export const badges: Badge[] = [
         type: 'soft-skill',
         level: '5',
     },
+
+    /* Others */
+    {
+        name: 'Google Earth',
+        image: 'assets/google-earth.svg',
+        type: 'other',
+        level: 'Intermediate',
+    },
+    {
+        name: 'CRM',
+        image: 'assets/crm.png',
+        type: 'other',
+        level: '',
+    },
+    {
+        name: 'Fiber Optics',
+        image: 'assets/optical-fiber.png',
+        type: 'other',
+        level: '',
+    },
+    {
+        name: 'Low Voltage Design',
+        image: 'assets/electric-pole.png',
+        type: 'other',
+        level: '',
+    },
+    {
+        name: 'Google Search',
+        image: 'assets/google.png',
+        type: 'other',
+        level: '',
+    },
+    {
+        name: 'Youtube',
+        image: 'assets/youtube.png',
+        type: 'other',
+        level: '',
+    },
+    {
+        name: 'Play Store',
+        image: 'assets/play-store.svg',
+        type: 'other',
+        level: '',
+    },
+    
 ];

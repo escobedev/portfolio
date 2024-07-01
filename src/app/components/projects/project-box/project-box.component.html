@@ -1,0 +1,20 @@
+<div class="project-entry" [class.opacity-animation]="animate" [class.opacity]="transparent && !animate">
+    <h3>{{ project.name }}</h3>
+    <p><strong>Technologies:</strong></p>
+    <div class="badges-container">
+        @for (badge of project.technologies; track $index) {
+            <span class="badge"><img src="{{ badge.image }}" alt="{{ badge.name }}">{{ badge.name }}</span>
+        }
+    </div>
+    <ul>
+        @for (detail of project.details; track $index) {
+            <li>{{ detail }}</li>
+        }
+    </ul>
+    <div class="project-links-wrapper">
+        <div class="project-links">
+            <a href="{{ project.link }}" target="_blank"><img width="40px" src="assets/firebase.png" alt="Firebase App">Live Demo</a>
+            <a href="{{ project.github }}" target="_blank"><img width="40px" src="assets/github.svg" alt="GitHub">GitHub</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+.experience {
+    background-color: transparent;
+    text-align: justify;
+    opacity: 0;
+    transition: 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.experience[data-loaded="true"] {
+    opacity: 1;
+    animation: jump 1s;
+}
+@keyframes jump {
+    from { margin-top: 200px; }
+    to { margin-top: 0; }
+}
+
+.general-overview {
+    margin: 20px;
+    margin-top: 40px;
+    padding: 10px;
+    background-color: #141d2b55;
+    border-radius: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.experience-content {
+    max-width: 700px;
+    margin: 10px;
+}
+
+.widget-title {
+    margin: 10px;
+    margin-top: 15px;
+}
+.experience h2 {
+    padding: 0px;
+    margin: 10px;
+    color: #fff;
+}
+
+.company-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.company {
+    padding: 10px;
+    margin: 10px;
+    max-width: 350px;
+    background-color: var(--theme-color-dark);
+    background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    border: 2px solid #2d2e31;
+    border-radius: 50px;
+}
+.company-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+}
+.company-name {
+    font-weight: bold;
+    color: var(--theme-color-2);
+}
+.company-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+.company-logo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.company-description {
+    margin: 10px;
+    font-size: 14px;
+    color: #fff;
+}
+.company-positions {
+    margin: 15px;
+}
+.job-position {
+    font-size: 16px;
+    font-weight: bold;
+    color: #00b5b8;
+    text-align: left;
+}

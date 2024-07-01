@@ -1,0 +1,47 @@
+.opacity-animation {
+    animation: opacityChange 1s ease;
+}
+.opacity {
+    opacity: 0;
+}
+@keyframes opacityChange {
+    from { opacity: 0; margin-top: 200px;}
+    to { opacity: 1; }
+}
+
+.job-entry {
+    margin: 20px 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.job-entry h3 {
+    margin-top: 10px;
+    color: #00b5b8;
+    text-align: left;
+}
+
+.company {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.logo-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+.logo-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.meta p {
+    margin: 0;
+}

@@ -1,0 +1,38 @@
+.home {
+    height: 100svh;
+    text-align: center;
+    padding: 20px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+    opacity: 0;
+    transition: 0.5s ease-out;
+}
+.home[data-loaded="true"] {
+    opacity: 1;
+    animation: jump 1s;
+}
+@keyframes jump {
+    from { margin-top: 200px; }
+    to { margin-top: 0; }
+}
+
+.home h1 {
+    color: #fff;
+}
+.home p {
+    color: #ddd;
+}
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+}
+.buttons button {
+    flex: 1;
+    text-wrap: nowrap;
+}

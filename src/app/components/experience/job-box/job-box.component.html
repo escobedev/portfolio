@@ -1,0 +1,29 @@
+<div class="job-entry" [class.opacity-animation]="animate" [class.opacity]="transparent && !animate">
+    <h3>{{ job.position }}</h3>
+    <div class="company">
+        <div class="logo-wrapper"><img src="{{ job.company.logo }}" alt="{{ job.company.name }}"></div>
+        <p><strong>{{ job.company.name }}</strong></p>
+    </div>
+    <div class="meta">
+        <p><span>{{ job.location }}</span></p>
+    <p><span>{{ convertDate(job.startDate) }} - {{ convertDate(job.endDate) }}</span></p>
+    </div>
+    <p><strong>Hard Skills:</strong></p>
+    <div class="badges-container">
+        @for (badge of job.hardSkills; track $index) {
+            <span class="badge"><img src="{{ badge.image }}" alt="{{ badge.name }}">{{ badge.name }}</span>
+        }
+    </div>
+    <p><strong>Soft Skills:</strong></p>
+    <div class="badges-container">
+        @for (badge of job.softSkills; track $index) {
+            <span class="badge"><img src="{{ badge.image }}" alt="{{ badge.name }}">{{ badge.name }}</span>
+        }
+    </div>
+    <p><strong>Responsibilities:</strong></p>
+    <ul>
+        @for (responsability of job.responsibilities; track $index) {
+            <li>{{ responsability }}</li>
+        }
+    </ul>
+</div>

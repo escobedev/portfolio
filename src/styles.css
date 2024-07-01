@@ -1,14 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --theme-color-1: #26ceaa;
+    --theme-color-2: #5049cc;
+    --theme-color-dark: #141d2b;
+}
 body {
     font-family: Arial, 'sans-serif';
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-    background-image: url('../public/assets/profile.jpg');
+    background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    background-color: #141d2b;
+}
+.static-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100lvw;
+    height: 100lvh;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    margin-bottom: env(safe-area-insert-bottom);
+    padding-left: env(safe-area-insert-left);
+    padding-right: env(safe-area-insert-right);
+}
+.bg-img {
+    width: 100lvw;
+    height: 100lvh;
+    background-image: url("../public/assets/profile.jpg");
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-position: center center;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -24,12 +49,14 @@ button {
     color: #a4b1cd;
     cursor: pointer;
     font-size: large;
+    transition: all 0.3s ease;
 }
 
 button:hover {
     background-color: #27382d;
     color: #9fef00;
 }
+
 .badges-container {
     margin: 10px;
     display: flex;
