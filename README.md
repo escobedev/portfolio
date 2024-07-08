@@ -88,6 +88,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Feel free to reach out if you have any questions or suggestions:
 
-- **Email**: [bruno.jair.gmail.com](mailto:bruno.jair.ea@gmail.com)
+- **Email**: [bruno.jair.ea@gmail.com](mailto:bruno.jair.ea@gmail.com)
 - **LinkedIn**: [Bruno Escobedo](https://www.linkedin.com/in/bruno-escobedo)
 - **GitHub**: [escobedev](https://github.com/escobedev)
