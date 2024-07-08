@@ -12,7 +12,6 @@ import { companies } from '../../interfaces/company.interface';
 })
 export class ExperienceComponent {
   isLoaded = false;
-
   protected readonly jobEntries = signal<JobEntry[]>([]);
 
   constructor() {

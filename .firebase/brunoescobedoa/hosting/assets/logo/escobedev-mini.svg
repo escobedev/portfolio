@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="full"
+  width="140" height="140" version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:ev="http://www.w3.org/2001/xml-events"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <path d="
+    M55 40
+    a21.2132 21.2132 0 0 1 30 -30
+    l24 24 -30 30 -24 -24
+
+    M115 40
+    l15 15
+    a21.2132 21.2132 0 0 1 0 30
+    l-45 45
+    a21.2132 21.2132 0 0 1 -30 -30
+    l35 -35
+
+    M10 55
+    a21.2132 21.2132 0 0 1 30 30
+    a21.2132 21.2132 0 0 1 -30 -30
+    z"
+    fill="url(#a)"
+  />
+  <defs>
+    <linearGradient id="a"
+      x1="0" x2="140"
+      y1="0" y2="140"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="#26ceaa"/>
+      <stop offset="1" stop-color="#5049cc"/>
+    </linearGradient>
+  </defs>
+</svg>

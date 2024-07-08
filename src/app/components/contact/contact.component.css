@@ -81,12 +81,6 @@
     height: 100px;
 }
 
-.contact button {
-    padding: 10px 20px;
-    margin: 20px 0 0 0;
-    border-radius: 5px;
-}
-
 .contact-info, .social-media {
     color: #fff;
     background-color: #141d2b33;
@@ -101,6 +95,14 @@
 .contact-info p a:hover {
     color: #00b5b8;
     text-decoration: underline;
+}
+.contact-form button:disabled {
+    background: none;
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.contact-form button:disabled::before {
+    background: none;
 }
 
 .social-media {

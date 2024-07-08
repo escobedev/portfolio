@@ -1,5 +1,5 @@
 <div class="skills-container" [class.opacity-animation]="animate" [class.opacity]="transparent && !animate">
-    <h3>{{ box.name }}</h3>
+    <h3><span class="gradient-text">{{ box.name }}</span></h3>
     <ul>
         @for (skill of box.skills; track $index) {
             @if(skill.badges.length > 0) {

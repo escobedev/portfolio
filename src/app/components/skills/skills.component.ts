@@ -1,4 +1,4 @@
-import { Component , signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ThmBadgeComponent } from '../badges/thm-badge/thm-badge.component';
 import { badges } from '../../interfaces/badge.interface';
 import { SkillsBoxComponent } from './skills-box/skills-box.component';
@@ -12,7 +12,6 @@ import { SkillsBoxComponent } from './skills-box/skills-box.component';
 })
 export class SkillsComponent {
   isLoaded = false;
-
   protected readonly boxes = signal<Box[]>([]);
 
   constructor() {

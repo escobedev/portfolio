@@ -31,4 +31,11 @@ export class ProjectsComponent {
   loaded(name: string) {
     if (name) this.loadProject(this.projects().length);
   }
+  soon: Project = {
+    name: "Coming Soon",
+    technologies: [],
+    details: [],
+    link: "",
+    github: "",
+  };
 }

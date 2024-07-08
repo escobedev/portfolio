@@ -1,5 +1,5 @@
 <div class="job-entry" [class.opacity-animation]="animate" [class.opacity]="transparent && !animate">
-    <h3>{{ job.position }}</h3>
+    <h3><span class="gradient-text">{{ job.position }}</span></h3>
     <div class="company">
         <div class="logo-wrapper"><img src="{{ job.company.logo }}" alt="{{ job.company.name }}"></div>
         <p><strong>{{ job.company.name }}</strong></p>

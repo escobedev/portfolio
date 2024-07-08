@@ -4,27 +4,27 @@
         <div class="wrap">
             <div class="side">
                 <div class="contact-form">
-                    <form>
+                    <form [formGroup]="contactForm" (ngSubmit)="sendEmail()">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" formControlName="name" name="name" required>
                     
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" formControlName="email" name="email" required>
                     
                         <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required>
+                        <input type="text" id="subject" formControlName="subject" name="subject" required>
                     
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <textarea id="message" formControlName="message" name="message" rows="4" required></textarea>
                     
-                        <button type="submit">Send Message</button>
+                        <button class="special-btn" type="submit" [disabled]="!contactForm.valid"><span>Send Message</span></button>
                     </form>
                 </div>
             </div>
     
             <div class="side">
                 <div class="contact-info">
-                    <p>Email: bruno.jair.ea&#64;gmail.com</p>
+                    <p>Email: <a href="mailto:bruno.jair.ea@gmail.com">bruno.jair.ea&#64;gmail.com</a></p>
                     <p>Phone: <a href="https://wa.me/51992023441" target="_blank">+51 992 023 441</a></p>
                     <p>Address: Calle Alejandro Peralta Mz G Lt 4 Urb. Villa Victoria - Surquillo, Lima, Peru</p>
                     <p>I typically respond within 24 hours during weekdays.</p>
@@ -34,8 +34,8 @@
                     <h4>Connect with Me</h4>
                     <ul class="social-icons">
                         <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="assets/linkedin-footer.png" alt="LinkedIn"></a></li>
-                        <li><a href="https://github.com/CallistoScope" target="_blank"><img width="40px" src="assets/github-footer.png" alt="GitHub"></a></li>
-                        <li><a href="https://x.com/BrunoEscobedoA" target="_blank"><img width="40px" src="assets/twitter-footer.png" alt="Twitter"></a></li>
+                        <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="assets/github-footer.png" alt="GitHub"></a></li>
+                        <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="assets/twitter-footer.png" alt="Twitter"></a></li>
                     </ul>
                 </div>
             </div>

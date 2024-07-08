@@ -1,15 +1,16 @@
 <div class="navbar">
-  <span class="logo"><img width="53px" src="bruno-logo.png"></span>
+  <img id="logo" src="assets/logo/escobedev.svg" alt="EscobeDev">
+  <div class="name">escobe<span class="gradient-text">dev</span></div>
   <button class="toggle-btn" (click)="toggleNav()">☰</button>
   <nav class="sidebar" [class.active]="isNavActive">
     <ul>
       <li><button class="toggle-btn" (click)="toggleNav()">&times;</button></li>
-      <li><a routerLink="/" (click)="toggleNav()">Home</a></li>
-      <li><a routerLink="/about" (click)="toggleNav()">About</a></li>
-      <li><a routerLink="/projects" (click)="toggleNav()">Projects</a></li>
-      <li><a routerLink="/skills" (click)="toggleNav()">Skills</a></li>
-      <li><a routerLink="/experience" (click)="toggleNav()">Experience</a></li>
-      <li><a routerLink="/contact" (click)="toggleNav()">Contact</a></li>
+      <li><a routerLink="/" (click)="toggleNav(); scrollUp();"><span [class.selected]="navigation === 0">Home</span></a></li>
+      <li><a routerLink="/about" (click)="toggleNav(); scrollUp();"><span [class.selected]="navigation === 1">About</span></a></li>
+      <li><a routerLink="/projects" (click)="toggleNav(); scrollUp();"><span [class.selected]="navigation === 2">Projects</span></a></li>
+      <li><a routerLink="/skills" (click)="toggleNav(); scrollUp();"><span [class.selected]="navigation === 3">Skills</span></a></li>
+      <li><a routerLink="/experience" (click)="toggleNav(); scrollUp();"><span [class.selected]="navigation === 4">Experience</span></a></li>
+      <li><a routerLink="/contact" (click)="toggleNav(); scrollUp();"><span [class.selected]="navigation === 5">Contact</span></a></li>
     </ul>
   </nav>
 </div>

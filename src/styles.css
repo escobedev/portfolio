@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
     --theme-color-1: #26ceaa;
+    --theme-color-1-light: #98e8c1;
+    --theme-color-1-dark: #078d70;
+    --theme-color-1-2: #3b8bbb;
     --theme-color-2: #5049cc;
+    --theme-color-2-light: #7bade2;
+    --theme-color-2-dark: #3d1a78;
     --theme-color-dark: #141d2b;
 }
 body {
@@ -51,10 +56,39 @@ button {
     font-size: large;
     transition: all 0.3s ease;
 }
-
 button:hover {
     background-color: #27382d;
     color: #9fef00;
+}
+
+.special-btn {
+    position: relative;
+    padding: 10px 20px;
+    margin: 20px 0 0 0;
+    border-radius: 20px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+}
+.special-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--theme-color-2), var(--theme-color-1));
+    transition: opacity 0.5s ease;
+    border-radius: 20px;
+    z-index: 0;
+    opacity: 0;
+}
+.special-btn:hover::before {
+    opacity: 1;
+}
+.special-btn span {
+    position: relative;
+    color: #fff;
+    z-index: 1;
 }
 
 .badges-container {
@@ -92,4 +126,14 @@ button:hover {
 
 .hidden {
     display: none;
+}
+
+.gradient-text {
+    font-weight: bold;
+    background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gradient-background {
+    background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
 }

@@ -63,7 +63,6 @@ export const jobEntries: JobEntry[] = [
             'Collaboration',
             'Flexibility',
             'Adaptability',
-            'Problem-Solving',
         ].includes(badge.name)),
         responsibilities: [
             'Review of node energization deliverables.',
@@ -154,7 +153,6 @@ export const jobEntries: JobEntry[] = [
             'Time Management',
             'Communication',
             'Collaboration',
-            'Critical Thinking',
         ].includes(badge.name)),
         responsibilities: [
             'Fiber Optic Network Monitoring and Control.',
