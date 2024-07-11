@@ -23,7 +23,7 @@ export const projects: Project[] = [
             'CSS',
             'Firebase',
         ].includes(badge.name)),
-        link: 'https://brunoescobedoa.web.app',
-        github: 'https://github.com/CallistoScope/portfolio',
+        link: 'https://escobedev.com',
+        github: 'https://github.com/escobedev/portfolio',
     },
 ]

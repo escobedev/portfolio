@@ -64,23 +64,90 @@
 .social-icons li a img:hover {
     opacity: 0.8;
 }
-
-.home-buttons {
-    text-align: center;
-    padding: 10px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
 .buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 20px;
     width: 100%;
     max-width: 600px;
 }
 .buttons button {
+    margin: 20px 0px;
     flex: 1;
     text-wrap: nowrap;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.block {
+    padding: 10px;
+    color: #fff;
+    height: calc(100svh - 70px);
+    max-width: 700px;
+    margin: 10px;
+    /* background-color: #141d2b33;
+    border-radius: 20px; */
+    padding-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.block h2 {
+    padding: 0px;
+    margin: 10px;
+}
+.section-item {
+    margin: 10px;
+    text-align: justify;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.project {
+    padding: 20px;
+    background-color: #141d2b33;
+    border-radius: 20px;
+    text-align: justify;
+}
+.project h3 {
+    margin-top: 10px;
+    color: #00b5b8;
+}
+.project a {
+    margin: 10px;
+}
+.project a:hover {
+    text-decoration: underline;
+}
+.tech-icons img {
+    height: 20px;
+    margin: 5px;
+}
+.project-foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.project-links {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.project-links a {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
