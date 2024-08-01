@@ -20,6 +20,12 @@ export const badges: Badge[] = [
         level: 'Advanced',
     },
     {
+        name: 'Sass',
+        image: 'assets/sass.svg',
+        type: 'language',
+        level: 'Basic',
+    },
+    {
         name: 'JavaScript',
         image: 'assets/js.png',
         type: 'language',
@@ -138,6 +144,12 @@ export const badges: Badge[] = [
     {
         name: 'Angular',
         image: 'assets/angular.ico',
+        type: 'frontend',
+        level: 'Intermediate',
+    },
+    {
+        name: 'Angular Material',
+        image: 'assets/angular_material.svg',
         type: 'frontend',
         level: 'Intermediate',
     },

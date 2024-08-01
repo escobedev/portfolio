@@ -32,7 +32,7 @@
 
 .about section {
     margin: 20px 10px;
-    background-color: #141d2b33;
+    background-color: #fff3;
     color: #f7f7f7;
     border-radius: 20px;
     padding: 20px;
@@ -40,5 +40,11 @@
 
 .about section h3 {
     margin-top: 10px;
-    color: #00b5b8;
+    color: var(--theme-color-2);
+    text-shadow: 0 0 5px #fff;
+}
+
+.button-block {
+    display: flex;
+    justify-content: center;
 }

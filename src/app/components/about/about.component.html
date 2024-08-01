@@ -10,7 +10,7 @@
           With a strong foundation in technical problem-solving, project management, and risk assessment, I bring a unique perspective to the challenges of protecting digital assets and better software development practices.
         </p>
         <p>
-          My passion for cybersecurity has driven me to <span class="hidden">obtain certifications such as [Name of Certifications],</span>
+          My passion for cybersecurity has driven me to <span class="show-animation">obtain certifications such as [Name of Certifications],</span>
           learn about ethical hacking through <abbr title="Catch The Flag">CTF</abbr> platforms like <abbr title="Hack The Box">HTB</abbr> and <abbr title="TryHackMe">THM</abbr>,
           which helped me gain hands-on experience with tools like Nmap, Metasploit and Kali Linux.
         </p>
@@ -24,32 +24,39 @@
         </p>
       </section>
       
-      <section class="hidden">
+      <section class="show-animation">
         <h3>Education</h3>
         <p>I hold a Bachelor's degree in Electronic Engineering from <abbr title="Universidad Nacional de Ingeniería">UNI</abbr>.</p>
       </section>
       
-      <section class="hidden">
+      <section class="show-animation">
         <h3>Work Experience</h3>
-        <p>Previously, I worked at [Company Name] where I was responsible for [brief description of responsibilities].</p>
+        <p>Previously, I worked at {{ last_job.company.name }} as {{ last_job.position }} where I was responsible of {{ last_job.responsibilities.join('. ') }}</p>
+        <div class="button-block">
+          <button routerLink="/experience" (click)="scrollUp()">See More</button>
+        </div>
       </section>
       
-      <section class="hidden">
-        <h3>Skills</h3>
+      <section class="show-animation">
+        <h3>Principal Skills</h3>
         <ul>
-          <li>Technical Skills: [List of technical skills]</li>
-          <li>Soft Skills: [List of soft skills]</li>
+          <li><strong>Spoken Languages:</strong> Spanish (Native), English (B2), Portuguese (A2), French (A1), German (A1).</li>
+          <li><strong>Technical Skills:</strong> HTML, CSS, JavaScript, TypeScript, Angular, C, C++, Python, SQL.</li>
+          <li><strong>Soft Skills:</strong> Problem-Solving, Time Management, Critical Thinking, Self-Esteem, Empathy, Collaboration, Adaptability, Flexibility, Creativity.</li>
         </ul>
+        <div class="button-block">
+          <button routerLink="/skills" (click)="scrollUp()">See More</button>
+        </div>
       </section>
       
-      <section class="hidden">
+      <section class="hidden show-animation">
         <h3>Achievements</h3>
         <p>I led a team that developed [specific project or product], which resulted in [specific achievement or impact].</p>
       </section>
       
-      <section class="hidden">
+      <section class="show-animation">
         <h3>Interests</h3>
-        <p>Outside of work, I enjoy [hobby] and [interest], which helps me maintain a balanced perspective.</p>
+        <p>Outside of work, I enjoy hanging out with my friends and working on my personal projects, which helps me maintain a balanced perspective.</p>
       </section>
     </div>
   </section>

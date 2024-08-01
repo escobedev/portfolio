@@ -31,7 +31,7 @@
     <div class="block show-animation">
         <h2>My Latest Projects</h2>
         @for (project of latest_projects; track $index) {
-            <div class="project show-animation">
+            <div class="project">
                 <h3>{{ project.name }}</h3>
                 <p>{{ project.details[0] }}</p>
                 <div class="project-foot">
@@ -47,7 +47,7 @@
                 </div>
             </div>
         }
-        <div class="buttons show-animation">
+        <div class="buttons">
             <button routerLink="/projects" (click)="scrollUp()">View My Work</button>
             <button routerLink="/contact" (click)="scrollUp()">Contact Me</button>
         </div>

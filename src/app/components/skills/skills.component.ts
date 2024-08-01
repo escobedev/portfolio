@@ -38,7 +38,7 @@ export class SkillsComponent {
   }
 
   languages = [
-    'HTML', 'CSS', 'JavaScript', 'TypeScript', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL',
+    'HTML', 'CSS', 'Sass', 'JavaScript', 'TypeScript', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL',
     //'PHP',
     //'Ruby',
     //'Swift',
@@ -54,6 +54,7 @@ export class SkillsComponent {
     //'Tailwind CSS',
     //'React',
     'Angular',
+    'Angular Material'
     //'Vue.js',
     //'Svelte',
     //'Nuxt.js',

@@ -9,6 +9,7 @@
     --theme-color-2-dark: #3d1a78;
     --theme-color-dark: #141d2b;
 }
+html { height: 100%; }
 body {
     font-family: Arial, 'sans-serif';
     width: 100%;

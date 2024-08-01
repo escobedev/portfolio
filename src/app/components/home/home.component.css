@@ -88,7 +88,7 @@ section {
     padding: 10px;
     color: #fff;
     height: calc(100svh - 70px);
-    max-width: 700px;
+    max-width: 600px;
     margin: 10px;
     /* background-color: #141d2b33;
     border-radius: 20px; */
@@ -111,13 +111,14 @@ section {
 
 .project {
     padding: 20px;
-    background-color: #141d2b33;
+    background-color: #ffffff33;
     border-radius: 20px;
     text-align: justify;
 }
 .project h3 {
     margin-top: 10px;
-    color: #00b5b8;
+    color: var(--theme-color-2);
+    text-shadow: 0px 0px 5px #fff;
 }
 .project a {
     margin: 10px;
