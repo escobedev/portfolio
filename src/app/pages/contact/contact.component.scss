@@ -1,0 +1,88 @@
+.contact-content {
+    margin: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .wrap {
+        display: flex;
+        width: 100%;
+        max-width: 900px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    
+        .side {
+            flex-grow: 1;
+            margin: 20px;
+            margin-top: 0;
+            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .contact-card {
+                width: 100%;
+                max-width: 400px;
+                padding: 10px;
+                border-radius: 20px;
+                
+                mat-card-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+
+                    mat-form-field, mat-list {
+                        width: 100%;
+                    }
+
+                    textarea {
+                        height: 100px;
+                        resize: none;
+                    }
+
+                    mat-list {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+
+                        .address {
+                            padding-top: 15px;
+                        }
+                        a[mat-list-item] {
+                            border-radius: 9999px;
+                            cursor: pointer;
+                        }
+                    }
+                }
+                mat-card-actions {
+                    display: flex;
+                    flex-direction: column;
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+.social-icons li {
+    margin: 0 10px;
+}
+.social-icons li a img {
+    opacity: 0.9;
+}
+.social-icons li a img:hover {
+    opacity: 1;
+}

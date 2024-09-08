@@ -9,65 +9,20 @@
     --theme-color-2-dark: #3d1a78;
     --theme-color-dark: #141d2b;
 }
-html { height: 100%; }
-body {
-    font-family: Arial, 'sans-serif';
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #141d2b;
-}
-.static-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100lvw;
-    height: 100lvh;
-    z-index: -1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    margin-bottom: env(safe-area-insert-bottom);
-    padding-left: env(safe-area-insert-left);
-    padding-right: env(safe-area-insert-right);
-}
-.bg-img {
-    width: 100lvw;
-    height: 100lvh;
-    background-image: url("../public/assets/profile.jpg");
-    background-size: cover;
-    background-position: center center;
-}
 
-h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-}
-
-button {
-    margin: 10px;
-    padding: 20px;
-    border: none;
-    border-radius: 10px;
-    background-color: #1a2332;
-    color: #a4b1cd;
-    cursor: pointer;
-    font-size: large;
-    transition: all 0.3s ease;
-}
-button:hover {
-    background-color: #27382d;
-    color: #9fef00;
-}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .special-btn {
+    cursor: pointer;
     position: relative;
     padding: 10px 20px;
     margin: 20px 0 0 0;
+    border: 3px solid var(--mat-app-text-color);
     border-radius: 20px;
     color: #fff;
     background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    box-shadow: 0px 3px 0px var(--mat-app-text-color);
 }
 .special-btn::before {
     content: '';
@@ -89,6 +44,14 @@ button:hover {
     position: relative;
     color: #fff;
     z-index: 1;
+}
+.special-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+    background: #ccc;
+}
+.special-btn:disabled:hover::before {
+    opacity: 0;
 }
 
 .badges-container {
@@ -134,7 +97,7 @@ button:hover {
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.gradient-background {
+.gradient-background-flat {
     background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
 }
 

@@ -1,0 +1,6 @@
+<span [style.font-family]="'Roboto Mono'">{{ typing_text() }}</span>
+<span
+    [style.border-right]="'1ch solid transparent'"
+    [style.animation]="'blink 1s step-end ' + (infinite ? 'infinite' : speed * text.length / 1000)"
+    [style.animation-delay]="delay + 'ms'"
+></span>

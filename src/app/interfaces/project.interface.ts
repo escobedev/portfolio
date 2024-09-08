@@ -6,6 +6,7 @@ export interface Project {
     technologies: Badge[];
     link: string;
     github: string;
+    icon: string;
 }
 
 export const projects: Project[] = [
@@ -18,12 +19,15 @@ export const projects: Project[] = [
         ],
         technologies: badges.filter(badge => [
             'Angular',
+            'Angular Material',
             'TypeScript',
             'HTML',
             'CSS',
+            'Sass',
             'Firebase',
         ].includes(badge.name)),
         link: 'https://escobedev.com',
         github: 'https://github.com/escobedev/portfolio',
+        icon: 'web',
     },
 ]

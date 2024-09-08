@@ -1,0 +1,144 @@
+<div class="flex-container">
+    <p
+        [style.font-size]="'3rem'"
+        [style.text-align]="'center'"
+        [style.margin]="'20px'"
+        [style.height]="load() ? '3em' : '75vh'"
+        [style.transition]="'height 1s ease-in-out'"
+        [style.display]="'flex'"
+        [style.justify-content]="'center'"
+        [style.align-items]="'center'"
+    >
+        <app-typing-text [text]="title"/>
+    </p>
+    @if (load()) {
+        <div class="container">
+            <div class="card-container">
+                <div class="relative card-container no-padding">
+                    <div class="absolute card-container no-padding">
+                        @for (p of paragraphs; track p) {
+                            <div [style.max-width.px]="720">
+                                <app-typing-text [text]="p" [speed]="25" [delay]="getDelay($index, 25)" [infinite]="false"/>
+                            </div>
+                        }
+                    </div>
+                    @for (p of paragraphs; track p) {
+                        <div [style.max-width.px]="720" [style.opacity]="0" [style.font-family]="'Roboto Mono'">{{ p }}</div>
+                    }
+                </div>
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>school</mat-icon>
+                        <mat-card-title>Education</mat-card-title>
+                        <mat-card-subtitle>Universidad Nacional de Ingeniería</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            I hold a Bachelor's degree in Electronic Engineering from <abbr title="Universidad Nacional de Ingeniería">UNI</abbr>.
+                        </p>
+                        <p>Coming soon...</p>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button disabled routerLink="/education">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>work</mat-icon>
+                        <mat-card-title>Work Experience</mat-card-title>
+                        <mat-card-subtitle>{{ last_job.company.name }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Previously, I worked at {{ last_job.company.name }} as {{ last_job.position }} where I was responsible of {{ last_job.responsibilities.join('. ') }}</p>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button routerLink="/experience">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>electric_bolt</mat-icon>
+                        <mat-card-title>Principal Skills</mat-card-title>
+                        <mat-card-subtitle>Principal skills</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <ul>
+                            <li><strong>Spoken Languages:</strong> Spanish (Native), English (B2), Portuguese (A2), French (A1), German (A1).</li>
+                            <li><strong>Technical Skills:</strong> HTML, CSS, JavaScript, TypeScript, Angular, C, C++, Python, SQL.</li>
+                            <li><strong>Soft Skills:</strong> Problem-Solving, Time Management, Critical Thinking, Self-Esteem, Empathy, Collaboration, Adaptability, Flexibility, Creativity.</li>
+                        </ul>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button routerLink="/skills">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+            
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>emoji_events</mat-icon>
+                        <mat-card-title>Achievements</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            Coming soon...
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button disabled routerLink="/achievements">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>workspace_premium</mat-icon>
+                        <mat-card-title>Certifications</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            Coming soon...
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button disabled routerLink="/certs">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>military_tech</mat-icon>
+                        <mat-card-title>Badges</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            Coming soon...
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button disabled routerLink="/badges">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+
+                <mat-card class="about-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-icon [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>interests</mat-icon>
+                        <mat-card-title>Interests</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>Outside of work, I enjoy hanging out with my friends and working on my personal projects, which helps me maintain a balanced perspective.</p>
+                        <p>Coming soon...</p>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                        <button mat-button disabled routerLink="/about">See more</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <app-footer class="full-width" />
+    }
+</div>

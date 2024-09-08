@@ -1,0 +1,27 @@
+<div class="flex-container">
+    <p
+        [style.font-size]="'3rem'"
+        [style.text-align]="'center'"
+        [style.margin]="'20px'"
+        [style.height]="load() ? '3em' : '75vh'"
+        [style.transition]="'height 1s ease-in-out'"
+        [style.display]="'flex'"
+        [style.justify-content]="'center'"
+        [style.align-items]="'center'"
+    >
+        <app-typing-text [text]="title"/>
+    </p>
+    @if (load()) {
+        <section class="grid-list">
+            @for (box of boxes(); track $index) {
+                @defer (on viewport) {
+                    <app-skills-box [box]="box" [animate]="true" (loaded)="loaded($event)" />
+                } @placeholder {
+                    <app-skills-box [box]="box" [transparent]="true" />
+                }
+            }
+            <!-- Add certifications, tools, or additional skills as necessary -->
+        </section>
+        <app-footer class="full-width" />
+    }
+</div>

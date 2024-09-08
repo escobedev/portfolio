@@ -1,0 +1,11 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    padding: 20px;
+    gap: 20px;
+}
+.about-card { width: 100%; max-width: 720px; }
+.no-padding { padding: 0px; }

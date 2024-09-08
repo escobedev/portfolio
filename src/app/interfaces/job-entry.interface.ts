@@ -17,7 +17,7 @@ export const jobEntries: JobEntry[] = [
         position: 'Project Assistant',
         company: companies.find(company => company.name === 'YOFC PERÚ S.A.C.') ?? {} as Company,
         location: 'San Isidro, Lima, Perú',
-        startDate: new Date(2023, 9),
+        startDate: new Date(2023, 8),
         endDate: new Date(2023, 1),
         hardSkills: badges.filter(badge => [
             'Excel',
@@ -47,7 +47,7 @@ export const jobEntries: JobEntry[] = [
         company: companies.find(company => company.name === 'YOFC PERÚ S.A.C.') ?? {} as Company,
         location: 'San Isidro, Lima, Perú',
         startDate: new Date(2022, 12),
-        endDate: new Date(2023, 9),
+        endDate: new Date(2023, 8),
         hardSkills: badges.filter(badge => [
             'Excel',
             'Google Sheets',

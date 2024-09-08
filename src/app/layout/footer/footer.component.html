@@ -1,0 +1,31 @@
+<footer class="footer gradient-background">
+    <div class="footer-content">
+        <div class="contact-info">
+            <h4>Contact</h4>
+            <mat-list>
+                <a mat-list-item href="mailto:bruno.jair.ea@gmail.com">
+                    <mat-icon matListItemIcon>mail</mat-icon>
+                    <div matListItemTitle>Email</div>
+                    <div matListItemLine>escobedev&#64;gmail.com</div>
+                </a>
+                <a mat-list-item href="https://wa.me/51992023441" target="_blank">
+                    <mat-icon matListItemIcon>smartphone</mat-icon>
+                    <div matListItemTitle>Phone</div>
+                    <div matListItemLine>+51 992 023 441</div>
+                </a>
+            </mat-list>
+        </div>
+        <div class="social-media">
+            <h4>Follow Me</h4>
+            <ul class="social-icons">
+                <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-footer.png' : 'assets/linkedin.svg' }}" alt="LinkedIn"></a></li>
+                <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/github-footer.png' : 'assets/github.svg' }}" alt="GitHub"></a></li>
+                <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/twitter-footer.png' : 'assets/twitter.png' }}" alt="Twitter"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="legal">
+        <p>&copy; 2024  <a mat-button href="https://escobedev.com" target="_blank">EscobeDev by Bruno Escobedo</a></p>
+        <p><button mat-button (click)="openPrivacyPolicy()">Privacy Policy</button> | <button mat-button (click)="openTermsOfService()">Terms of Service</button></p>
+    </div>
+</footer>

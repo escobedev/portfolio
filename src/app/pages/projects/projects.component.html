@@ -1,0 +1,31 @@
+<div class="flex-container">
+    <p
+        [style.font-size]="'3rem'"
+        [style.text-align]="'center'"
+        [style.margin]="'20px'"
+        [style.height]="load() ? '3em' : '75vh'"
+        [style.transition]="'height 1s ease-in-out'"
+        [style.display]="'flex'"
+        [style.justify-content]="'center'"
+        [style.align-items]="'center'"
+    >
+        <app-typing-text [text]="title"/>
+    </p>
+    @if (load()) {
+        <div class="grid-list">
+            @for (project of Projects; track $index) {
+                @defer (on viewport) {
+                    <app-project-box [project]="project" (loaded)="loaded($event)" />
+                } @placeholder {
+                    <app-project-box [project]="project" [style.opacity]="0" />
+                }
+            }
+            @defer (on viewport) {
+                <app-project-box [project]="soon" (loaded)="loaded($event)" />
+            } @placeholder {
+                <app-project-box [project]="soon" [style.opacity]="0" />
+            }
+        </div>
+        <app-footer class="full-width" />
+    }
+</div>

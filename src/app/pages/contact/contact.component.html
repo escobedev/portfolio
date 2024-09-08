@@ -1,0 +1,195 @@
+<div class="flex-container">
+    <p
+        [style.font-size]="'3rem'"
+        [style.text-align]="'center'"
+        [style.margin]="'20px'"
+        [style.height]="load() ? '3em' : '75vh'"
+        [style.transition]="'height 1s ease-in-out'"
+        [style.display]="'flex'"
+        [style.justify-content]="'center'"
+        [style.align-items]="'center'"
+    >
+        <app-typing-text [text]="title"/>
+    </p>
+    @if (load()) {
+        <section class="flex-container">
+            <div class="contact-content">
+                <div class="wrap">
+                    <div class="side">
+                        <mat-card class="contact-card">
+                            <p></p>
+                            <mat-card-content>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Name</mat-label>
+                                    <input
+                                        #name
+                                        matInput
+                                        type="text"
+                                        maxlength="20"
+                                        placeholder="Enter your name"
+                                        [formControl]="contactForm.controls.name"
+                                        (blur)="name.value = name.value.trim()"
+                                        required
+                                    />
+                                    <mat-icon matPrefix>person</mat-icon>
+                                    @if (name.value) {
+                                        <button
+                                            mat-icon-button
+                                            matSuffix
+                                            (click)="name.value = ''"
+                                        >
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    }
+                                    <mat-hint align="end">{{ name.value.length }} / 20</mat-hint>
+                                    @if (name.validity.valueMissing) {
+                                        <mat-error>Name is required</mat-error>
+                                    } @else if (name.validity.tooLong) {
+                                        <mat-error>Name is too long</mat-error>
+                                    }
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Email</mat-label>
+                                    <input
+                                        #email
+                                        matInput
+                                        type="email"
+                                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                        placeholder="example@email.com"
+                                        [formControl]="contactForm.controls.email"
+                                        (input)="email.value = email.value.toLowerCase().trim()"
+                                        required
+                                    />
+                                    <mat-icon matPrefix>alternate_email</mat-icon>
+                                    @if (email.value) {
+                                        <button
+                                            mat-icon-button
+                                            matSuffix
+                                            (click)="email.value = ''"
+                                        >
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    }
+                                    @if (email.validity.valueMissing) {
+                                        <mat-error>Email is required</mat-error>
+                                    } @else if (email.validity.patternMismatch) {
+                                        <mat-error>Email is invalid</mat-error>
+                                    }
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Subject</mat-label>
+                                    <input
+                                        #subject
+                                        matInput
+                                        type="text"
+                                        maxlength="100"
+                                        placeholder="Enter subject"
+                                        [formControl]="contactForm.controls.subject"
+                                        (blur)="subject.value = subject.value.trim()"
+                                        required
+                                    />
+                                    <mat-icon matPrefix>subject</mat-icon>
+                                    @if (subject.value) {
+                                        <button
+                                            mat-icon-button
+                                            matSuffix
+                                            (click)="subject.value = ''"
+                                        >
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    }
+                                    <mat-hint align="end">{{ subject.value.length }} / 100</mat-hint>
+                                    @if (subject.validity.valueMissing) {
+                                        <mat-error>Subject is required</mat-error>
+                                    } @else if (subject.validity.tooLong) {
+                                        <mat-error>Subject is too long</mat-error>
+                                    }
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Message</mat-label>
+                                    <textarea
+                                        #message
+                                        matInput
+                                        type="text"
+                                        maxlength="2000"
+                                        placeholder="Write message"
+                                        [formControl]="contactForm.controls.message"
+                                        (blur)="message.value = message.value.trim()"
+                                        required
+                                    ></textarea>
+                                    <mat-icon matPrefix>mail</mat-icon>
+                                    @if (message.value) {
+                                        <button
+                                            mat-icon-button
+                                            matSuffix
+                                            (click)="message.value = ''"
+                                        >
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    }
+                                    <mat-hint align="end">{{ message.value.length }} / 2000</mat-hint>
+                                    @if (message.validity.valueMissing) {
+                                        <mat-error>Message is required</mat-error>
+                                    } @else if (message.validity.tooLong) {
+                                        <mat-error>Message is too long</mat-error>
+                                    }
+                                </mat-form-field>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <button class="special-btn" type="submit" [disabled]="contactForm.invalid"><span>Send Message</span></button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+            
+                    <div class="side">
+                        <mat-card class="contact-card" appearance="outlined">
+                            <mat-card-content>
+                                <mat-list>
+                                    <a mat-list-item href="mailto:escobedev@gmail.com">
+                                        <mat-icon matListItemIcon>mail</mat-icon>
+                                        <div matListItemTitle>Email</div>
+                                        <div matListItemLine>escobedev&#64;gmail.com</div>
+                                    </a>
+                                    <a mat-list-item href="https://wa.me/51992023441" target="_blank">
+                                        <mat-icon matListItemIcon>smartphone</mat-icon>
+                                        <div matListItemTitle>Phone</div>
+                                        <div matListItemLine>+51 992 023 441</div>
+                                    </a>
+                                    <mat-list-item class="address">
+                                        <mat-icon matListItemIcon>place</mat-icon>
+                                        <div matListItemTitle>Address</div>
+                                        <div matListItemLine>Calle Alejandro Peralta Mz G Lt 4</div>
+                                        <div matListItemLine>Urb. Villa Victoria - Surquillo</div>
+                                        <div matListItemLine>Lima, Peru</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <mat-icon matListItemIcon>language</mat-icon>
+                                        <div matListItemTitle>Languages</div>
+                                        <div matListItemLine>Spanish, English</div>
+                                    </mat-list-item>
+                                </mat-list>
+                                <p>I typically respond within 24 hours during weekdays.</p>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <mat-card class="contact-card" appearance="outlined">
+                            <mat-card-header>
+                                <div matCardTitle>Connect with Me</div>
+                            </mat-card-header>
+                            <mat-card-actions>
+                                <ul class="social-icons">
+                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-footer.png' : 'assets/linkedin.svg' }}" alt="LinkedIn"></a></li>
+                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/github-footer.png' : 'assets/github.svg' }}" alt="GitHub"></a></li>
+                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/twitter-footer.png' : 'assets/twitter.png' }}" alt="Twitter"></a></li>
+                                </ul>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+</div>

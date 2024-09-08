@@ -1,0 +1,81 @@
+<div class="flex-container">
+    <p
+        [style.font-size]="'3rem'"
+        [style.text-align]="'center'"
+        [style.margin]="load() ? '0px' : '20px'"
+        [style.height]="load() ? '0px' : '75vh'"
+        [style.opacity]="load() ? '0' : '1'"
+        [style.transform]="load() ? 'translateY(-100px)' : 'translateY(0)'"
+        [style.transition]="'height 1s ease-in-out, margin 1s ease-in-out, opacity 0.5s ease-in-out, transform 1s ease-in-out'"
+        [style.display]="hide() ? 'none' : 'flex'"
+        [style.justify-content]="'center'"
+        [style.align-items]="'center'"
+    >
+        <app-typing-text [text]="title" [speed]="200"/>
+    </p>
+    @if (load()) {
+        <div class="home gradient-background full-width border-box">
+            <div class="profile">
+                <div class="profile-img gradient-background-flat">
+                    @defer (on viewport; prefetch on idle) {
+                        <img src="assets/profile-img.jpg" alt="EscobeDev">
+                    } @placeholder {
+                        <div width="150px" height="150px"></div>
+                    }
+                </div>
+                <div class="profile-info">
+                    <h1 [style.font-family]="'Arial'">Bruno Escobedo</h1>
+                    <div class="social"><span class="gradient-text">&#64;escobedev</span></div>
+                    <ul class="social-icons">
+                        <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-footer.png' : 'assets/linkedin.svg' }}" alt="LinkedIn"></a></li>
+                        <li><a href="https://github.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/github-footer.png' : 'assets/github.svg' }}" alt="GitHub"></a></li>
+                        <li><a href="https://x.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/twitter-footer.png' : 'assets/twitter.png' }}" alt="Twitter"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>Hi, I'm <strong>Bruno Jair Escobedo Aguilar</strong>, a self-educated <strong>software developer</strong></p>
+        </div>
+        <div class="block">
+            <h2>About Me</h2>
+            <p class="section-item">
+                Hello! I'm Bruno Escobedo, a passionate software developer based in Lima, Peru.
+                I am a dedicated and detail-oriented professional with a background in fiber optic projects, currently transitioning into the dynamic fields of software development and cybersecurity.
+            </p>
+            <div class="section-item">
+                <button mat-flat-button routerLink="/about">Read more</button>
+            </div>
+        </div>
+
+        <div class="block">
+            <h2>My Latest Projects</h2>
+            <mat-accordion class="section-item">
+                @for (project of latest_projects; track project) {
+                    <mat-expansion-panel [expanded]="step() === $index" (opened)="setStep($index)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title><mat-icon>{{ project.icon }}</mat-icon>&nbsp;&nbsp;{{ project.name }}</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        
+                        <p>{{ project.details[0] }}</p>
+                        <mat-chip-set>
+                            @for (icon of project.technologies; track $index) {
+                                <mat-chip>
+                                    <img matChipAvatar height="20px" src="{{ icon.image }}" alt="{{ icon.name }}">
+                                    <span>{{ icon.name }}</span>
+                                </mat-chip>
+                            }
+                        </mat-chip-set>
+                        
+                        <mat-action-row>
+                            <a mat-flat-button href="{{ project.link }}" target="_blank"><mat-icon>open_in_new</mat-icon>Live Demo</a>
+                            <a mat-stroked-button href="{{ project.github }}" target="_blank"><mat-icon>code</mat-icon>View Code</a>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                }
+            </mat-accordion>
+            <div class="section-item">
+                <button mat-flat-button routerLink="/projects">See more</button>
+            </div>
+        </div>
+        <app-footer class="full-width" />
+    }
+</div>

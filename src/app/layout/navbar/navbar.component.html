@@ -1,0 +1,45 @@
+<div class="nav-container" [class.is-mobile]="mobileQuery.matches">
+    <mat-toolbar class="toolbar">
+        <img id="logo" width="40" src="assets/logo/escobedev.svg" alt="EscobeDev">
+        <strong [style.font-family]="'Arial'">&nbsp;escobe<span class="gradient-text">dev</span></strong>
+        <h1 class="app-name">{{ title }}</h1>
+        <span class="spacer"></span>
+        @if (mobileQuery.matches) {
+            <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+        } @else {
+            <mat-nav-list class="flex-list">
+                @for (a of menu; track a) {
+                    <a mat-list-item [activated]="isActivated(a.route)" routerLink="{{ a.route || '.' }}" (click)="mobileQuery.matches ? snav.close() : null">
+                        @if (a.name === 'Codex') { <div matListItemTitle>{{ random() }}</div> }
+                        @else { <div matListItemTitle>{{ a.name }}</div> }
+                    </a>
+                }
+            </mat-nav-list>
+            <button mat-icon-button [matTooltip]="currentTheme === 'dark' ? 'Light Mode': 'Dark Mode'" (click)="toggleTheme()">
+                <mat-icon matListItemIcon>{{ currentTheme === 'dark' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+            </button>   
+        }     
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav #snav position="end" [mode]="'over'" [fixedInViewport]="mobileQuery.matches" [fixedTopGap]="56">
+            <mat-nav-list>
+                @for (a of menu; track a) {
+                    <a mat-list-item [activated]="isActivated(a.route)" routerLink="{{ a.route || '.' }}" (click)="mobileQuery.matches ? snav.close() : null">
+                        <mat-icon matListItemIcon>{{ a.icon }}</mat-icon>
+                        @if (a.name === 'Codex') { <div matListItemTitle>{{ random() }}</div> }
+                        @else { <div matListItemTitle>{{ a.name }}</div> }
+                    </a>
+                }
+                <button mat-fab extended (click)="toggleTheme()">
+                    <mat-icon matListItemIcon>{{ currentTheme === 'dark' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+                    <div matListItemTitle>{{ currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</div>
+                </button>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <router-outlet />
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
