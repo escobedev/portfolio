@@ -30,6 +30,7 @@ export class ContactComponent {
   protected readonly hide = signal(true);
 
   constructor(private theme: ThemeService) {
+    window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
     }, 100 * (this.title.length + 1));

@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { SkillsBoxComponent } from '../../components/skills-box/skills-box.component';
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
-import { badges } from '../../interfaces/badge.interface';
 import { FooterComponent } from "../../layout/footer/footer.component";
+import { badges } from '../../interfaces/badge.interface';
 
 @Component({
   selector: 'app-skills',
@@ -10,7 +10,7 @@ import { FooterComponent } from "../../layout/footer/footer.component";
   imports: [
     SkillsBoxComponent,
     TypingTextComponent,
-    FooterComponent
+    FooterComponent,
 ],
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
@@ -21,13 +21,11 @@ export class SkillsComponent {
   protected readonly load = signal(false);
 
   constructor() {
+    window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
+      this.loadBoxes(0);
     }, 100 * (this.title.length + 1));
-  }
-
-  ngOnInit() {
-    this.loadBoxes(0);
   }
 
   private loadBoxes(index: number) {
@@ -47,7 +45,7 @@ export class SkillsComponent {
   }
 
   languages = [
-    'HTML', 'CSS', 'Sass', 'JavaScript', 'TypeScript', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL',
+    'JavaScript', 'TypeScript', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL',
     //'PHP',
     //'Ruby',
     //'Swift',
@@ -59,6 +57,7 @@ export class SkillsComponent {
   ];
 
   frontends = [
+    'HTML', 'CSS', 'Sass', 
     //'Bootstrap',
     //'Tailwind CSS',
     //'React',
@@ -233,7 +232,7 @@ export class SkillsComponent {
     { name: 'Soft Skills', badges: this.getBadges(this.softs) },
   ];
 
-  Boxes = [
+  Boxes: Box[] = [
     { name: 'Technical Skills', skills: this.technicalSkills },
     { name: 'Soft Skills', skills: this.softSkills },
   ];

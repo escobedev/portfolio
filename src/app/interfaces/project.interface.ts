@@ -9,7 +9,7 @@ export interface Project {
     icon: string;
 }
 
-export const projects: Project[] = [
+export const web_projects: Project[] = [
     {
         name: 'Portfolio Website',
         details: [
@@ -30,4 +30,27 @@ export const projects: Project[] = [
         github: 'https://github.com/escobedev/portfolio',
         icon: 'web',
     },
-]
+];
+
+export const mobile_projects: Project[] = [
+];
+
+export const desktop_projects: Project[] = [
+];
+
+export const multiplatform_projects: Project[] = [
+];
+
+export const data_analytics_projects: Project[] = [
+];
+
+export const cyber_security_projects: Project[] = [
+];
+
+export const blockchain_projects: Project[] = [
+];
+
+export const game_dev_projects: Project[] = [
+];
+
+export const projects = [...web_projects, ...mobile_projects, ...desktop_projects, ...multiplatform_projects, ...data_analytics_projects, ...cyber_security_projects, ...blockchain_projects, ...game_dev_projects];

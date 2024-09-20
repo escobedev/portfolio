@@ -1,17 +1,59 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { AboutComponent } from './pages/about/about.component';
-import { ContactComponent } from './pages/contact/contact.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { SkillsComponent } from './pages/skills/skills.component';
 import { ExperienceComponent } from './pages/experience/experience.component';
 
 export const routes: Routes = [
-    { path: '', title: 'Bruno Escobedo', component: HomeComponent },
-    { path: 'about', title: 'Bruno Escobedo - About', component: AboutComponent },
-    { path: 'contact', title: 'Bruno Escobedo - Contact', component: ContactComponent },
-    { path: 'projects', title: 'Bruno Escobedo - Projects', component: ProjectsComponent },
-    { path: 'skills', title: 'Bruno Escobedo - Skills', component: SkillsComponent },
-    { path: 'experience', title: 'Bruno Escobedo - Experience', component: ExperienceComponent },
-    { path: '**', redirectTo: '/home' }
+    {
+        path: '',
+        title: 'Bruno Escobedo',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
+    },
+    {
+        path: 'about',
+        title: 'Bruno Escobedo - About',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent),
+    },
+    {
+        path: 'contact',
+        title: 'Bruno Escobedo - Contact',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent),
+    },
+    {
+        path: 'projects',
+        title: 'Bruno Escobedo - Projects',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/projects/projects.component').then(m => m.ProjectsComponent),
+    },
+    {
+        path: 'skills',
+        title: 'Bruno Escobedo - Skills',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/skills/skills.component').then(m => m.SkillsComponent),
+    },
+    {
+        path: 'skills/:skill',
+        title: 'Bruno Escobedo - Skills',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/skill/skill.component').then(m => m.SkillComponent),
+    },
+    {
+        path: 'experience',
+        title: 'Bruno Escobedo - Experience',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/experience/experience.component').then(m => m.ExperienceComponent),
+    },
+    {
+        path: 'certs',
+        title: 'Bruno Escobedo - Certifications',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/certs/certs.component').then(m => m.CertsComponent),
+    },
+    {
+        path: '**',
+        redirectTo: '',
+    }
 ];

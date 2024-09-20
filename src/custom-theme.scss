@@ -1,4 +1,3 @@
-
 @use '@angular/material' as mat;
 @include mat.core();
 
@@ -6,7 +5,7 @@ $dark-theme: mat.define-theme((
     color: (
         theme-type: dark,
         primary: mat.$cyan-palette,
-        tertiary: mat.$cyan-palette,
+        tertiary: mat.$azure-palette,
     ),
     density: (
         scale: 0,
@@ -17,7 +16,6 @@ $light-theme: mat.define-theme((
     color: (
         theme-type: light,
         primary: mat.$azure-palette,
-        tertiary: mat.$azure-palette,
     ),
     density: (
         scale: 0,
@@ -28,8 +26,8 @@ $light-theme: mat.define-theme((
     @include mat.all-component-themes($dark-theme);
     background-color: var(--mat-app-background-color);
     color: var(--mat-app-text-color);
-    transition: all 0.3 ease-in-out;
-
+    --prism-background-color: var(--mat-app-background-color); /* Light background */
+    --prism-color: var(--mat-app-text-color);
     @media (prefers-color-scheme: light) {
         @include mat.all-component-themes($light-theme);
     }
@@ -46,72 +44,121 @@ $light-theme: mat.define-theme((
     0% { border-color: unset; }
     50% { border-color: transparent; }
 }
-
-.flex-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.full-width {
-    width: 100%;
-}
-.mat-mdc-form-field-icon-prefix, .mat-mdc-form-field-icon-suffix {
-    display: flex;
-}
-
-.card-list-fetching-animation {
-    animation: fetch 0.5s ease-in-out;
-}
 @keyframes fetch {
     from { opacity: 0; transform: translateY(50px); }
     to { opacity: 1; transform: translateY(0); }
 }
+.card-list-fetching-animation { animation: fetch 0.5s ease-in-out; }
 
-.gradient-background {
-    background: linear-gradient(
-        transparent 0%,
-        color-mix(
-            in srgb,
-            var(--theme-color-1) 50%,
-            transparent 50%
-        ) 33%,
-        color-mix(
-            in srgb,
-            var(--theme-color-2) 50%,
-            transparent 50%
-        ) 66%,
-        transparent 100%
-    );
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+.flex-container { width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.container { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.flex-wrap { display: flex; flex-wrap: wrap; justify-content: center; align-items: center;}
+.full-width { width: 100%; }
+.border-box { box-sizing: border-box; }
+.image-placeholder { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+.chunk { height: calc(100svh - 56px); display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
 .grid-list {
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 400px));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+    justify-content: center;
+    gap: 20px;
+}
+.grid-button-list {
+    width: 100%;
+    max-width: 750px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     justify-content: center;
     gap: 20px;
 }
 
 .relative {
     position: relative;
-    .absolute {
+    .absolute { position: absolute; top: 0; left: 0; }
+}
+
+.gradient-background {
+    background: linear-gradient(
+        transparent 0%,
+        color-mix(in srgb, var(--theme-color-1) 50%, transparent 50%) 33%,
+        color-mix(in srgb, var(--theme-color-2) 50%, transparent 50%) 66%,
+        transparent 100%
+    );
+}
+.gradient-background-flat {
+    background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+}
+.gradient-text {
+    font-weight: bold;
+    background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gradient-text-1 {
+    background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-1-2));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gradient-text-2 {
+    background-image: linear-gradient(135deg, var(--theme-color-1-2), var(--theme-color-2));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gradient-text-3 {
+    background-image: linear-gradient(135deg, var(--theme-color-2), var(--theme-color-1-2));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gradient-text-4 {
+    background-image: linear-gradient(135deg, var(--theme-color-1-2), var(--theme-color-1));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.border-1 { border: var(--theme-color-1) 2px solid !important; }
+.border-2, .border-4 { border: var(--theme-color-1-2) 2px solid !important; }
+.border-3 { border: var(--theme-color-2) 2px solid !important; }
+
+
+abbr {
+    padding: 0 2px;
+    text-decoration: none;
+    border: 1px solid var(--mdc-chip-outline-color);
+    border-radius: 5px;
+    cursor: help;
+    background-color: var(--mdc-chip-elevated-container-color);
+    position: relative;
+    &:hover { background-color: var(--mdc-chip-elevated-selected-container-color); }
+    &[role]:hover::after {
+        content: attr(role);
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background-color: var(--mdc-plain-tooltip-container-color);
+        color: var(--mdc-plain-tooltip-supporting-text-color);
+        padding: 5px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 12px;
+        z-index: 10;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease-in-out;
+    }
+    &[role]::after {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
     }
 }
 
-.border-box {
-    box-sizing: border-box;
+.skill-chip .mdc-list-item__content {
+    align-self: center !important;
+    & > * { padding: 10px 0; }
 }

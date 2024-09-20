@@ -12,16 +12,16 @@
         <app-typing-text [text]="title"/>
     </p>
     @if (load()) {
-        <section class="grid-list">
+        <div class="flex-container">
             @for (box of boxes(); track $index) {
                 @defer (on viewport) {
-                    <app-skills-box [box]="box" [animate]="true" (loaded)="loaded($event)" />
+                    <app-skills-box [box]="box" (loaded)="loaded($event)"/>
                 } @placeholder {
-                    <app-skills-box [box]="box" [transparent]="true" />
+                    <app-skills-box [box]="box" [style.opacity]="0" />
                 }
             }
-            <!-- Add certifications, tools, or additional skills as necessary -->
-        </section>
+        </div>
+        
         <app-footer class="full-width" />
     }
 </div>

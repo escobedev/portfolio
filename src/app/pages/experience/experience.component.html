@@ -35,14 +35,16 @@
             </div>
             <div class="grid-list">
                 @for (jobEntry of jobEntries(); track $index) {
-                    @defer (on viewport; prefetch on viewport) {
-                        <app-job-box [job]="jobEntry" (loaded)="loaded($event)" />
+                    @defer (on viewport) {
+                        <app-job-box [job]="jobEntry" [index]="$index % 4 + 1" (loaded)="loaded($event)" />
                     } @placeholder {
                         <app-job-box [job]="jobEntry" [style.opacity]="0" />
                     }
                 }
             </div>
         </div>
+        <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
+        <br>
         <app-footer class="full-width" />
     }
 </div>

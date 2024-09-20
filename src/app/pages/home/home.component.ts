@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { projects } from '../../interfaces/project.interface';
 import { FooterComponent } from "../../layout/footer/footer.component";
@@ -19,6 +20,7 @@ import { ThemeService } from '../../services/theme.service';
     MatChipsModule,
     MatExpansionModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     RouterLink,
     FooterComponent,
     TypingTextComponent
@@ -33,6 +35,7 @@ export class HomeComponent {
   protected readonly step = signal(0);
 
   constructor(private theme: ThemeService) {
+    window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
       setTimeout(() => {

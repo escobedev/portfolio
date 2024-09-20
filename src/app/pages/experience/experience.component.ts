@@ -1,4 +1,6 @@
 import { Component, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
 import { FooterComponent } from '../../layout/footer/footer.component';
 import { JobBoxComponent } from '../../components/job-box/job-box.component';
@@ -9,6 +11,8 @@ import { companies } from '../../interfaces/company.interface';
   selector: 'app-experience',
   standalone: true,
   imports: [
+    MatButtonModule,
+    MatIconModule,
     JobBoxComponent,
     TypingTextComponent,
     FooterComponent,
@@ -17,11 +21,12 @@ import { companies } from '../../interfaces/company.interface';
   styleUrl: './experience.component.scss'
 })
 export class ExperienceComponent {
-  protected readonly title: string = 'Experience';
+  protected readonly title: string = 'Job Experience';
   protected readonly jobEntries = signal<JobEntry[]>([]);
   protected readonly load = signal(false);
 
   constructor() {
+    window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
       this.loadJobEntry(0);
@@ -39,5 +44,9 @@ export class ExperienceComponent {
   }
   loaded(name: string) {
     if (name) this.loadJobEntry(this.jobEntries().length);
+  }
+
+  scrollUp() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

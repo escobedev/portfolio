@@ -18,11 +18,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     position: relative;
     padding: 10px 20px;
     margin: 20px 0 0 0;
-    border: 3px solid var(--mat-app-text-color);
+    border: none;
     border-radius: 20px;
     color: #fff;
     background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
-    box-shadow: 0px 3px 0px var(--mat-app-text-color);
 }
 .special-btn::before {
     content: '';
@@ -54,67 +53,139 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     opacity: 0;
 }
 
-.badges-container {
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-.badge {
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    height: 30px;
-    box-sizing: border-box;
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #eee;
-    color: #1a2332;
-    font-weight: 500;
-    text-wrap: nowrap;
-    display: block;
-}
-.badge img {
-    vertical-align: middle;
-    margin-right: 5px;
-    height: 15px;
+/* ****************************************** */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: var(--map-app-text-color);
+	background: none;
+	text-shadow: 0 1px var(--map-app-text-color);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
 }
 
-.chunk {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc11;
 }
 
-.hidden {
-    display: none;
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc11;
 }
 
-.gradient-text {
-    font-weight: bold;
-    background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.gradient-background-flat {
-    background: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
 }
 
-.opacity-animation {
-    animation: show 1s ease;
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
 }
-.opacity {
-    opacity: 0;
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f011;
 }
-.show-animation {
-    view-timeline-name: --reveal;
-    animation-name: show;
-    animation-fill-mode: both;
-    animation-timeline: --reveal;
-    animation-range: entry 25% cover 50%;
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
 }
-@keyframes show {
-    from { opacity: 0; scale: 10%; }
-    to { opacity: 1; scale: 100%; }
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #9a6e3a;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function,
+.token.class-name {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
 }

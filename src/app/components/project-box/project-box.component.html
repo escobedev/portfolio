@@ -1,17 +1,17 @@
 @if (project.name != 'Coming Soon') {
-    <mat-card class="project-card card-list-fetching-animation" appearance="outlined">
+    <mat-card class="project-card card-list-fetching-animation" [class]="'border-' + index" appearance="outlined">
         <mat-card-header>
-            <mat-icon mat-card-avatar [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">{{ project.icon }}</mat-icon>
-            <mat-card-title class="gradient-text"><strong>{{ project.name }}</strong></mat-card-title>
+            <mat-icon mat-card-avatar [class]="'gradient-text-' + index" [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">{{ project.icon }}</mat-icon>
+            <mat-card-title [class]="'gradient-text-' + index"><strong>{{ project.name }}</strong></mat-card-title>
             <mat-card-subtitle>{{ project.link }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
             <p><strong>Technologies:</strong></p>
             <mat-chip-set>
-                @for (icon of project.technologies; track $index) {
-                    <mat-chip>
-                        <img matChipAvatar src="{{ icon.image }}" alt="{{ icon.name }}">
-                        <span>{{ icon.name }}</span>
+                @for (tag of tags(); track tag) {
+                    <mat-chip routerLink="/skills/{{ tag.path }}">
+                        <img matChipAvatar src="{{ tag.image }}" alt="{{ tag.name }}">
+                        <span>{{ tag.name }}</span>
                     </mat-chip>
                 }
             </mat-chip-set>
@@ -30,7 +30,7 @@
         </mat-card-actions>
     </mat-card>
 } @else {
-    <mat-card class="coming-soon card-list-fetching-animation" appearance="outlined">
+    <mat-card class="coming-soon card-list-fetching-animation">
         <img src="assets/coming-soon.png" alt="Coming Soon">
     </mat-card>
 }

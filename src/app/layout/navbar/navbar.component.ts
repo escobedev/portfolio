@@ -1,6 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, Input, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -9,12 +10,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { Anchor } from './anchor';
 import { ThemeService } from '../../services/theme.service';
+import { ComingSoonDialogComponent } from '../../components/coming-soon-dialog/coming-soon-dialog.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     MatButtonModule,
+    MatDialogModule,
     MatIconModule,
     MatListModule,
     MatSidenavModule,
@@ -22,7 +25,7 @@ import { ThemeService } from '../../services/theme.service';
     MatTooltipModule,
     RouterOutlet,
     RouterLink,
-  ],
+],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -36,7 +39,10 @@ export class NavbarComponent {
   private _mobileQueryListener: () => void;
   protected isAuth: boolean = false;
 
-  constructor(private theme: ThemeService) {
+  constructor(
+    private theme: ThemeService,
+    private dialog: MatDialog,
+  ) {
     const changeDetectorRef = inject(ChangeDetectorRef);
     const media = inject(MediaMatcher);
 
@@ -64,11 +70,15 @@ export class NavbarComponent {
     return this.route.snapshot.firstChild?.routeConfig?.path === route;
   }
 
+  openDialog() {
+    this.dialog.open(ComingSoonDialogComponent);
+  }
+
   toggleTheme() {
     this.theme.toggleTheme();
   }
 
   get currentTheme() {
-    return this.theme.currentTheme;
+    return this.theme.currentTheme ?? 'dark';
   }
 }

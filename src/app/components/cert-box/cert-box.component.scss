@@ -1,0 +1,33 @@
+.cert-card {
+    border-radius: 40px;
+    height: 100%;
+}
+.card-placeholder {
+    border-radius: 40px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cert-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+
+    & > * { width: auto; }
+}
+mat-card-actions {
+    height: 100%;
+    align-items: end;
+    padding: 20px;
+
+    .cert-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+}

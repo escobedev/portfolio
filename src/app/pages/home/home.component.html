@@ -16,11 +16,13 @@
     @if (load()) {
         <div class="home gradient-background full-width border-box">
             <div class="profile">
-                <div class="profile-img gradient-background-flat">
+                <div class="profile-img">
                     @defer (on viewport; prefetch on idle) {
-                        <img src="assets/profile-img.jpg" alt="EscobeDev">
+                        <img [style.transform]="'scale(1.2)'" src="assets/profile-pic.jpg" alt="EscobeDev" loading="lazy">
                     } @placeholder {
-                        <div width="150px" height="150px"></div>
+                        <div width="150px" height="150px" class="image-placeholder"><mat-spinner></mat-spinner></div>
+                    } @loading {
+                        <div width="150px" height="150px" class="image-placeholder"><mat-spinner></mat-spinner></div>
                     }
                 </div>
                 <div class="profile-info">

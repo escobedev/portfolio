@@ -23,6 +23,7 @@ import { JobEntry } from '../../interfaces/job-entry.interface';
 })
 export class JobBoxComponent implements OnInit {
   @Input() job: JobEntry = {} as JobEntry;
+  @Input() index: number = 0;
   @Output() loaded = new EventEmitter<string>();
 
   ngOnInit() {

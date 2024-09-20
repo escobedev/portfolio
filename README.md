@@ -74,9 +74,11 @@ After setting up the project locally, you can navigate through the website using
 ## Technologies Used
 
 - Angular 18
+- Angular Material
 - TypeScript
 - HTML5
 - CSS3
+- Sass
 - Firebase
 - BuyMeACoffee
 
@@ -88,6 +90,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Feel free to reach out if you have any questions or suggestions:
 
-- **Email**: [bruno.jair.ea@gmail.com](mailto:bruno.jair.ea@gmail.com)
+- **Email**: [escobedev@gmail.com](mailto:escobedev@gmail.com)
 - **LinkedIn**: [Bruno Escobedo](https://www.linkedin.com/in/bruno-escobedo)
 - **GitHub**: [escobedev](https://github.com/escobedev)

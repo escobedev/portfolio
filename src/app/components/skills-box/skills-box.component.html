@@ -1,16 +1,19 @@
-<div class="skills-container" [class.opacity-animation]="animate" [class.opacity]="transparent && !animate">
-    <h3><span class="gradient-text">{{ box.name }}</span></h3>
-    <ul>
-        @for (skill of box.skills; track $index) {
+<div class="skills-container card-list-fetching-animation">
+    <h2>{{ box.name }}</h2>
+    <div class="card-list">
+        @for (skill of box.skills; track $index) {         
             @if(skill.badges.length > 0) {
-                <li>
-                    <div class="skill-set">{{ skill.name }}</div>
-                    <div class="badges-wrapper">
-                        <div class="badges-container">
+                <mat-card [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
+                    <mat-card-header>
+                      <mat-card-title [class]="'gradient-text-' + ($index % 4 + 1)">{{ skill.name }}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <br>
+                        <mat-chip-set>
                             @for (badge of skill.badges; track $index) {
                                 @if (badge.type == "spoken-language") {
-                                    <span class="badge">
-                                        <img src="{{ badge.image }}" alt="{{ badge.name }}">
+                                    <mat-chip>
+                                        <img matChipAvatar src="{{ badge.image }}" alt="{{ badge.name }}">
                                         {{ badge.name }}
                                         @switch (badge.level) {
                                             @case ("A1") { <b style="color: red">{{ badge.level }}</b> }
@@ -21,10 +24,10 @@
                                             @case ("C2") { <b style="color: #2965ff">{{ badge.level }}</b> }
                                             @default { <b>{{ badge.level }}</b> }
                                         } 
-                                    </span>
+                                    </mat-chip>
                                 } @else if (badge.type == "soft-skill") {
-                                    <span class="badge" (click)="toggleBadgeLevel(badge.name)">
-                                        <img src="{{ badge.image }}" alt="{{ badge.name }}">
+                                    <mat-chip (click)="toggleBadgeLevel(badge.name)">
+                                        <img matChipAvatar src="{{ badge.image }}" alt="{{ badge.name }}">
                                         {{ badge.name }}
                                         @switch (badge.level) {
                                             @case ("0") { <b style="color: red">{{ getLevelSS(badge) }}</b> }
@@ -34,23 +37,23 @@
                                             @case ("4") { <b style="color: #1bbf8b">{{ getLevelSS(badge) }}</b> }
                                             @case ("5") { <b style="color: #2965ff">{{ getLevelSS(badge) }}</b> }
                                         }
-                                    </span>
+                                    </mat-chip>
                                 } @else {
-                                    <span class="badge" (click)="toggleBadgeLevel(badge.name)">
-                                        <img src="{{ badge.image }}" alt="{{ badge.name }}">
+                                    <mat-chip (click)="toggleBadgeLevel(badge.name)">
+                                        <img matChipAvatar src="{{ badge.image }}" alt="{{ badge.name }}">
                                         {{ badge.name }}
                                         @switch (badge.level) {
                                             @case ("Basic") { <b style="color: #deb204">{{ getLevel(badge) }}</b> }
                                             @case ("Intermediate") { <b style="color: #80bf0a">{{ getLevel(badge) }}</b> }
                                             @case ("Advanced") { <b style="color: #2965ff">{{ getLevel(badge) }}</b> }
                                         }
-                                    </span>
+                                    </mat-chip>
                                 }
                             }
-                        </div>
-                    </div>
-                </li>
+                        </mat-chip-set>
+                    </mat-card-content>
+                </mat-card> 
             }
         }
-    </ul>
+    </div>
 </div>

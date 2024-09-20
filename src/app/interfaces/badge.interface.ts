@@ -3,6 +3,7 @@ export interface Badge {
     image: string;
     type: string;
     level: string;
+    link?: string;
 }
 
 export const badges: Badge[] = [
@@ -12,66 +13,77 @@ export const badges: Badge[] = [
         image: 'assets/html.svg',
         type: 'language',
         level: 'Advanced',
+        link: 'html',
     },
     {
         name: 'CSS',
         image: 'assets/css.svg',
         type: 'language',
         level: 'Advanced',
+        link: 'css',
     },
     {
         name: 'Sass',
         image: 'assets/sass.svg',
         type: 'language',
         level: 'Basic',
+        link: 'sass',
     },
     {
         name: 'JavaScript',
         image: 'assets/js.png',
         type: 'language',
         level: 'Advanced',
+        link: 'js',
     },
     {
         name: 'TypeScript',
         image: 'assets/ts.svg',
         type: 'language',
         level: 'Intermediate',
+        link: 'ts',
     },
     {
         name: 'C',
         image: 'assets/c.png',
         type: 'language',
         level: 'Intermediate',
+        link: 'c',
     },
     {
         name: 'C++',
         image: 'assets/cpp.svg',
         type: 'language',
         level: 'Intermediate',
+        link: 'cpp',
     },
     {
         name: 'C#',
         image: 'assets/csharp.svg',
         type: 'language',
         level: 'Basic',
+        link: 'csharp',
     },
     {
         name: 'Java',
         image: 'assets/java.png',
         type: 'language',
         level: 'Basic',
+        link: 'java',
     },
     {
         name: 'Python',
         image: 'assets/python.png',
         type: 'language',
         level: 'Intermediate',
+        link: 'python',
     },
     {
         name: 'SQL',
         image: 'assets/sql.png',
         type: 'language',
         level: 'Intermediate',
+        link: 'sql',
     },
     {
         name: 'PHP',
@@ -146,6 +158,7 @@ export const badges: Badge[] = [
         image: 'assets/angular.ico',
         type: 'frontend',
         level: 'Intermediate',
+        link: 'angular',
     },
     {
         name: 'Angular Material',
@@ -184,9 +197,10 @@ export const badges: Badge[] = [
         image: 'assets/nodejs.svg',
         type: 'backend',
         level: 'Basic',
+        link: 'nodejs',
     },
     {
-        name: 'Express.js',
+        name: 'Express',
         image: 'https://expressjs.com/images/express.png',
         type: 'backend',
         level: '',
@@ -234,19 +248,13 @@ export const badges: Badge[] = [
         level: '',
     },
     {
-        name: 'Express',
-        image: 'assets/express.svg',
-        type: 'backend',
-        level: '',
-    },
-    {
         name: 'Laravel',
         image: 'assets/laravel.svg',
         type: 'backend',
         level: '',
     },
     {
-        name: 'Spring',
+        name: 'Spring Boot',
         image: 'assets/spring.svg',
         type: 'backend',
         level: '',

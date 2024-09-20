@@ -12,20 +12,41 @@
         <app-typing-text [text]="title"/>
     </p>
     @if (load()) {
-        <div class="grid-list">
-            @for (project of Projects; track $index) {
-                @defer (on viewport) {
-                    <app-project-box [project]="project" (loaded)="loaded($event)" />
-                } @placeholder {
-                    <app-project-box [project]="project" [style.opacity]="0" />
+        @if (!selected()) {
+            <div class="grid-button-list">
+                @for (field of fields; track field) {
+                    <button mat-fab extended (click)="fetchProjects($index)" [disabled]="!['Web'].includes(field.name)"><mat-icon>{{ field.icon }}</mat-icon>{{ field.name }}</button>
                 }
-            }
-            @defer (on viewport) {
-                <app-project-box [project]="soon" (loaded)="loaded($event)" />
-            } @placeholder {
-                <app-project-box [project]="soon" [style.opacity]="0" />
-            }
-        </div>
-        <app-footer class="full-width" />
+            </div>
+        } @else {
+            <div>
+                <button mat-fab extended (click)="selected.set(false)"><mat-icon>arrow_back</mat-icon>Back</button>
+            </div>
+            <div class="grid-list">
+                @if (projects().length !== 0) {
+                    @for (project of projects(); track project) {
+                        @defer (on viewport) {
+                            <app-project-box [project]="project" (loaded)="loaded($event)" [index]="$index % 4 + 1" />
+                        } @placeholder {
+                            <mat-card class="project-card-placeholder card-list-fetching-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
+                                <mat-spinner></mat-spinner>
+                            </mat-card>                   
+                        } @loading {
+                            <mat-card class="project-card-placeholder card-list-fetching-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
+                                <mat-spinner></mat-spinner>
+                            </mat-card>
+                        }
+                    }
+                } @else {
+                    <mat-card class="project-card-placeholder" appearance="outlined">
+                        <mat-spinner></mat-spinner>
+                    </mat-card>
+                }
+            </div>
+            <div>
+                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
+            </div>
+            <app-footer class="full-width" />
+        }
     }
 </div>

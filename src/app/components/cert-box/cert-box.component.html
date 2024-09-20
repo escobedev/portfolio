@@ -1,0 +1,59 @@
+@defer (on viewport) {
+    <mat-card class="cert-card card-list-fetching-animation" [class]="'border-' + (index % 4 + 1)" appearance="outlined">
+        <img mat-card-image [style.border-radius.px]="40" src="{{ certificate.image }}" alt="{{ certificate.name }}">
+        @let entity = getEntity(certificate.issuer);
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon [class]="'gradient-text-' + (index % 4 + 1)" [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">workspace_premium</mat-icon>
+            </div>
+            <mat-card-title [class]="'gradient-text-' + (index % 4 + 1)">{{ certificate.name }}</mat-card-title>
+            <mat-card-subtitle>{{ entity.name }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <ul>
+                @for (item of certificate.content; track item) {
+                    <li [innerHTML]="item"></li>
+                }
+            </ul>
+            <mat-chip-set>
+                @for (skill of certificate.skills; track skill) {
+                    @let tag = toTag(skill);
+                    <mat-chip routerLink="/skills/{{ tag.path }}">
+                        <img matChipAvatar [src]="tag.image" [alt]="tag.name">
+                        {{ tag.name }}
+                    </mat-chip>
+                }
+            </mat-chip-set>
+            <mat-list class="cert-details">
+                <a mat-list-item href="{{ certificate.url }}" target="_blank">
+                    <img matListItemIcon [src]="entity.logo" [alt]="entity.name">
+                    <div matListItemTitle>{{ entity.name }}</div>
+                </a>
+                <mat-list-item>
+                    <mat-icon matListItemIcon>event</mat-icon>
+                    <div matListItemTitle>{{ certificate.date.toDate() | date: 'MMMM dd' }}</div>
+                    <div matListItemLine>{{ certificate.date.toDate() | date: 'yyyy' }}</div>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <div class="cert-links">
+                <a href="{{ certificate.url }}" target="_blank" mat-stroked-button>
+                    <mat-icon>open_in_new</mat-icon>
+                    Link
+                </a>
+                <a href="{{ certificate.pdf }}" target="_blank" mat-flat-button>
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    PDF
+                </a>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+} @placeholder {
+    <mat-card class="card-placeholder">
+    </mat-card>
+} @loading {
+    <mat-card class="card-placeholder">
+        <mat-spinner></mat-spinner>
+    </mat-card>
+}

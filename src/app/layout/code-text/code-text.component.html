@@ -1,0 +1,6 @@
+@if (snippet) {
+    <code [class]="'language-' + language" [innerHTML]="html"></code>
+} @else {
+    <pre><code [class]="'language-' + language" [innerHTML]="html"></code></pre>
+}
+<p>{{ snippet }}</p>

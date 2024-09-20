@@ -1,4 +1,4 @@
-<div class="nav-container" [class.is-mobile]="mobileQuery.matches">
+<div class="nav-container" [class.is-mobile]="true">
     <mat-toolbar class="toolbar">
         <img id="logo" width="40" src="assets/logo/escobedev.svg" alt="EscobeDev">
         <strong [style.font-family]="'Arial'">&nbsp;escobe<span class="gradient-text">dev</span></strong>
@@ -9,10 +9,15 @@
         } @else {
             <mat-nav-list class="flex-list">
                 @for (a of menu; track a) {
-                    <a mat-list-item [activated]="isActivated(a.route)" routerLink="{{ a.route || '.' }}" (click)="mobileQuery.matches ? snav.close() : null">
-                        @if (a.name === 'Codex') { <div matListItemTitle>{{ random() }}</div> }
-                        @else { <div matListItemTitle>{{ a.name }}</div> }
-                    </a>
+                    @if (a.name !== 'Codex') {
+                        <a mat-list-item [activated]="isActivated(a.route)" routerLink="{{ a.route || '.' }}" (click)="mobileQuery.matches ? snav.close() : null">
+                            <div matListItemTitle>{{ a.name }}</div>
+                        </a>
+                    } @else {
+                        <a mat-list-item (click)="mobileQuery.matches ? snav.close() : null; openDialog();">
+                            <div matListItemTitle>{{ random() }}</div>
+                        </a>
+                    }
                 }
             </mat-nav-list>
             <button mat-icon-button [matTooltip]="currentTheme === 'dark' ? 'Light Mode': 'Dark Mode'" (click)="toggleTheme()">
@@ -21,15 +26,21 @@
         }     
     </mat-toolbar>
 
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 56">
         <mat-sidenav #snav position="end" [mode]="'over'" [fixedInViewport]="mobileQuery.matches" [fixedTopGap]="56">
             <mat-nav-list>
                 @for (a of menu; track a) {
-                    <a mat-list-item [activated]="isActivated(a.route)" routerLink="{{ a.route || '.' }}" (click)="mobileQuery.matches ? snav.close() : null">
-                        <mat-icon matListItemIcon>{{ a.icon }}</mat-icon>
-                        @if (a.name === 'Codex') { <div matListItemTitle>{{ random() }}</div> }
-                        @else { <div matListItemTitle>{{ a.name }}</div> }
-                    </a>
+                    @if (a.name !== 'Codex') {
+                        <a mat-list-item [activated]="isActivated(a.route)" routerLink="{{ a.route || '.' }}" (click)="mobileQuery.matches ? snav.close() : null">
+                            <mat-icon matListItemIcon>{{ a.icon }}</mat-icon>
+                            <div matListItemTitle>{{ a.name }}</div>
+                        </a>
+                    } @else {
+                        <a mat-list-item (click)="mobileQuery.matches ? snav.close() : null; openDialog();">
+                            <mat-icon matListItemIcon>{{ a.icon }}</mat-icon>
+                            <div matListItemTitle>{{ random() }}</div>
+                        </a>
+                    }
                 }
                 <button mat-fab extended (click)="toggleTheme()">
                     <mat-icon matListItemIcon>{{ currentTheme === 'dark' ? 'dark_mode' : 'light_mode' }}</mat-icon>

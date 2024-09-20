@@ -1,9 +1,9 @@
-<mat-card class="job-card card-list-fetching-animation" appearance="outlined">
+<mat-card class="job-card card-list-fetching-animation" [class]="'border-' + index" appearance="outlined">
     <mat-card-header>
         <div mat-card-avatar [style.width.px]="45" [style.height.px]="45">
-            <div class="logo-wrapper"><img src="{{ job.company.logo }}" alt="{{ job.company.name }}"></div>
+            <div class="logo-wrapper" [class]="'border-' + index"><img src="{{ job.company.logo }}" alt="{{ job.company.name }}"></div>
         </div>
-        <mat-card-title class="gradient-text"><strong>{{ job.position }}</strong></mat-card-title>
+        <mat-card-title [class]="'gradient-text-' + index"><strong>{{ job.position }}</strong></mat-card-title>
         <mat-card-subtitle>{{ job.company.industry }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>

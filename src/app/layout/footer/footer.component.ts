@@ -22,8 +22,6 @@ import { ThemeService } from '../../services/theme.service';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
-  privacyPolicyVisible = false;
-  termsOfServiceVisible = false;
 
   constructor(
     private theme: ThemeService,

@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  currentTheme = localStorage.getItem('theme');
+  get currentTheme(): string | null { return localStorage.getItem('theme'); }
+  set currentTheme(theme: string | null) { theme ? localStorage.setItem('theme', theme) : null; }
 
   constructor() {
     if (this.currentTheme) {
