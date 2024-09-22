@@ -1,4 +1,4 @@
-<mat-card class="job-card card-list-fetching-animation" [class]="'border-' + index" appearance="outlined">
+<mat-card class="job-card fetch-animation" [class]="'border-' + index" appearance="outlined">
     <mat-card-header>
         <div mat-card-avatar [style.width.px]="45" [style.height.px]="45">
             <div class="logo-wrapper" [class]="'border-' + index"><img src="{{ job.company.logo }}" alt="{{ job.company.name }}"></div>
@@ -23,8 +23,8 @@
         <mat-chip-set>
             @for (badge of job.hardSkills; track $index) {
                 <mat-chip>
-                    <img matChipAvatar src="{{ badge.image }}" alt="{{ badge.name }}">
-                    {{ badge.name }}
+                    <img matChipAvatar src="{{ badge }}" alt="{{ badge }}">
+                    {{ badge }}
                 </mat-chip>
             }
         </mat-chip-set>
@@ -32,8 +32,8 @@
         <mat-chip-set>
             @for (badge of job.softSkills; track $index) {
                 <mat-chip>
-                    <img matChipAvatar src="{{ badge.image }}" alt="{{ badge.name }}">
-                    {{ badge.name }}
+                    <img matChipAvatar src="{{ badge }}" alt="{{ badge }}">
+                    {{ badge }}
                 </mat-chip>
             }
         </mat-chip-set>

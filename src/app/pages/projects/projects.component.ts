@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ProjectBoxComponent } from '../../components/project-box/project-box.component';
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
 import { FooterComponent } from "../../layout/footer/footer.component";
-import { Project, blockchain_projects, cyber_security_projects, data_analytics_projects, desktop_projects, game_dev_projects, mobile_projects, multiplatform_projects, projects, web_projects } from '../../interfaces/project.interface';
 import { FirestoreService } from '../../services/firestore.service';
-import { Project as Pro } from '../../utils/project';
+import { Project } from '../../utils/project';
+import { Tag } from '../../utils/tag';
 
 @Component({
   selector: 'app-projects',
@@ -16,34 +18,27 @@ import { Project as Pro } from '../../utils/project';
   imports: [
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     ProjectBoxComponent,
     TypingTextComponent,
     FooterComponent,
   ],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
   protected readonly title = 'Projects';
+  protected readonly dataLoaded = signal(false);
+  protected readonly hide = signal(false);
   protected readonly load = signal(false);
-  protected readonly selected = signal(false);
-  protected readonly Projects = signal<Pro[]>([]);
-  protected readonly WebProjects = web_projects;
-  protected readonly MobileProjects = mobile_projects;
-  protected readonly DesktopProjects = desktop_projects;
-  protected readonly MultiplatformProjects = multiplatform_projects;
-  protected readonly DataAnalyticsProjects = data_analytics_projects;
-  protected readonly CyberSecurityProjects = cyber_security_projects;
-  protected readonly BlockchainProjects = blockchain_projects;
-  protected readonly GameDevProjects = game_dev_projects;
-  protected readonly projects = signal<Pro[]>([]);
-  protected readonly soon = new Pro(
-    'Coming Soon',
-    '', '', [], [], [], '', ''
-  );
+  protected readonly selected = signal<string | null>(null);
+  protected readonly projects = signal<Project[]>([]);
+  protected readonly allTags = signal<Tag[]>([]);
+  protected selectedTags: string[] = [];
+  private readonly soon = new Project('Coming Soon', '', '', [], [], [], '', '');
 
   constructor(
     private readonly db: FirestoreService,
@@ -54,29 +49,67 @@ export class ProjectsComponent {
     }, 100 * (this.title.length + 1));
   }
 
-  fetchProjects(index: number) {
+  protected fetchProjects(field: string) {
     this.projects.set([]);
+    this.selected.set(field);
     this.db
-    .queryCollection('projects', 'type', this.fields[index].name)
-    .subscribe((projects: Pro[]) => {
-      this.Projects.set([...(projects as Pro[]), this.soon]);
-      this.loadProject(0);
+    .queryCollection('projects', 'type', field)
+    .subscribe((projects: Project[]) => {
+      this.projects.set([...projects, this.soon]);
+      this.loadTags();
     });
-    this.selected.set(true);
   }
 
-  private loadProject(index: number) {
-    if (index < this.Projects().length)
-      this.projects.update(oldProjects => {
-        return [...oldProjects, this.Projects()[index]];
+  private loadTags() {
+    for (const project of this.projects()) {
+      if (project.name === 'Coming Soon')
+        continue;
+      let tags: Tag[] = [];
+      for (const tag of project.tags)
+        this.db
+        .loadDoc('tags', tag as string)
+        .subscribe((tagData: Tag) => {
+          tags.push(tagData);
+          this.allTags.update((tags) => {
+            if (tags.every(tag => tag.name !== tagData.name))
+              tags.push(tagData);
+            this.dataLoaded.set(true);
+            return tags;
+          });
+        });
+      this.projects.update((projects) => {
+        const index = projects.findIndex((c) => c.name === project.name);
+        projects[index].tags = tags;
+        return projects;
       });
+    }
   }
 
-  loaded(name: string) {
-    if (name) this.loadProject(this.projects().length);
+  protected toggleTag(tag: Tag) {
+    if (!this.selectedTags.includes(tag.path))
+      this.selectedTags.push(tag.path);
+    else
+      this.selectedTags.splice(this.selectedTags.indexOf(tag.path), 1);
+    this.loadSelections();
   }
 
-  scrollUp() {
+  private loadSelections() {
+    this.projects.set([]);
+    const field = this.selected() as string;
+    if (this.selectedTags.length === 0)
+      this.db
+      .queryCollectionByTags(
+        'projects', this.selectedTags,
+        'type', [ field ]
+      )
+      .subscribe((projects: Project[]) => {
+        this.projects.set([...projects, this.soon]);
+        this.loadTags();
+      });
+    else this.fetchProjects(field);
+  }
+
+  protected scrollUp() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { Certificate } from '../../utils/certificate';
 import { Entity } from '../../utils/entity';
@@ -23,6 +24,7 @@ import { Tag } from '../../utils/tag';
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     RouterLink,
   ],
   templateUrl: './cert-box.component.html',
@@ -33,8 +35,8 @@ export class CertBoxComponent {
   @Input() index: number = 0;
   @Input() allEntities: Entity[] = [];
 
-  toTag(skill: Tag | Software): Tag {
-    return skill as Tag;
+  toTag(tag: string | Tag): Tag {
+    return tag as Tag;
   }
   
   getEntity(entity: string): Entity {

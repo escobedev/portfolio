@@ -1,36 +1,59 @@
-@if (project.name != 'Coming Soon') {
-    <mat-card class="project-card card-list-fetching-animation" [class]="'border-' + index" appearance="outlined">
-        <mat-card-header>
-            <mat-icon mat-card-avatar [class]="'gradient-text-' + index" [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">{{ project.icon }}</mat-icon>
-            <mat-card-title [class]="'gradient-text-' + index"><strong>{{ project.name }}</strong></mat-card-title>
-            <mat-card-subtitle>{{ project.link }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <p><strong>Technologies:</strong></p>
-            <mat-chip-set>
-                @for (tag of tags(); track tag) {
-                    <mat-chip routerLink="/skills/{{ tag.path }}">
-                        <img matChipAvatar src="{{ tag.image }}" alt="{{ tag.name }}">
-                        <span>{{ tag.name }}</span>
-                    </mat-chip>
-                }
-            </mat-chip-set>
-            <p><strong>Details:</strong></p>
-            <ul>
-                @for (detail of project.details; track $index) {
-                    <li>{{ detail }}</li>
-                }
-            </ul>
-        </mat-card-content>
-        <mat-card-actions>
-            <div class="project-links">
-                <a mat-flat-button href="{{ project.link }}" target="_blank"><mat-icon>open_in_new</mat-icon>Live Demo</a>
-                <a mat-stroked-button href="{{ project.github }}" target="_blank"><mat-icon>code</mat-icon>View Code</a>
-            </div>
-        </mat-card-actions>
-    </mat-card>
-} @else {
-    <mat-card class="coming-soon card-list-fetching-animation">
-        <img src="assets/coming-soon.png" alt="Coming Soon">
-    </mat-card>
+@defer (on viewport) {
+    @if (project.name != 'Coming Soon') {
+        <mat-card class="project-card fetch-animation" [class]="'border-' + index" appearance="outlined">
+            <mat-card-header>
+                <mat-icon mat-card-avatar [class]="'gradient-text-' + index" [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">{{ project.icon }}</mat-icon>
+                <mat-card-title [class]="'gradient-text-' + index"><strong>{{ project.name }}</strong></mat-card-title>
+                <mat-card-subtitle>{{ project.link }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p><strong>Technologies:</strong></p>
+                <mat-chip-set>
+                    @for (_tag of project.tags; track $index) {
+                        @let tag = toTag(_tag);
+                        <mat-chip routerLink="/skills/{{ tag.path }}" matTooltip="{{ tag.name }} {{ project.technologies[$index].version }}">
+                            <div
+                                matChipAvatar
+                                [style.height]="'100%'"
+                                [style.background-image]="'url(' + tag.image + ')'"
+                                [style.background-size]="'contain'"
+                                [style.background-position]="'center'"
+                                [style.background-repeat]="'no-repeat'"
+                            ></div>
+                            <span>{{ tag.name }}</span>
+                        </mat-chip>
+                    }
+                </mat-chip-set>
+                <p><strong>Details:</strong></p>
+                <ul>
+                    @for (detail of project.details; track $index) {
+                        <li>{{ detail }}</li>
+                    }
+                </ul>
+            </mat-card-content>
+            <mat-card-actions>
+                <div class="project-links">
+                    <a mat-flat-button href="{{ project.link }}" target="_blank"><mat-icon>open_in_new</mat-icon>Live Demo</a>
+                    <a mat-stroked-button href="{{ project.github }}" target="_blank"><mat-icon>code</mat-icon>View Code</a>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    } @else {
+        <mat-card class="coming-soon fetch-animation">
+            <img src="assets/coming-soon.png" alt="Coming Soon">
+        </mat-card>
+    }
+} @placeholder {
+    <div class="project-card-placeholder">
+        <mat-spinner></mat-spinner>
+    </div>
+} @loading {
+    <div class="project-card-placeholder">
+        <mat-spinner></mat-spinner>
+    </div>
+} @error {
+    <div class="project-card-placeholder">
+        <mat-icon>error</mat-icon>
+        <p>Error loading project.</p>
+    </div>
 }

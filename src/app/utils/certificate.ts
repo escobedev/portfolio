@@ -14,8 +14,8 @@ export class Certificate extends Achievement {
         image: string,
         pdf: string,
         content: string[],
-        tags: string[],
-        skills: (Tag | Software)[],
+        tags: (string | Tag)[],
+        skills: Software[],
     ) {
         super(name, issuer, date, url, image, pdf, content, tags, skills);
         this._code = code;

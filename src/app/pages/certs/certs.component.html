@@ -15,11 +15,9 @@
     </p>
     @if (load()) {
         @if (dataLoaded()) {
-            <div class="flex-container card-list-fetching-animation">
-                <div class="title">
-                    <div mat-card-avatar>
-                        <mat-icon [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">workspace_premium</mat-icon>
-                    </div>
+            <div class="flex-container fetch-animation">
+                <div class="page-title">
+                    <mat-icon [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">workspace_premium</mat-icon>
                     <h1>Certificates</h1>
                 </div>
                 <mat-tab-group class="full-width" mat-stretch-tabs="false" mat-align-tabs="center" dynamicHeight>
@@ -32,7 +30,14 @@
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
                                 @for (tag of allTags(); track $index) {
                                     <mat-chip-option (click)="toggleTag(tag)">
-                                        <img matChipAvatar height="100px" [src]="tag.image" [alt]="tag.name">
+                                        <div
+                                            matChipAvatar
+                                            [style.height]="'100%'"
+                                            [style.background-image]="'url(' + tag.image + ')'"
+                                            [style.background-size]="'contain'"
+                                            [style.background-position]="'center'"
+                                            [style.background-repeat]="'no-repeat'"
+                                        ></div>
                                         {{ tag.name }}
                                     </mat-chip-option>
                                 }
@@ -56,6 +61,10 @@
                         </div>
                     </mat-tab>
                 </mat-tab-group>
+                <p class="section-title">
+                    Total&nbsp;
+                    <mat-chip>{{ certs().length }}</mat-chip>
+                </p>
                 <div class="grid-list">
                     @for (certificate of certs(); track $index) {
                         <app-cert-box [certificate]="certificate" [index]="$index" [allEntities]="allEntities()"/>

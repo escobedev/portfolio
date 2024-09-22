@@ -30,7 +30,7 @@ export class JobBoxComponent implements OnInit {
     this.loaded.emit(this.job.position);
   }
 
-  convertDate(startDate: Date, endDate: Date) {
+  protected convertDate(startDate: Date, endDate: Date) {
     const years = endDate.getFullYear() - startDate.getFullYear();
     const months = endDate.getUTCMonth() - startDate.getUTCMonth();
     return `${ years ? years + 'years, ' : '' }${ months < 0 ? months + 13 : months + 1 } months`;

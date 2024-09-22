@@ -55,7 +55,7 @@ export class AboutComponent {
     });
   }
   
-  getDelay(index: number, speed: number) {
+  protected getDelay(index: number, speed: number) {
     let length = 0;
     for (let n = 0; n < index; n++) {
       length += this.paragraphs[n].replace(/<[^>]*>/g, '').length + 1;

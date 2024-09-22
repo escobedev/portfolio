@@ -37,6 +37,6 @@ export class FooterComponent {
   }
 
   get currentTheme() {
-    return this.theme.currentTheme;
+    return this.theme.currentTheme ?? 'dark';
   }
 }

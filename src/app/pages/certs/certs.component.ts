@@ -4,12 +4,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
 import { FirestoreService } from '../../services/firestore.service';
 import { Certificate } from '../../utils/certificate';
 import { Entity } from '../../utils/entity';
 import { Tag } from '../../utils/tag';
-import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
 
 @Component({
   selector: 'app-certs',
@@ -20,17 +20,17 @@ import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
     MatIconModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    CertBoxComponent,
     TypingTextComponent,
-    CertBoxComponent
 ],
   templateUrl: './certs.component.html',
   styleUrl: './certs.component.scss'
 })
 export class CertsComponent {
   protected readonly title: string = 'Certificates';
-  protected readonly load = signal(false);
   protected readonly dataLoaded = signal(false);
   protected readonly hide = signal(false);
+  protected readonly load = signal(false);
   protected readonly certs = signal<Certificate[]>([]);
   protected readonly allTags = signal<Tag[]>([]);
   protected readonly allEntities = signal<Entity[]>([]);
@@ -49,8 +49,9 @@ export class CertsComponent {
   }
 
   private reset() {
-    this.selectedTags = [];
-    this.db.loadCollection('certs').subscribe((data: Certificate[]) => {
+    this.db
+    .loadCollection('certs')
+    .subscribe((data: Certificate[]) => {
       this.certs.set(data);
       this.loadTags();
     });
@@ -60,7 +61,9 @@ export class CertsComponent {
     for (const cert of this.certs()) {
       let tags: Tag[] = [];
       for (const tag of cert.tags)
-        this.db.loadDoc('tags', tag).subscribe((tagData: Tag) => {
+        this.db
+        .loadDoc('tags', tag as string)
+        .subscribe((tagData: Tag) => {
           tags.push(tagData);
           this.allTags.update((tags) => {
             if (tags.every(tag => tag.name !== tagData.name)) tags.push(tagData);
@@ -69,10 +72,12 @@ export class CertsComponent {
         });
       this.certs.update((certs) => {
         const index = certs.findIndex((c) => c.code === cert.code);
-        certs[index].skills = tags;
+        certs[index].tags = tags;
         return certs;
       });
-      this.db.loadDoc('entities', cert.issuer).subscribe((entityData: Entity) => {
+      this.db
+      .loadDoc('entities', cert.issuer)
+      .subscribe((entityData: Entity) => {
         this.allEntities.update((entities) => {
           if (entities.every(entity => entity.name !== entityData.name)) entities.push(entityData);
           return entities;
@@ -82,7 +87,7 @@ export class CertsComponent {
     }
   }
 
-  toggleTag(tag: Tag) {
+  protected toggleTag(tag: Tag) {
     if (!this.selectedTags.includes(tag.path))
       this.selectedTags.push(tag.path);
     else
@@ -90,7 +95,7 @@ export class CertsComponent {
     this.loadSelections();
   }
 
-  toggleEntity(entity: Entity) {
+  protected toggleEntity(entity: Entity) {
     if (!this.selectedEntities.includes(entity.path))
       this.selectedEntities.push(entity.path);
     else
@@ -99,15 +104,21 @@ export class CertsComponent {
   }
 
   private loadSelections() {
+    this.certs.set([]);
     if (this.selectedEntities.length > 0 || this.selectedTags.length > 0)
-      this.db.queryCollectionByTags('certs', this.selectedTags, 'issuer', this.selectedEntities).subscribe((data: Certificate[]) => {
+      this.db
+      .queryCollectionByTags(
+        'certs', this.selectedTags,
+        'issuer', this.selectedEntities
+      )
+      .subscribe((data: Certificate[]) => {
         this.certs.set(data);
         this.loadTags();
       });
     else this.reset();
   }
 
-  scrollUp() {
+  protected scrollUp() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

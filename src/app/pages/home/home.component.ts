@@ -6,10 +6,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { projects } from '../../interfaces/project.interface';
 import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
 import { ThemeService } from '../../services/theme.service';
+import { FirestoreService } from '../../services/firestore.service';
+import { Project } from '../../utils/project';
+import { Tag } from '../../utils/tag';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +25,7 @@ import { ThemeService } from '../../services/theme.service';
     MatProgressSpinnerModule,
     RouterLink,
     FooterComponent,
-    TypingTextComponent
+    TypingTextComponent,
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -33,8 +35,12 @@ export class HomeComponent {
   protected readonly load = signal(false);
   protected readonly hide = signal(false);
   protected readonly step = signal(0);
+  protected latest_projects: Project[] = [];
 
-  constructor(private theme: ThemeService) {
+  constructor(
+    private readonly theme: ThemeService,
+    private readonly db: FirestoreService,
+  ) {
     window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
@@ -42,15 +48,35 @@ export class HomeComponent {
         this.hide.set(true);
       }, 1000);
     }, 200 * (this.title.length + 1));
+    db.loadCollection('projects', 5).subscribe((projects: Project[]) => {
+      this.latest_projects = projects;
+      this.loadProjectTags();
+    });
   }
 
-  setStep(index: number) {
+  protected setStep(index: number) {
     this.step.set(index);
   }
 
-  get currentTheme() {
-    return this.theme.currentTheme;
+  private loadProjectTags() {
+    for (const project of this.latest_projects) {
+        let tags: Tag[] = [];
+        for (const tag of project.tags)
+            this.db
+            .loadDoc('tags', tag as string)
+            .subscribe((tagData: Tag) => {
+                tags.push(tagData);
+            });
+        const index = this.latest_projects.findIndex((c) => c.name === project.name);
+        this.latest_projects[index].tags = tags;
+    }
   }
 
-  latest_projects = [...projects].slice(0, 3);
+  protected toTag(tag: string | Tag) {
+    return tag as Tag;
+  }
+
+  get currentTheme() {
+    return this.theme.currentTheme ?? 'dark';
+  }
 }

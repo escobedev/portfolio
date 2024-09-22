@@ -1,5 +1,4 @@
 import { Company, companies } from "./company.interface";
-import { Badge, badges } from "./badge.interface";
 
 export interface JobEntry {
     position: string,
@@ -7,8 +6,8 @@ export interface JobEntry {
     location: string,
     startDate: Date,
     endDate: Date,
-    hardSkills: Badge[],
-    softSkills: Badge[],
+    hardSkills: string[],
+    softSkills: string[],
     responsibilities: string[],
 }
 
@@ -19,7 +18,7 @@ export const jobEntries: JobEntry[] = [
         location: 'San Isidro, Lima, Perú',
         startDate: new Date(2023, 8),
         endDate: new Date(2023, 1),
-        hardSkills: badges.filter(badge => [
+        hardSkills: [
             'Excel',
             'Google Sheets',
             'Google Earth',
@@ -28,8 +27,8 @@ export const jobEntries: JobEntry[] = [
             'Fiber Optics',
             'Low Voltage Design',
             'Windows',
-        ].includes(badge.name)),
-        softSkills: badges.filter(badge => [
+        ],
+        softSkills: [
             'English',
             'Chinese',
             'Communication',
@@ -37,7 +36,7 @@ export const jobEntries: JobEntry[] = [
             'Flexibility',
             'Adaptability',
             'Problem-Solving',
-        ].includes(badge.name)),
+        ],
         responsibilities: [
             'General support in management, supervision and coordination in PA, OSP and IT.',
         ],
@@ -48,22 +47,22 @@ export const jobEntries: JobEntry[] = [
         location: 'San Isidro, Lima, Perú',
         startDate: new Date(2022, 12),
         endDate: new Date(2023, 8),
-        hardSkills: badges.filter(badge => [
+        hardSkills: [
             'Excel',
             'Google Sheets',
             'Google Earth',
             'CRM',
             'Fiber Optics',
             'Low Voltage Design',
-        ].includes(badge.name)),
-        softSkills: badges.filter(badge => [
+        ],
+        softSkills: [
             'English',
             'Chinese',
             'Communication',
             'Collaboration',
             'Flexibility',
             'Adaptability',
-        ].includes(badge.name)),
+        ],
         responsibilities: [
             'Review of node energization deliverables.',
             'Low voltage network design.',
@@ -76,18 +75,18 @@ export const jobEntries: JobEntry[] = [
         location: 'San Isidro, Lima, Perú',
         startDate: new Date(2022, 9),
         endDate: new Date(2022, 11),
-        hardSkills: badges.filter(badge => [
+        hardSkills: [
             'Excel',
             'Google Sheets',
             'CRM',
             'Fiber Optics',
-        ].includes(badge.name)),
-        softSkills: badges.filter(badge => [
+        ],
+        softSkills: [
             'English',
             'Chinese',
             'Communication',
             'Collaboration',
-        ].includes(badge.name)),
+        ],
         responsibilities: [
             'Logistical control of fiber optic network implementation materials for OSP and IT.',
         ],
@@ -98,16 +97,16 @@ export const jobEntries: JobEntry[] = [
         location: 'Remote/Virtual',
         startDate: new Date(2023, 3),
         endDate: new Date(2023, 5),
-        hardSkills: badges.filter(badge => [
+        hardSkills: [
             'Google Search',
             'Youtube',
             'Play Store',
-        ].includes(badge.name)),
-        softSkills: badges.filter(badge => [
+        ],
+        softSkills: [
             'English',
             'Critical Thinking',
             'Time Management',
-        ].includes(badge.name)),
+        ],
         responsibilities: [
             'Review online search results with the aim of improving internet search results (Google search, Play Store and YouTube).',
             'Provide feedback and analysis on content found in search engine results.',
@@ -120,16 +119,16 @@ export const jobEntries: JobEntry[] = [
         location: 'Remote/Virtual',
         startDate: new Date(2023, 0),
         endDate: new Date(2023, 2),
-        hardSkills: badges.filter(badge => [
+        hardSkills: [
             'Google Search',
             'Youtube',
             'Play Store',
-        ].includes(badge.name)),
-        softSkills: badges.filter(badge => [
+        ],
+        softSkills: [
             'English',
             'Critical Thinking',
             'Time Management',
-        ].includes(badge.name)),
+        ],
         responsibilities: [
             'Review online ads to improve their content, quality and design.',
             'Provide feedback and analysis on ads found in search engine results (Google Search, Play Store and YouTube).',
@@ -143,17 +142,17 @@ export const jobEntries: JobEntry[] = [
         location: 'Surco, Lima, Perú',
         startDate: new Date(2022, 0),
         endDate: new Date(2022, 6),
-        hardSkills: badges.filter(badge => [
+        hardSkills: [
             'Excel',
             'Google Sheets',
             'Fiber Optics',
-        ].includes(badge.name)),
-        softSkills: badges.filter(badge => [
+        ],
+        softSkills: [
             'Problem-Solving',
             'Time Management',
             'Communication',
             'Collaboration',
-        ].includes(badge.name)),
+        ],
         responsibilities: [
             'Fiber Optic Network Monitoring and Control.',
             'ONT\'s devices and VoIP service instalation and configuration.',

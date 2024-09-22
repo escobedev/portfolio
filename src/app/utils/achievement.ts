@@ -10,8 +10,8 @@ export class Achievement {
     protected _image: string;
     protected _pdf: string;
     protected _content: string[];
-    protected _tags: string[];
-    protected _skills: (Tag | Software)[];
+    protected _tags: (string | Tag)[];
+    protected _skills: Software[];
     
     constructor(
         name: string,
@@ -21,8 +21,8 @@ export class Achievement {
         image: string,
         pdf: string,
         content: string[],
-        tags: string[],
-        skills: (Tag | Software)[],
+        tags: (string | Tag)[],
+        skills: Software[],
     ) {
         this._name = name;
         this._issuer = issuer;
@@ -50,9 +50,9 @@ export class Achievement {
     get content() { return this._content; }
     set content(content: string[]) { this._content = content; }
     get tags() { return this._tags; }
-    set tags(tags: string[]) { this._tags = tags; }
+    set tags(tags: (string | Tag)[]) { this._tags = tags; }
     get skills() { return this._skills; }
-    set skills(skills: (Tag | Software)[]) { this._skills = skills; }
+    set skills(skills: Software[]) { this._skills = skills; }
 
     addContent(content: string) { this._content.push(content); }
     updateContent(index: number, content: string) { this._content[index] = content; }
@@ -74,8 +74,8 @@ export class Achievement {
     removeTag(index: number) { this._tags.splice(index, 1); }
     clearTags() { this._tags = []; }
 
-    addSkill(skill: Tag | Software) { this._skills.push(skill); }
-    updateSkill(skill: (Tag | Software), index: number) { this._skills[index] = skill; }
+    addSkill(skill: Software) { this._skills.push(skill); }
+    updateSkill(skill: Software, index: number) { this._skills[index] = skill; }
     moveSkill(previousIndex: number, newIndex: number) {
         const skill = this._skills[previousIndex];
         this._skills.splice(previousIndex, 1);

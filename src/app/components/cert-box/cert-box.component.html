@@ -1,5 +1,5 @@
 @defer (on viewport) {
-    <mat-card class="cert-card card-list-fetching-animation" [class]="'border-' + (index % 4 + 1)" appearance="outlined">
+    <mat-card class="cert-card fetch-animation" [class]="'border-' + (index % 4 + 1)" appearance="outlined">
         <img mat-card-image [style.border-radius.px]="40" src="{{ certificate.image }}" alt="{{ certificate.name }}">
         @let entity = getEntity(certificate.issuer);
         <mat-card-header>
@@ -16,10 +16,17 @@
                 }
             </ul>
             <mat-chip-set>
-                @for (skill of certificate.skills; track skill) {
-                    @let tag = toTag(skill);
-                    <mat-chip routerLink="/skills/{{ tag.path }}">
-                        <img matChipAvatar [src]="tag.image" [alt]="tag.name">
+                @for (_tag of certificate.tags; track _tag) {
+                    @let tag = toTag(_tag);
+                    <mat-chip routerLink="/skills/{{ tag.path }}" matTooltip="{{ tag.name }} {{ certificate.skills[$index].version }}">
+                        <div
+                            matChipAvatar
+                            [style.height]="'100%'"
+                            [style.background-image]="'url(' + tag.image + ')'"
+                            [style.background-size]="'contain'"
+                            [style.background-position]="'center'"
+                            [style.background-repeat]="'no-repeat'"
+                        ></div>
                         {{ tag.name }}
                     </mat-chip>
                 }
@@ -51,9 +58,15 @@
     </mat-card>
 } @placeholder {
     <mat-card class="card-placeholder">
+        <mat-spinner></mat-spinner>
     </mat-card>
 } @loading {
     <mat-card class="card-placeholder">
         <mat-spinner></mat-spinner>
+    </mat-card>
+} @error {
+    <mat-card class="card-placeholder">
+        <mat-icon>error</mat-icon>
+        <p>Error loading certificate</p>
     </mat-card>
 }

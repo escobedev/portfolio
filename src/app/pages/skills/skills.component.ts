@@ -1,14 +1,34 @@
 import { Component, signal } from '@angular/core';
-import { SkillsBoxComponent } from '../../components/skills-box/skills-box.component';
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
+import { DecimalPipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { FooterComponent } from "../../layout/footer/footer.component";
-import { badges } from '../../interfaces/badge.interface';
+import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
+import { FirestoreService } from '../../services/firestore.service';
+import { Tag } from '../../utils/tag';
+import { Skills } from '../../utils/skills';
+import { SoftSkillTag, SoftSkills } from '../../utils/soft-skills';
+import { hardSkills, languages } from '../../utils/skills-lists';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
   imports: [
-    SkillsBoxComponent,
+    DecimalPipe,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MatTooltipModule,
+    RouterLink,
     TypingTextComponent,
     FooterComponent,
 ],
@@ -17,240 +37,87 @@ import { badges } from '../../interfaces/badge.interface';
 })
 export class SkillsComponent {
   protected readonly title: string = 'Skills';
-  protected readonly boxes = signal<Box[]>([]);
+  protected readonly hide = signal(false);
   protected readonly load = signal(false);
+  protected readonly loaded = signal(false);
+  protected readonly hardSkillsTags: Skills[] = [];
+  protected readonly softSkillsTags: SoftSkills[] = [];
+  protected readonly languageTags: Skills[] = [];
 
-  constructor() {
+  constructor(private readonly db: FirestoreService) {
     window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
-      this.loadBoxes(0);
+      setTimeout(() => {
+        this.hide.set(true);
+      }, 1000);
     }, 100 * (this.title.length + 1));
+    db
+    .loadDoc('data', 'skills')
+    .subscribe((data: any) => {
+      const hardList = data['hard-skills'];
+      const softList = data['soft-skills'] as SoftSkills[];
+      const langList = data['languages'];
+
+      for (const field of hardSkills) {
+        db
+        .queryCollection('tags', 'type', field)
+        .subscribe((tags: Tag[]) => {
+          const cleanTags: Tag[] = [];
+          for (const tag of tags)
+            if (hardList.includes(tag.path))
+              cleanTags.push(tag);
+          if (cleanTags.length > 0)
+            this.hardSkillsTags.push({
+              name: field,
+              skills: cleanTags,
+            });
+        });
+      }
+
+      for (const set of softList) {
+        let tags: SoftSkillTag[] = [];
+        for (const tag of set.skills)
+          db
+          .loadDoc('soft-skill-tags', tag as string)
+          .subscribe((tag: SoftSkillTag) => {
+            tags.push(tag);
+          });
+        this.softSkillsTags.push({
+          name: set.name,
+          image: set.image,
+          skills: tags,
+        });
+      }
+
+      for (const field of languages) {
+        db
+        .queryCollection('tags', 'type', field)
+        .subscribe((tags: Tag[]) => {
+          const cleanTags: Tag[] = [];
+          for (const tag of tags)
+            if (langList.includes(tag.path))
+              cleanTags.push(tag);
+          if (cleanTags.length > 0)
+            this.languageTags.push({
+              name: field,
+              skills: cleanTags,
+            });
+        });
+      }
+
+      this.loaded.set(true);
+    })
   }
 
-  private loadBoxes(index: number) {
-    if (index < this.Boxes.length)
-      this.boxes.update(oldBoxes => {
-        return [...oldBoxes, this.Boxes[index]];
-      });
+  protected toSSTag(tag: string | SoftSkillTag) {
+    return tag as SoftSkillTag;
   }
-  loaded(name: string) {
-    if (name) this.loadBoxes(this.boxes().length);
-  }
-
-  badges = badges;
-
-  getBadges(list: string[]) {
-    return this.badges.filter(badge => list.includes(badge.name));
+  protected avgLevels(tags: (string | SoftSkillTag)[]) {
+    let sum = 0;
+    for (const tag of tags)
+      sum += this.toSSTag(tag).level * 10;
+    return sum / tags.length;
   }
 
-  languages = [
-    'JavaScript', 'TypeScript', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL',
-    //'PHP',
-    //'Ruby',
-    //'Swift',
-    //'Rust',
-    //'Go',
-    //'Scala',
-    //'Kotlin',
-    //'R',
-  ];
-
-  frontends = [
-    'HTML', 'CSS', 'Sass', 
-    //'Bootstrap',
-    //'Tailwind CSS',
-    //'React',
-    'Angular',
-    'Angular Material'
-    //'Vue.js',
-    //'Svelte',
-    //'Nuxt.js',
-    //'Next.js',
-  ];
-
-  backends = [
-    'Node.js',
-    //'Express.js',
-    //'Nginx',
-    //'Apache',
-    //'Tomcat',
-    //'IIS',
-    //'Flask',
-    //'Django',
-    //'FastAPI',
-    //'Express',
-    //'Laravel',
-    //'Spring',
-    //'Ruby on Rails',
-    //'ASP.NET',
-  ];
-
-  databases = [
-    'MySQL',
-    //'PostgreSQL',
-    //'MongoDB',
-    'Firebase',
-    //'Redis',
-    //'Oracle',
-    'SQLite',
-  ];
-
-  data = [
-    'Excel',
-    //'Tableau',
-    'Power BI',
-    'Google Sheets',
-    'AppScript',
-    'AppSheet',
-    'Pandas',
-    'NumPy',
-    'Matplotlib',
-    //'Seaborn',
-    //'Scikit-Learn',
-    //'TensorFlow',
-    //'Keras',
-    //'PyTorch',
-    //'Spark',
-  ];
-
-  versionControl = [
-    //'Git',
-    'GitHub',
-    //'GitLab',
-  ];
-
-  packageManagers = [
-    //'NPM',
-    //'Yarn',
-    //'NuGet',
-    //'Maven',
-  ];
-
-  cloud = [
-    //'AWS',
-    //'Azure',
-    //'Google Cloud',
-    //'Digital Ocean',
-    //'Heroku',
-    //'Alibaba Cloud',
-    //'IBM Cloud',
-    //'SAP Cloud',
-  ];
-
-  operatingSystems = [
-    'Linux',
-    'Windows',
-    //'MacOS',
-    'Ubuntu',
-    //'Debian',
-    //'Red Hat',
-    //'Fedora',
-    //'CentOS',
-    //'Kali Linux',
-    'ParrotOS',
-  ];
-
-  virtualization = [
-    'VirtualBox',
-    'VMware',
-    //'Docker',
-    //'Kubernetes',
-    //'Amazon ECS',
-    //'Azure Container Apps',
-    //'Google Container Engine',
-    //'IBM Cloud Foundry',
-  ];
-
-  cybersecurity =  [
-    'Nmap',
-    'Wireshark',
-    //'BurpSuite',
-    //'Metasploit',
-    //'EternalBlue',
-    //'Nessus',
-    //'Grafana',
-    //'Kibana',
-    //'Palo Alto Networks',
-    //'Sophos',
-    //'Kaspersky',
-    //'Fortinet',
-    //'Trend Micro',
-    'Cisco',
-    //'Symantec',
-    //'OWASP TOP 10',
-    //'Cryptography',
-    //'Hashing',
-    //'Encryption',
-    //'Digital Signature',
-    //'Key Management',
-    //'Network Security',
-    //'Vulnerability Assessment',
-  ];
-
-  spokenLanguages = [
-    'Spanish',
-    'English',
-    'Portuguese',
-    'French',
-    //'Italian',
-    'German',
-    //'Chinese',
-  ];
-
-  softs = [
-    //'Leadership',
-    //'Teamwork',
-    'Problem-Solving',
-    'Time Management',
-    //'Communication',
-    'Critical Thinking',
-    'Self-Esteem',
-    'Empathy',
-    'Collaboration',
-    'Adaptability',
-    'Flexibility',
-    'Creativity',
-  ];
-
-  technicalSkills = [
-    { name: 'Programming Languages', badges: this.getBadges(this.languages) },
-    { name: 'Front-end', badges: this.getBadges(this.frontends)},
-    { name: 'Back-end', badges: this.getBadges(this.backends) },
-    { name: 'Databases', badges: this.getBadges(this.databases) },
-    { name: 'Data Managers', badges: this.getBadges(this.data) },
-    { name: 'Version Control', badges: this.getBadges(this.versionControl) },
-    { name: 'Package Managers', badges: this.getBadges(this.packageManagers) },
-    { name: 'Cloud', badges: this.getBadges(this.cloud) },
-    { name: 'Operating Systems', badges: this.getBadges(this.operatingSystems) },
-    { name: 'Virtualization', badges: this.getBadges(this.virtualization) },
-    { name: 'Cybersecurity', badges: this.getBadges(this.cybersecurity) },
-  ];
-
-  softSkills = [
-    { name: 'Spoken Languages', badges: this.getBadges(this.spokenLanguages) },
-    { name: 'Soft Skills', badges: this.getBadges(this.softs) },
-  ];
-
-  Boxes: Box[] = [
-    { name: 'Technical Skills', skills: this.technicalSkills },
-    { name: 'Soft Skills', skills: this.softSkills },
-  ];
-}
-
-export interface Box {
-  name: string;
-  skills: Skill[];
-}
-
-export interface Skill {
-  name: string;
-  badges: Badge[];
-}
-
-export interface Badge {
-  name: string;
-  image: string;
-  type: string;
-  level: string;
 }

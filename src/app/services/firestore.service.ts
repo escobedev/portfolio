@@ -19,10 +19,12 @@ export class FirestoreService {
     'certs',
     'achievements',
     'badges',
-    'jobs'
+  ];
+  private readonly collectionsWithRangeDate = [
+    'jobs',
   ];
 
-  constructor(private firestore: Firestore) { }
+  constructor(private readonly firestore: Firestore) { }
 
   loadSkill = (path: string) => {
     const query = doc(this.firestore, 'skills', path);
@@ -49,6 +51,8 @@ export class FirestoreService {
     let queryConstraints: any = [];
     if (this.collectionsWithDate.includes(col))
       queryConstraints.push(orderBy('date', 'desc'));
+    else if (this.collectionsWithRangeDate.includes(col))
+      queryConstraints.push(orderBy('endDate', 'desc'));
     if (lim !== null)
       queryConstraints.push(limit(lim));
     const q = query(
@@ -69,6 +73,8 @@ export class FirestoreService {
     let queryConstraints: any = [ where(field, '==', value) ];
     if (this.collectionsWithDate.includes(col))
       queryConstraints.push(orderBy('date', 'desc'));
+    else if (this.collectionsWithRangeDate.includes(col))
+      queryConstraints.push(orderBy('endDate', 'desc'));
     const q = query(
       collection(this.firestore, col),
       ...queryConstraints
@@ -86,6 +92,8 @@ export class FirestoreService {
     let queryConstraints: any = [ where('tags', 'array-contains', tag) ];
     if (this.collectionsWithDate.includes(col))
       queryConstraints.push(orderBy('date', 'desc'));
+    else if (this.collectionsWithRangeDate.includes(col))
+      queryConstraints.push(orderBy('endDate', 'desc'));
     const q = query(
       collection(this.firestore, col),
       ...queryConstraints
@@ -101,7 +109,12 @@ export class FirestoreService {
    * @param array The array to query.
    * @returns Thr collection data as an observable.
    */
-  queryCollectionByTags = (col: string, tags: string[], field: string | null = null, array: string[] | null = null) => {
+  queryCollectionByTags = (
+    col: string,
+    tags: string[],
+    field: string | null = null,
+    array: string[] | null = null
+  ) => {
     let queryConstraints: any = [];
     if (tags.length > 0)
       queryConstraints.push(where('tags', 'array-contains-any', tags));
@@ -109,6 +122,8 @@ export class FirestoreService {
       queryConstraints.push(where(field, 'in', array));
     if (this.collectionsWithDate.includes(col))
       queryConstraints.push(orderBy('date', 'desc'));
+    else if (this.collectionsWithRangeDate.includes(col))
+      queryConstraints.push(orderBy('endDate', 'desc'));
     const q = query(
       collection(this.firestore, col),
       ...queryConstraints

@@ -1,11 +1,12 @@
 import { Software } from "./software";
+import { Tag } from "./tag";
 
 export class Project {
     private _name: string;
     private _type: string;
     private _icon: string;
     private _details: string[];
-    private _tags: string[]; // Tag Paths
+    private _tags: (string | Tag)[];
     private _technologies: Software[];
     private _link: string;
     private _github: string;
@@ -39,7 +40,7 @@ export class Project {
     get details() { return this._details; }
     set details(details: string[]) { this._details = details; }
     get tags() { return this._tags; }
-    set tags(tags: string[]) { this._tags = tags; }
+    set tags(tags: (string | Tag)[]) { this._tags = tags; }
     get technologies() { return this._technologies; }
     set technologies(technologies: Software[]) { this._technologies = technologies; }
     get link() { return this._link; }

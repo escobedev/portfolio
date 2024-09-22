@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit, signal } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterLink } from '@angular/router';
-import { FirestoreService } from '../../services/firestore.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { Project } from '../../utils/project';
 import { Tag } from '../../utils/tag';
 
@@ -18,6 +19,8 @@ import { Tag } from '../../utils/tag';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
+    MatProgressSpinner,
+    MatTooltipModule,
     RouterLink,
   ],
   templateUrl: './project-box.component.html',
@@ -26,19 +29,8 @@ import { Tag } from '../../utils/tag';
 export class ProjectBoxComponent {
   @Input() project: Project = {} as Project;
   @Input() index: number = 0;
-  @Output() loaded = new EventEmitter<string>();
-  protected readonly tags = signal<Tag[]>([]);
 
-  constructor(private readonly db: FirestoreService) { }
-
-  ngOnInit() {
-    this.loaded.emit(this.project.name);
-    this.project.tags.forEach((tag: string) => {
-      this.db.loadDoc('tags', tag).subscribe((data: Tag) => {
-        this.tags.update(oldTags => {
-          return [...oldTags, data];
-        });
-      });
-    });
+  protected toTag(tag: string | Tag) {
+    return tag as Tag;
   }
 }

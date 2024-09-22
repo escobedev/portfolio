@@ -19,12 +19,18 @@
                 [style.max-width]="'720px'"
                 [style.padding]="'50px'"
             >
-                <mat-list-item class="skill-chip" [style.height.px]="120">
-                    <mat-icon matListItemIcon [style.width.px]="100" [style.height.px]="100">
-                        <img height="100px" [src]="tag.image" [alt]="tag.name">
-                    </mat-icon>
-                    <div matListItemTitle [style.font-size]="'3em'" [style.text-overflow]="'no-wrap'">{{ tag.name }}</div>
-                    <div matListItemLine>
+                <div class="skill-chip" [style.height.px]="120">
+                    <div
+                        [style.width.px]="100"
+                        [style.height.px]="100"
+                        [style.background-image]="'url(' + tag.image + ')'"
+                        [style.background-size]="'contain'"
+                        [style.background-position]="'center'"
+                        [style.background-repeat]="'no-repeat'"
+                    ></div>
+                    <div [style.padding-left.px]="10">
+                        <div class="skill-title">{{ tag.name }}</div>
+                        <div class="skill-subtitle">{{ tag.type }}</div>
                         <mat-chip>
                             <mat-icon matChipAvatar>
                                 @switch (tag.level) {
@@ -38,40 +44,58 @@
                             {{ tag.level }}
                         </mat-chip>
                     </div>
-                </mat-list-item>
+                </div>
             </mat-list>
-            @if (relatedCertificates().length > 0) {
-                <p class="section-title"
-                    [style.width]="'100%'"
-                    [style.max-width]="'720px'"
-                    [style.font-size]="'2em'"
-                    [style.padding]="'0px 20px'"
-                    [style.margin]="'0px'"
-                    [style.box-sizing]="'border-box'"
-                >Related Certificates</p>
-                <div class="grid-list">
-                    @for (certificate of relatedCertificates(); track $index) {
-                        <app-cert-box [certificate]="certificate" [index]="$index" [allEntities]="allEntities()" />
-                    }
-                </div>
+            <div class="grid-button-list">
+                <button mat-fab extended [disabled]="!relatedCertificates().length" (click)="selection = 'certs'">
+                    <mat-icon [style.width.px]="40">workspace_premium</mat-icon>
+                    <span>Related Certificates</span>
+                </button>
+                <button mat-fab extended [disabled]="!relatedAchievements().length" (click)="selection = 'achievements'">
+                    <mat-icon [style.width.px]="40">emoji_events</mat-icon>
+                    <span>Related Achievements</span>
+                </button>
+                <button mat-fab extended [disabled]="!relatedBadges().length" (click)="selection = 'badges'">
+                    <mat-icon [style.width.px]="40">military_tech</mat-icon>
+                    <span>Related Badges</span>
+                </button>
+                <button mat-fab extended [disabled]="!relatedProjects().length" (click)="selection = 'projects'">
+                    <mat-icon [style.width.px]="40">token</mat-icon>
+                    <span>Related Projects</span>
+                </button>
+            </div>
+            @switch (selection) {
+                @case('certs') {
+                    <p class="section-title">
+                        Related Certificates&nbsp;
+                        <mat-chip>{{ relatedCertificates().length }}</mat-chip>
+                    </p>
+                    <div class="grid-list">
+                        @for (certificate of relatedCertificates(); track $index) {
+                            <app-cert-box [certificate]="certificate" [index]="$index" [allEntities]="allEntities()" />
+                        } @empty {
+                            <h2>No certificates found.</h2>
+                        }
+                    </div>
+                }
+                @case ('projects') {
+                    <p class="section-title">
+                        Related Projects&nbsp;
+                        <mat-chip>{{ relatedProjects().length }}</mat-chip>
+                    </p>
+                    <div class="grid-list">
+                        @for (project of relatedProjects(); track project) {
+                            <app-project-box [project]="project" [index]="$index % 4 + 1" />
+                        } @empty {
+                            <h2>No projects found.</h2>
+                        }
+                    </div>
+                }
             }
-            @if (relatedProjects().length > 0) {
-                <p class="section-title"
-                    [style.width]="'100%'"
-                    [style.max-width]="'720px'"
-                    [style.font-size]="'2em'"
-                    [style.padding]="'0px 20px'"
-                    [style.margin]="'0px'"
-                    [style.box-sizing]="'border-box'"
-                >Related Projects</p>
-                <div class="grid-list">
-                    @for (project of relatedProjects(); track project) {
-                        <app-project-box [project]="project" [index]="$index % 4 + 1" />
-                    }
-                </div>
+            @if (selection) {
+                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button><br>
+                <app-footer class="full-width"/>
             }
-            <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
-            <br>
         }
     } @else {
         <div class="chunk">

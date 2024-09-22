@@ -2,26 +2,188 @@
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
-        [style.margin]="'20px'"
-        [style.height]="load() ? '3em' : '75vh'"
-        [style.transition]="'height 1s ease-in-out'"
-        [style.display]="'flex'"
+        [style.margin]="load() ? '0px' : '20px'"
+        [style.height]="load() ? '0px' : '75vh'"
+        [style.opacity]="load() ? '0' : '1'"
+        [style.transform]="load() ? 'translateY(-100px)' : 'translateY(0)'"
+        [style.transition]="'height 1s ease-in-out, margin 1s ease-in-out, opacity 0.5s ease-in-out, transform 1s ease-in-out'"
+        [style.display]="hide() ? 'none' : 'flex'"
         [style.justify-content]="'center'"
         [style.align-items]="'center'"
     >
         <app-typing-text [text]="title"/>
     </p>
     @if (load()) {
-        <div class="flex-container">
-            @for (box of boxes(); track $index) {
-                @defer (on viewport) {
-                    <app-skills-box [box]="box" (loaded)="loaded($event)"/>
-                } @placeholder {
-                    <app-skills-box [box]="box" [style.opacity]="0" />
-                }
-            }
+        <div class="page-title">
+            <mat-icon [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">electric_bolt</mat-icon>
+            <h1>Skills</h1>
         </div>
+        @if (loaded()) {
+            <div class="flex-container fetch-animation">
+                <mat-tab-group class="full-width" mat-stretch-tabs="false" mat-align-tabs="center" dynamicHeight>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon>build</mat-icon>
+                            &nbsp;Hard Skills
+                        </ng-template>
+                        <div class="flex-container content">
+                            @for (set of hardSkillsTags; track $index) {
+                                @defer (on viewport) {
+                                    <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
+                                        <mat-card-header>
+                                            <mat-card-title [class]="'gradient-text-' + ($index % 4 + 1)">{{ set.name }}</mat-card-title>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <br>
+                                            <mat-chip-set>
+                                                @for (skill of set.skills; track $index) {
+                                                    <mat-chip matTooltip="{{ skill.level }}" [routerLink]="'/skills/' + skill.path">
+                                                        <div
+                                                            matChipAvatar
+                                                            [style.height]="'100%'"
+                                                            [style.background-image]="'url(' + skill.image + ')'"
+                                                            [style.background-size]="'contain'"
+                                                            [style.background-position]="'center'"
+                                                            [style.background-repeat]="'no-repeat'"
+                                                        ></div>
+                                                        {{ skill.name }}
+                                                    </mat-chip>
+                                                }
+                                            </mat-chip-set>
+                                        </mat-card-content>
+                                    </mat-card>
+                                } @placeholder {
+                                    <div class="placeholder flex-container" [style.height.px]="200"><mat-spinner></mat-spinner></div>
+                                }
+                            }
+                        </div>
+                    </mat-tab>
         
-        <app-footer class="full-width" />
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon>handshake</mat-icon>
+                            &nbsp;Soft Skills
+                        </ng-template>
+                        <div class="flex-container content">
+                            @for (set of softSkillsTags; track $index) {
+                                @defer (on viewport) {
+                                    <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
+                                        <mat-card-header>
+                                            <img mat-card-avatar [src]="set.image" [alt]="set.name">
+                                            <mat-card-title [class]="'gradient-text-' + ($index % 4 + 1)">{{ set.name }}</mat-card-title>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <br>
+                                            @defer (on viewport) {
+                                                <div class="flex-container bloom-animation">
+                                                    <div class="relative">
+                                                        @let score = avgLevels(set.skills);
+                                                        <mat-progress-spinner matListItemIcon mode="determinate" [value]="score"></mat-progress-spinner>
+                                                        <span class="absolute spinner-text">{{ score | number: '1.1-1' }}</span>
+                                                    </div>
+                                                </div>
+                                            } @placeholder (minimum 250ms) {
+                                                <div class="flex-container transparent">
+                                                    <div class="relative">
+                                                        <mat-spinner></mat-spinner>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <mat-list>
+                                                @for (skill of set.skills; track $index) {
+                                                    @let ssTag = toSSTag(skill);
+                                                    @defer (on viewport) {
+                                                        <mat-list-item class="fetch-animation" lines="3">
+                                                            <mat-progress-spinner matListItemIcon diameter="30" mode="determinate" [value]="ssTag.level * 10"></mat-progress-spinner>
+                                                            <span matListItemTitle>{{ ssTag.name }}</span>
+                                                            <span>{{ ssTag.description }}</span>
+                                                        </mat-list-item>
+                                                    } @placeholder {
+                                                        <mat-list-item class="transparent" lines="3">
+                                                            <mat-spinner matListItemIcon></mat-spinner>
+                                                            <span matListItemTitle>{{ ssTag.name }}</span>
+                                                            <span>{{ ssTag.description }}</span>
+                                                        </mat-list-item>
+                                                    }
+                                                }
+                                            </mat-list>
+                                        </mat-card-content>
+                                    </mat-card>
+                                } @placeholder {
+                                    <div class="placeholder flex-container" [style.height.px]="500"><mat-spinner></mat-spinner></div>
+                                } @loading {
+                                    <div class="placeholder flex-container" [style.height.px]="500"><mat-spinner></mat-spinner></div>
+                                } @error {
+                                    <div class="placeholder flex-container" [style.height.px]="500">
+                                        <mat-icon>error</mat-icon>
+                                        <span>Error loading skills.</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </mat-tab>
+        
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon>language</mat-icon>
+                            &nbsp;Languages
+                        </ng-template>
+                        <div class="flex-container content">
+                            @for (set of languageTags; track $index) {
+                                @defer (on viewport) {
+                                    <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
+                                        <mat-card-header>
+                                            <mat-card-title [class]="'gradient-text-' + ($index % 4 + 1)">{{ set.name }}s</mat-card-title>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <br>
+                                            <mat-chip-set>
+                                                @for (skill of set.skills; track $index) {
+                                                    <mat-chip matTooltip="{{ skill.level }}" [routerLink]="'/skills/' + skill.path">
+                                                        <div
+                                                            matChipAvatar
+                                                            [style.height]="'100%'"
+                                                            [style.background-image]="'url(' + skill.image + ')'"
+                                                            [style.background-size]="'contain'"
+                                                            [style.background-position]="'center'"
+                                                            [style.background-repeat]="'no-repeat'"
+                                                        ></div>
+                                                        {{ skill.name }}
+                                                    </mat-chip>
+                                                }
+                                            </mat-chip-set>
+                                        </mat-card-content>
+                                    </mat-card>
+                                } @placeholder {
+                                    <div class="placeholder flex-container" [style.height.px]="200"><mat-spinner></mat-spinner></div>
+                                }
+                            }
+                            @defer (on viewport) {
+                                <div [style.max-width.px]="400">
+                                    <div class="section-title fetch-animation">Connect with me in Duolingo</div>
+                                    <div class="panel">
+                                        <img width="100%" src="assets/duolingo-profile.png" alt="Duolingo Profile">
+                                    </div>
+                                </div>
+                            } @placeholder {
+                                <div>
+                                    <div class="section-title transparent">Connect with me in Duolingo</div>
+                                    <div class="panel">
+                                        <img width="100%" src="assets/duolingo-profile.png" alt="Duolingo Profile">
+                                    </div>
+                                </div>
+                            }
+                            
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+                
+                <app-footer class="full-width" />
+            </div>
+        } @else {
+            <div class="chunk">
+                <mat-spinner></mat-spinner>
+            </div>
+        }
     }
 </div>
