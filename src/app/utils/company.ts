@@ -6,6 +6,7 @@ export class Company {
     private _description: string;
     private _industry: string;
     private _location: Place;
+    private _path: string;
 
     constructor(
         name: string,
@@ -13,12 +14,14 @@ export class Company {
         description: string,
         industry: string,
         location: Place,
+        path: string,
     ) {
         this._name = name;
         this._logo = logo;
         this._description = description;
         this._industry = industry;
         this._location = location;
+        this._path = path;
     }
 
     get name() { return this._name; }
@@ -31,6 +34,8 @@ export class Company {
     set industry(industry: string) { this._industry = industry; }
     get location() { return this._location; }
     set location(location: Place) { this._location = location; }
+    get path() { return this._path; }
+    set path(path: string) { this._path = path; }
 
     toFire() {
         return {
@@ -39,6 +44,7 @@ export class Company {
             description: this._description,
             industry: this._industry,
             location: this._location.toFire(),
+            path: this._path,
         }
     }
 }

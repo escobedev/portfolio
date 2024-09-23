@@ -9,8 +9,8 @@
             <mat-card-content>
                 <p><strong>Technologies:</strong></p>
                 <mat-chip-set>
-                    @for (_tag of project.tags; track $index) {
-                        @let tag = toTag(_tag);
+                    @for (tagPath of project.tags; track $index) {
+                        @let tag = getTag(tagPath);
                         <mat-chip routerLink="/skills/{{ tag.path }}" matTooltip="{{ tag.name }} {{ project.technologies[$index].version }}">
                             <div
                                 matChipAvatar

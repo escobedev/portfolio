@@ -1,5 +1,4 @@
 import { Timestamp } from "@angular/fire/firestore"
-import { Tag } from "./tag";
 import { Software } from "./software";
 
 export class Job {
@@ -7,8 +6,9 @@ export class Job {
     private _company: string; // Company Path
     private _startDate: Timestamp;
     private _endDate: Timestamp;
-    private _hardSkills: (Tag | Software)[]; // Tag Paths
-    private _softSkills: Tag[]; // Tag Paths
+    private _hardSkills: string[];
+    private _softSkills: string[]; // Tag Paths
+    private _technologies: Software[]; // Tag Paths
     private _responsibilities: string[];
 
     constructor(
@@ -16,8 +16,9 @@ export class Job {
         company: string,
         startDate: Date,
         endDate: Date,
-        hardSkills: (Tag | Software)[],
-        softSkills: Tag[],
+        hardSkills: string[],
+        softSkills: string[],
+        technologies: Software[],
         responsibilities: string[],
     ) {
         this._position = position;
@@ -26,6 +27,7 @@ export class Job {
         this._endDate = Timestamp.fromDate(endDate);
         this._hardSkills = hardSkills;
         this._softSkills = softSkills;
+        this._technologies = technologies;
         this._responsibilities = responsibilities;
     }
 
@@ -38,9 +40,11 @@ export class Job {
     get endDate() { return this._endDate.toDate(); }
     set endDate(endDate: Date) { this._endDate = Timestamp.fromDate(endDate); }
     get hardSkills() { return this._hardSkills; }
-    set hardSkills(hardSkills: (Tag | Software)[]) { this._hardSkills = hardSkills; }
+    set hardSkills(hardSkills: (string)[]) { this._hardSkills = hardSkills; }
     get softSkills() { return this._softSkills; }
-    set softSkills(softSkills: Tag[]) { this._softSkills = softSkills; }
+    set softSkills(softSkills: (string)[]) { this._softSkills = softSkills; }
+    get technologies() { return this._technologies }
+    set technologies(technologies: Software[]) { this._technologies = technologies; }
     get responsibilities() { return this._responsibilities; }
     set responsibilities(responsibilities: string[]) { this._responsibilities = responsibilities; }
 
@@ -50,8 +54,9 @@ export class Job {
             company: this._company,
             startDate: this._startDate,
             endDate: this._endDate,
-            hardSkills: this._hardSkills.every(skill => skill.toFire()),
-            softSkills: this._softSkills.every(skill => skill.toFire()),
+            hardSkills: this._hardSkills,
+            softSkills: this._softSkills,
+            technologies: this._technologies.every(tech => tech.toFire()),
             responsibilities: this._responsibilities,
         }
     }

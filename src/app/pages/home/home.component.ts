@@ -32,10 +32,12 @@ import { Tag } from '../../utils/tag';
 })
 export class HomeComponent {
   protected readonly title: string = 'Hello';
+  protected readonly allTags: Tag[] = [];
+  protected readonly latest_projects: Project[] = [];
+  protected readonly projectsLoadingError = signal(false);
   protected readonly load = signal(false);
   protected readonly hide = signal(false);
   protected readonly step = signal(0);
-  protected latest_projects: Project[] = [];
 
   constructor(
     private readonly theme: ThemeService,
@@ -48,32 +50,39 @@ export class HomeComponent {
         this.hide.set(true);
       }, 1000);
     }, 200 * (this.title.length + 1));
-    db.loadCollection('projects', 5).subscribe((projects: Project[]) => {
-      this.latest_projects = projects;
-      this.loadProjectTags();
-    });
+    this.loadLatestsProjects();
   }
 
   protected setStep(index: number) {
     this.step.set(index);
   }
 
-  private loadProjectTags() {
-    for (const project of this.latest_projects) {
-        let tags: Tag[] = [];
-        for (const tag of project.tags)
-            this.db
-            .loadDoc('tags', tag as string)
-            .subscribe((tagData: Tag) => {
-                tags.push(tagData);
-            });
-        const index = this.latest_projects.findIndex((c) => c.name === project.name);
-        this.latest_projects[index].tags = tags;
-    }
+  private loadLatestsProjects() {
+    this.db
+    .queryData(
+      'projects',
+      this.db.limitConstraint(5)
+    )
+    .subscribe((projects: Project[]) => {
+      this.latest_projects.push(...projects);
+      this.loadTags();
+    });
   }
 
-  protected toTag(tag: string | Tag) {
-    return tag as Tag;
+  private loadTags() {
+    const tagsPaths = [
+      ...new Set(this.latest_projects.flatMap((project) => project.tags))
+    ];
+    this.db
+      .queryData(
+        'tags',
+        this.db.whereConstraint('path', 'in', tagsPaths)
+      )
+      .subscribe((tags: Tag[]) => this.allTags.push(...tags));
+  }
+
+  protected toTag(tag: string) {
+    return this.allTags.find((t) => t.path === tag) ?? new Tag('Unknown', '', '', '', '');
   }
 
   get currentTheme() {

@@ -1,7 +1,6 @@
 @defer (on viewport) {
     <mat-card class="cert-card fetch-animation" [class]="'border-' + (index % 4 + 1)" appearance="outlined">
         <img mat-card-image [style.border-radius.px]="40" src="{{ certificate.image }}" alt="{{ certificate.name }}">
-        @let entity = getEntity(certificate.issuer);
         <mat-card-header>
             <div mat-card-avatar>
                 <mat-icon [class]="'gradient-text-' + (index % 4 + 1)" [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">workspace_premium</mat-icon>
@@ -16,8 +15,8 @@
                 }
             </ul>
             <mat-chip-set>
-                @for (_tag of certificate.tags; track _tag) {
-                    @let tag = toTag(_tag);
+                @for (tagPath of certificate.tags; track $index) {
+                    @let tag = getTag(tagPath);
                     <mat-chip routerLink="/skills/{{ tag.path }}" matTooltip="{{ tag.name }} {{ certificate.skills[$index].version }}">
                         <div
                             matChipAvatar

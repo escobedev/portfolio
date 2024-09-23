@@ -10,12 +10,16 @@ import { ProjectBoxComponent } from "../../components/project-box/project-box.co
 import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
 import { FirestoreService } from '../../services/firestore.service';
+import { Certificate } from '../../utils/certificate';
 import { Achievement } from '../../utils/achievement';
 import { Badge } from '../../utils/badge';
-import { Certificate } from '../../utils/certificate';
+import { Project } from '../../utils/project';
+import { Job } from '../../utils/job';
 import { Entity } from '../../utils/entity';
 import { Tag } from '../../utils/tag';
-import { Project } from '../../utils/project';
+import { Company } from '../../utils/company';
+import { Place } from '../../utils/place';
+import { SoftSkillTag } from '../../utils/soft-skills';
 
 @Component({
     selector: 'app-skill',
@@ -35,106 +39,211 @@ import { Project } from '../../utils/project';
     styleUrl: './skill.component.scss'
 })
 export class SkillComponent {
-    protected title = '';
-    protected tag: Tag | null = null;
+    protected title: string = '';
+    protected path: string = '';
     protected selection: string = '';
-    protected readonly allEntities = signal<Entity[]>([]);
+    protected readonly tag = signal<Tag | null>(null);
     protected readonly hide = signal(false);
     protected readonly load = signal(false);
+    protected readonly allTags: Tag[] = [];
+    protected readonly allSSTags: SoftSkillTag[] = [];
+    protected readonly allEntities: Entity[] = [];
+    protected readonly allCompanies: Company[] = [];
+    protected readonly relatedCertificates = signal<Certificate[]>([]);
     protected readonly relatedAchievements = signal<Achievement[]>([]);
     protected readonly relatedBadges = signal<Badge[]>([]);
-    protected readonly relatedCertificates = signal<Certificate[]>([]);
     protected readonly relatedProjects = signal<Project[]>([]);
+    protected readonly relatedJobs = signal<Job[]>([]);
 
     constructor(
         private readonly route: ActivatedRoute,
         private readonly db: FirestoreService,
-    ) {
-        window.scrollTo(0, 0);
-    }
+    ) { }
 
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
-            this.tag = null;
+            window.scrollTo(0, 0);
+            this.tag.set(null);
             this.selection = '';
-            this.allEntities.set([]);
             this.relatedAchievements.set([]);
             this.relatedBadges.set([]);
             this.relatedCertificates.set([]);
             this.relatedProjects.set([]);
             this.hide.set(false);
             this.load.set(false);
-            window.scrollTo(0, 0);
-            const path = params.get('skill') ?? '';
-            this.db
-            .loadDoc('tags', path)
-            .subscribe((data: any) => {
-                this.tag = data;
-                this.title = data.name;
-                setTimeout(() => {
-                    this.load.set(true);
-                    setTimeout(() => {
-                        this.hide.set(true);
-                    }, 1000);
-                }, 100 * (this.title.length + 1));
-            });
-            this.db
-            .queryCollectionByTag('certs', path)
-            .subscribe((data: Certificate[]) => {
-                this.relatedCertificates.set(data);
-                console.log(data);
-                this.loadCertTags();
-            });
-            this.db
-            .queryCollectionByTag('projects', path)
-            .subscribe((data: Project[]) => {
-                this.relatedProjects.set(data);
-                this.loadProjectTags();
-            });
+            this.path = params.get('skill') ?? '';
+            this.loadRelatedCertificates();
         });
     }
 
-    private loadCertTags() {
-        for (const cert of this.relatedCertificates()) {
-            let tags: Tag[] = [];
-            for (const tag of cert.tags)
-                this.db
-                .loadDoc('tags', tag as string)
-                .subscribe((tagData: Tag) => {
-                    tags.push(tagData);
-                });
-            this.relatedCertificates.update((certs) => {
-                const index = certs.findIndex((c) => c.code === cert.code);
-                certs[index].tags = tags;
-                return certs;
+    private loadRelatedCertificates() {
+        this.db
+            .queryData(
+                'certs',
+                this.db.whereConstraint('tags', 'array-contains', this.path)
+            )
+            .subscribe((certs: Certificate[]) => {
+                this.relatedCertificates.set(certs);
+                this.loadRelatedAchievements();
             });
+    }
+
+    private loadRelatedAchievements() {
+        this.db
+            .queryData(
+                'achievements',
+                this.db.whereConstraint('tags', 'array-contains', this.path)
+            )
+            .subscribe((achievements: Achievement[]) => {
+                this.relatedAchievements.set(achievements);
+                this.loadRelatedBadges();
+            });
+    }
+
+    private loadRelatedBadges() {
+        this.db
+            .queryData(
+                'badges',
+                this.db.whereConstraint('tags', 'array-contains', this.path)
+            )
+            .subscribe((badges: Badge[]) => {
+                this.relatedBadges.set(badges);
+                this.loadRelatedProjects();
+            });
+    }
+
+    private loadRelatedProjects() {
+        this.db
+            .queryData(
+                'projects',
+                this.db.whereConstraint('tags', 'array-contains', this.path)
+            )
+            .subscribe((projects: Project[]) => {
+                this.relatedProjects.set(projects);
+                this.loadRelatedJobs();
+            });
+    }
+
+    private loadRelatedJobs() {
+        this.db
+            .queryData(
+                'jobs',
+                this.db.whereConstraint('tags', 'array-contains', this.path)
+            )
+            .subscribe((jobs: Job[]) => {
+                this.relatedJobs.set(jobs);
+                this.loadTags();
+            });
+    }
+
+    private loadTags() {
+        const tagsPaths = [
+          ...new Set(this.relatedCertificates().flatMap((cert) => cert.tags)),
+          ...new Set(this.relatedAchievements().flatMap((achievement) => achievement.tags)),
+          ...new Set(this.relatedBadges().flatMap((badge) => badge.tags)),
+          ...new Set(this.relatedProjects().flatMap((project) => project.tags)),
+          ...new Set(this.relatedJobs().flatMap((job) => job.hardSkills)),
+        ];
+        if (tagsPaths.length > 0)
             this.db
-            .loadDoc('entities', cert.issuer)
-            .subscribe((entityData: Entity) => {
-                this.allEntities.update((entities) => {
-                    if (entities.every(entity => entity.name !== entityData.name))
-                        entities.push(entityData);
-                    return entities;
+                .queryData(
+                    'tags',
+                    this.db.whereConstraint('path', 'in', tagsPaths)
+                )
+                .subscribe((tags: Tag[]) => {
+                    this.allTags.push(...tags);
+                    this.loadSSTags();
                 });
-            });
+        else this.loadSSTags();
+    }
+
+    private loadSSTags() {
+        const ssTagsPaths = [
+          ...new Set(this.relatedCertificates().flatMap((cert) => cert.tags)),
+          ...new Set(this.relatedAchievements().flatMap((achievement) => achievement.tags)),
+          ...new Set(this.relatedBadges().flatMap((badge) => badge.tags)),
+          ...new Set(this.relatedProjects().flatMap((project) => project.tags)),
+          ...new Set(this.relatedJobs().flatMap((job) => job.softSkills)),
+        ];
+        if (ssTagsPaths.length > 0)
+            this.db
+                .queryData(
+                    'soft-skill-tags',
+                    this.db.whereConstraint('path', 'in', ssTagsPaths)
+                )
+                .subscribe((sstags: SoftSkillTag[]) => {
+                    this.allSSTags.push(...sstags);
+                    this.loadEntities();
+                });
+        else this.loadEntities();
+    }
+
+    private loadEntities() {
+        const entitiesPaths = [
+          ...new Set(this.relatedCertificates().flatMap((cert) => cert.issuer)),
+          ...new Set(this.relatedAchievements().flatMap((achievement) => achievement.issuer)),
+          ...new Set(this.relatedBadges().flatMap((badge) => badge.issuer)),
+        ];
+        if (entitiesPaths.length > 0)
+            this.db
+                .queryData(
+                    'entities',
+                    this.db.whereConstraint('path', 'in', entitiesPaths)
+                )
+                .subscribe((entities: Entity[]) => {
+                    this.allEntities.push(...entities);
+                    this.loadCompanies();
+                });
+        else this.loadCompanies();
+    }
+
+    private loadCompanies() {
+        const companiesPaths = [
+          ...new Set(this.relatedJobs().flatMap((job) => job.hardSkills)),
+        ];
+        if (companiesPaths.length > 0)
+            this.db
+                .queryData(
+                    'companies',
+                    this.db.whereConstraint('path', 'in', companiesPaths)
+                )
+                .subscribe((companies: Company[]) => {
+                    this.allCompanies.push(...companies);
+                    this.tag.set(this.allTags.find((tag) => tag.path === this.path) ?? null);
+                    this.title = this.tag()?.name ?? 'Not Found';
+                    setTimeout(() => {
+                        this.load.set(true);
+                        setTimeout(() => {
+                            this.hide.set(true);
+                        }, 1000);
+                    }, 100 * (this.title.length + 1));
+                });
+        else {
+            this.tag.set(this.allTags.find((tag) => tag.path === this.path) ?? null);
+            this.title = this.tag()?.name ?? 'Not Found';
+            setTimeout(() => {
+                this.load.set(true);
+                setTimeout(() => {
+                    this.hide.set(true);
+                }, 1000);
+            }, 100 * (this.title.length + 1));
         }
     }
 
-    private loadProjectTags() {
-        for (const project of this.relatedProjects()) {
-            let tags: Tag[] = [];
-            for (const tag of project.tags)
-                this.db
-                .loadDoc('tags', tag as string)
-                .subscribe((tagData: Tag) => {
-                    tags.push(tagData);
-                });
-            this.relatedProjects.update((projects) => {
-                const index = projects.findIndex((c) => c.name === project.name);
-                projects[index].tags = tags;
-                return projects;
-            });
-        }
+    protected getTags(tagsPaths: string[]) {
+        return this.allTags.filter((tag) => tagsPaths.includes(tag.path));
+    }
+
+    protected getSSTags(tagsPaths: string[]) {
+        return this.allSSTags.filter((tag) => tagsPaths.includes(tag.path));
+    }
+
+    protected getEntity(entityPath: string) {
+        return this.allEntities.find((entity) => entityPath === entity.path) ?? new Entity('Unknown', '', '', '');
+    }
+
+    protected getCompany(companyPath: string) {
+        return this.allCompanies.find((company) => companyPath === company.path) ?? new Company('Unknown', '', '', '',new Place('Unknown'), '');
     }
 
     protected scrollUp() {

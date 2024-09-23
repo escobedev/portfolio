@@ -20,48 +20,50 @@
         </div>
         <div class="grid-button-list">
             @for (field of fields; track field) {
-                <button mat-fab extended (click)="fetchProjects(field.name)" [disabled]="!['Web'].includes(field.name)"><mat-icon>{{ field.icon }}</mat-icon>{{ field.name }}</button>
+                <button mat-fab extended (click)="filterProjects(field.name)" [disabled]="!['Web'].includes(field.name)"><mat-icon>{{ field.icon }}</mat-icon>{{ field.name }}</button>
             }
         </div>
         @if (dataLoaded()) {
-            <p class="section-title fetch-animation">
-                {{ selected() }} Projects&nbsp;
-                <mat-chip>{{ projects().length - 1 }}</mat-chip>
-            </p>
-            <mat-tab-group class="full-width" mat-stretch-tabs mat-align-tabs="center" dynamicHeight>
-                <mat-tab>
-                    <ng-template mat-tab-label>
-                        <mat-icon>filter_list</mat-icon>
-                        &nbsp;Filter by skill
-                    </ng-template>
-                    <div class="flex-container">
-                        <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
-                            @for (tag of allTags(); track $index) {
-                                <mat-chip-option (click)="toggleTag(tag)">
-                                    <div
-                                        matChipAvatar
-                                        [style.height]="'100%'"
-                                        [style.background-image]="'url(' + tag.image + ')'"
-                                        [style.background-size]="'contain'"
-                                        [style.background-position]="'center'"
-                                        [style.background-repeat]="'no-repeat'"
-                                    ></div>
-                                    {{ tag.name }}
-                                </mat-chip-option>
-                            }
-                        </mat-chip-set>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
-            <div class="grid-list">
-                @for (project of projects(); track project) {
-                    <app-project-box [project]="project" [index]="$index % 4 + 1" />
-                }
+            <div class="flex-container fetch-animation">
+                <p class="section-title">
+                    {{ selected() }} Projects&nbsp;
+                    <mat-chip>{{ projects().length - 1 }}</mat-chip>
+                </p>
+                <mat-tab-group class="full-width" mat-stretch-tabs mat-align-tabs="center" dynamicHeight>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon>filter_list</mat-icon>
+                            &nbsp;Filter by skill
+                        </ng-template>
+                        <div class="flex-container">
+                            <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
+                                @for (tag of allTags; track $index) {
+                                    <mat-chip-option (click)="toggleTag(tag)">
+                                        <div
+                                            matChipAvatar
+                                            [style.height]="'100%'"
+                                            [style.background-image]="'url(' + tag.image + ')'"
+                                            [style.background-size]="'contain'"
+                                            [style.background-position]="'center'"
+                                            [style.background-repeat]="'no-repeat'"
+                                        ></div>
+                                        {{ tag.name }}
+                                    </mat-chip-option>
+                                }
+                            </mat-chip-set>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+                <div class="grid-list">
+                    @for (project of projects(); track project) {
+                        <app-project-box [project]="project" [index]="$index % 4 + 1" [tags]="getTags(project.tags)"/>
+                    }
+                </div>
+                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
+                <app-footer class="full-width" />
             </div>
-            <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
-            <app-footer class="full-width" />
         } @else if (selected()) {
-            <mat-spinner></mat-spinner>
+            <br><mat-spinner></mat-spinner>
         }
     }
 </div>

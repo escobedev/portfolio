@@ -1,5 +1,5 @@
 <div class="flex-container">
-    @if (tag) {
+    @if (tag()) {
         <p
             [style.font-size]="'3rem'"
             [style.text-align]="'center'"
@@ -23,17 +23,17 @@
                     <div
                         [style.width.px]="100"
                         [style.height.px]="100"
-                        [style.background-image]="'url(' + tag.image + ')'"
+                        [style.background-image]="'url(' + tag()?.image + ')'"
                         [style.background-size]="'contain'"
                         [style.background-position]="'center'"
                         [style.background-repeat]="'no-repeat'"
                     ></div>
                     <div [style.padding-left.px]="10">
-                        <div class="skill-title">{{ tag.name }}</div>
-                        <div class="skill-subtitle">{{ tag.type }}</div>
+                        <div class="skill-title">{{ title }}</div>
+                        <div class="skill-subtitle">{{ tag()?.type }}</div>
                         <mat-chip>
                             <mat-icon matChipAvatar>
-                                @switch (tag.level) {
+                                @switch (tag()?.level) {
                                     @case ('Basic') { signal_cellular_alt_1_bar }
                                     @case ('Medium') { signal_cellular_alt_2_bar }
                                     @case ('High') { signal_cellular_alt }
@@ -41,7 +41,7 @@
                                     @default { }
                                 }
                             </mat-icon>
-                            {{ tag.level }}
+                            {{ tag()?.level }}
                         </mat-chip>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     </p>
                     <div class="grid-list">
                         @for (certificate of relatedCertificates(); track $index) {
-                            <app-cert-box [certificate]="certificate" [index]="$index" [allEntities]="allEntities()" />
+                            <app-cert-box [certificate]="certificate" [index]="$index" [tags]="getTags(certificate.tags)" [entity]="getEntity(certificate.issuer)"/>
                         } @empty {
                             <h2>No certificates found.</h2>
                         }
@@ -85,7 +85,7 @@
                     </p>
                     <div class="grid-list">
                         @for (project of relatedProjects(); track project) {
-                            <app-project-box [project]="project" [index]="$index % 4 + 1" />
+                            <app-project-box [project]="project" [index]="$index % 4 + 1" [tags]="getTags(project.tags)"/>
                         } @empty {
                             <h2>No projects found.</h2>
                         }

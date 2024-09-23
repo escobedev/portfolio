@@ -158,12 +158,13 @@
                                         <div matListItemTitle>Phone</div>
                                         <div matListItemLine>+51 992 023 441</div>
                                     </a>
-                                    <mat-list-item class="address">
+                                    <mat-list-item lines="3">
                                         <mat-icon matListItemIcon>place</mat-icon>
-                                        <div matListItemTitle>Address</div>
-                                        <div matListItemLine>Calle Alejandro Peralta Mz G Lt 4</div>
-                                        <div matListItemLine>Urb. Villa Victoria - Surquillo</div>
-                                        <div matListItemLine>Lima, Peru</div>
+                                        <span matListItemTitle>Address</span>
+                                        <span>
+                                            Calle Alejandro Peralta Mz G Lt 4<br>
+                                            Urb. Villa Victoria, Surquillo - Lima, Perú
+                                        </span>
                                     </mat-list-item>
                                 </mat-list>
                                 <p>I typically respond within 24 hours during weekdays.</p>
@@ -176,9 +177,9 @@
                             </mat-card-header>
                             <mat-card-actions>
                                 <ul class="social-icons">
-                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-footer.png' : 'assets/linkedin.svg' }}" alt="LinkedIn"></a></li>
-                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/github-footer.png' : 'assets/github.svg' }}" alt="GitHub"></a></li>
-                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/twitter-footer.png' : 'assets/twitter.png' }}" alt="Twitter"></a></li>
+                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
+                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
+                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
                                 </ul>
                             </mat-card-actions>
                         </mat-card>

@@ -29,8 +29,9 @@ import { Tag } from '../../utils/tag';
 export class ProjectBoxComponent {
   @Input() project: Project = {} as Project;
   @Input() index: number = 0;
+  @Input() tags: Tag[] = [];
 
-  protected toTag(tag: string | Tag) {
-    return tag as Tag;
+  protected getTag(tag: string) {
+    return this.tags.find((t) => t.path === tag) ?? new Tag('Unknown', '', '', '', '');
   }
 }

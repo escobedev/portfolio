@@ -28,7 +28,7 @@
                         </ng-template>
                         <div class="flex-container">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
-                                @for (tag of allTags(); track $index) {
+                                @for (tag of allTags; track $index) {
                                     <mat-chip-option (click)="toggleTag(tag)">
                                         <div
                                             matChipAvatar
@@ -51,7 +51,7 @@
                         </ng-template>
                         <div class="flex-container">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
-                                @for (entity of allEntities(); track $index) {
+                                @for (entity of allEntities; track $index) {
                                     <mat-chip-option (click)="toggleEntity(entity)">
                                         <img matChipAvatar height="100px" [src]="entity.logo" [alt]="entity.name">
                                         {{ entity.name }}
@@ -67,11 +67,12 @@
                 </p>
                 <div class="grid-list">
                     @for (certificate of certs(); track $index) {
-                        <app-cert-box [certificate]="certificate" [index]="$index" [allEntities]="allEntities()"/>
+                        <app-cert-box [certificate]="certificate" [index]="$index" [tags]="getTags(certificate.tags)" [entity]="getEntity(certificate.issuer)"/>
                     }
                 </div>
                 <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
                 <br>
+                <app-footer class="full-width"/>
             </div>
         } @else {
             <div class="chunk">

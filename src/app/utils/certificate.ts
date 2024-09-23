@@ -1,6 +1,5 @@
 import { Achievement } from "./achievement";
 import { Software } from "./software";
-import { Tag } from "./tag";
 
 export class Certificate extends Achievement {
     private _code: string;
@@ -14,7 +13,7 @@ export class Certificate extends Achievement {
         image: string,
         pdf: string,
         content: string[],
-        tags: (string | Tag)[],
+        tags: string[],
         skills: Software[],
     ) {
         super(name, issuer, date, url, image, pdf, content, tags, skills);

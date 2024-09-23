@@ -1,7 +1,7 @@
 export interface SoftSkills {
     name: string;
     image: string;
-    skills: (string | SoftSkillTag)[];
+    skills: string[];
 }
 
 export interface SoftSkillTag {

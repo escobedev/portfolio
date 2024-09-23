@@ -33,13 +33,10 @@ import { Tag } from '../../utils/tag';
 export class CertBoxComponent {
   @Input() certificate: Certificate = {} as Certificate;
   @Input() index: number = 0;
-  @Input() allEntities: Entity[] = [];
+  @Input() tags: Tag[] = [];
+  @Input() entity: Entity = {} as Entity;
 
-  toTag(tag: string | Tag): Tag {
-    return tag as Tag;
-  }
-  
-  getEntity(entity: string): Entity {
-    return this.allEntities.find((e) => e.path === entity) ?? new Entity('Unkown', '', '', '');
+  protected getTag(tagPath: string) {
+    return this.tags.find((t) => t.path === tagPath) ?? new Tag('Unknown', '', '', '', '');
   }
 }

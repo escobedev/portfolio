@@ -40,9 +40,13 @@ export class SkillsComponent {
   protected readonly hide = signal(false);
   protected readonly load = signal(false);
   protected readonly loaded = signal(false);
-  protected readonly hardSkillsTags: Skills[] = [];
-  protected readonly softSkillsTags: SoftSkills[] = [];
-  protected readonly languageTags: Skills[] = [];
+  protected readonly hardSkills: Skills[] = [];
+  protected readonly softSkills: SoftSkills[] = [];
+  protected readonly languages: Skills[] = [];
+  protected readonly tagsPaths: string[] = [];
+  protected readonly allTags: Tag[] = [];
+  protected readonly allSSTags: SoftSkillTag[] = [];
+
 
   constructor(private readonly db: FirestoreService) {
     window.scrollTo(0, 0);
@@ -52,72 +56,61 @@ export class SkillsComponent {
         this.hide.set(true);
       }, 1000);
     }, 100 * (this.title.length + 1));
-    db
-    .loadDoc('data', 'skills')
-    .subscribe((data: any) => {
-      const hardList = data['hard-skills'];
-      const softList = data['soft-skills'] as SoftSkills[];
-      const langList = data['languages'];
-
-      for (const field of hardSkills) {
-        db
-        .queryCollection('tags', 'type', field)
-        .subscribe((tags: Tag[]) => {
-          const cleanTags: Tag[] = [];
-          for (const tag of tags)
-            if (hardList.includes(tag.path))
-              cleanTags.push(tag);
-          if (cleanTags.length > 0)
-            this.hardSkillsTags.push({
-              name: field,
-              skills: cleanTags,
-            });
-        });
-      }
-
-      for (const set of softList) {
-        let tags: SoftSkillTag[] = [];
-        for (const tag of set.skills)
-          db
-          .loadDoc('soft-skill-tags', tag as string)
-          .subscribe((tag: SoftSkillTag) => {
-            tags.push(tag);
-          });
-        this.softSkillsTags.push({
-          name: set.name,
-          image: set.image,
-          skills: tags,
-        });
-      }
-
-      for (const field of languages) {
-        db
-        .queryCollection('tags', 'type', field)
-        .subscribe((tags: Tag[]) => {
-          const cleanTags: Tag[] = [];
-          for (const tag of tags)
-            if (langList.includes(tag.path))
-              cleanTags.push(tag);
-          if (cleanTags.length > 0)
-            this.languageTags.push({
-              name: field,
-              skills: cleanTags,
-            });
-        });
-      }
-
-      this.loaded.set(true);
-    })
+    this.loadTags();
+    this.loadSSTags();
+    this.loadData();
   }
 
-  protected toSSTag(tag: string | SoftSkillTag) {
-    return tag as SoftSkillTag;
+  private loadTags() {
+    this.db
+      .loadCollection('tags')
+      .subscribe((tags: Tag[]) => this.allTags.push(...tags));
   }
-  protected avgLevels(tags: (string | SoftSkillTag)[]) {
+
+  private loadSSTags() {
+    this.db
+      .loadCollection('soft-skill-tags')
+      .subscribe((ssTags: SoftSkillTag[]) => this.allSSTags.push(...ssTags));
+  }
+
+  private loadData() {
+    this.db
+      .loadDoc('data', 'skills')
+      .subscribe((data: any) => {
+        this.tagsPaths.push(...data['hard-skills'] as string[], ...data['languages'] as string[]);
+        this.softSkills.push(...data['soft-skills'] as SoftSkills[]);
+        for (const field of hardSkills) {
+          const tags = this.getTagsByType(field);
+          if (tags.length > 0)
+            this.hardSkills.push({
+              name: field,
+              skills: tags,
+            });
+        }
+        for (const field of languages) {
+          const tags = this.getTagsByType(field);
+          if (tags.length > 0)
+            this.languages.push({
+              name: field,
+              skills: tags,
+            });
+        }
+        this.loaded.set(true);
+      })
+  }
+
+  private getTagsByType(tagsType: string) {
+    return this.allTags.filter(tag => tagsType === tag.type && this.tagsPaths.includes(tag.path));
+  }
+
+  protected getSSTag(ssTagPath: string) {
+    return this.allSSTags.find(ssTag => ssTagPath === ssTag.path) ?? {} as SoftSkillTag;
+  }
+
+  protected avgLevels(tags: string[]) {
     let sum = 0;
     for (const tag of tags)
-      sum += this.toSSTag(tag).level * 10;
+      sum += this.getSSTag(tag).level * 10;
     return sum / tags.length;
   }
-
 }

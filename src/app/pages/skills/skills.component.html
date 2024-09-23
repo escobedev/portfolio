@@ -27,7 +27,7 @@
                             &nbsp;Hard Skills
                         </ng-template>
                         <div class="flex-container content">
-                            @for (set of hardSkillsTags; track $index) {
+                            @for (set of hardSkills; track $index) {
                                 @defer (on viewport) {
                                     <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
                                         <mat-card-header>
@@ -65,7 +65,7 @@
                             &nbsp;Soft Skills
                         </ng-template>
                         <div class="flex-container content">
-                            @for (set of softSkillsTags; track $index) {
+                            @for (set of softSkills; track $index) {
                                 @defer (on viewport) {
                                     <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
                                         <mat-card-header>
@@ -91,7 +91,7 @@
                                             }
                                             <mat-list>
                                                 @for (skill of set.skills; track $index) {
-                                                    @let ssTag = toSSTag(skill);
+                                                    @let ssTag = getSSTag(skill);
                                                     @defer (on viewport) {
                                                         <mat-list-item class="fetch-animation" lines="3">
                                                             <mat-progress-spinner matListItemIcon diameter="30" mode="determinate" [value]="ssTag.level * 10"></mat-progress-spinner>
@@ -129,7 +129,7 @@
                             &nbsp;Languages
                         </ng-template>
                         <div class="flex-container content">
-                            @for (set of languageTags; track $index) {
+                            @for (set of languages; track $index) {
                                 @defer (on viewport) {
                                     <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
                                         <mat-card-header>

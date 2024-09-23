@@ -1,5 +1,4 @@
 import { Timestamp } from "@angular/fire/firestore";
-import { Tag } from "./tag";
 import { Software } from "./software";
 
 export class Achievement {
@@ -10,7 +9,7 @@ export class Achievement {
     protected _image: string;
     protected _pdf: string;
     protected _content: string[];
-    protected _tags: (string | Tag)[];
+    protected _tags: string[];
     protected _skills: Software[];
     
     constructor(
@@ -21,7 +20,7 @@ export class Achievement {
         image: string,
         pdf: string,
         content: string[],
-        tags: (string | Tag)[],
+        tags: string[],
         skills: Software[],
     ) {
         this._name = name;
@@ -50,7 +49,7 @@ export class Achievement {
     get content() { return this._content; }
     set content(content: string[]) { this._content = content; }
     get tags() { return this._tags; }
-    set tags(tags: (string | Tag)[]) { this._tags = tags; }
+    set tags(tags: string[]) { this._tags = tags; }
     get skills() { return this._skills; }
     set skills(skills: Software[]) { this._skills = skills; }
 

@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
+import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
 import { FirestoreService } from '../../services/firestore.service';
 import { Certificate } from '../../utils/certificate';
@@ -21,6 +22,7 @@ import { Tag } from '../../utils/tag';
     MatProgressSpinnerModule,
     MatTabsModule,
     CertBoxComponent,
+    FooterComponent,
     TypingTextComponent,
 ],
   templateUrl: './certs.component.html',
@@ -32,8 +34,9 @@ export class CertsComponent {
   protected readonly hide = signal(false);
   protected readonly load = signal(false);
   protected readonly certs = signal<Certificate[]>([]);
-  protected readonly allTags = signal<Tag[]>([]);
-  protected readonly allEntities = signal<Entity[]>([]);
+  protected readonly allCerts: Certificate[] = [];
+  protected readonly allTags: Tag[] = [];
+  protected readonly allEntities: Entity[] = [];
   protected selectedTags: string[] = [];
   protected selectedEntities: string[] = [];
 
@@ -45,46 +48,47 @@ export class CertsComponent {
         this.hide.set(true);
       }, 1000);
     }, 100 * (this.title.length + 1));
-    this.reset();
+    this.loadCertificates();
   }
 
-  private reset() {
+  private loadCertificates() {
     this.db
     .loadCollection('certs')
-    .subscribe((data: Certificate[]) => {
-      this.certs.set(data);
+    .subscribe((certs: Certificate[]) => {
+      this.allCerts.push(...certs);
+      this.certs.set(certs);
       this.loadTags();
     });
   }
 
   private loadTags() {
-    for (const cert of this.certs()) {
-      let tags: Tag[] = [];
-      for (const tag of cert.tags)
-        this.db
-        .loadDoc('tags', tag as string)
-        .subscribe((tagData: Tag) => {
-          tags.push(tagData);
-          this.allTags.update((tags) => {
-            if (tags.every(tag => tag.name !== tagData.name)) tags.push(tagData);
-            return tags;
-          });
-        });
-      this.certs.update((certs) => {
-        const index = certs.findIndex((c) => c.code === cert.code);
-        certs[index].tags = tags;
-        return certs;
+    const tagsPaths = [
+      ...new Set(this.certs().flatMap((cert) => cert.tags))
+    ];
+    this.db
+      .queryData(
+        'tags',
+        this.db.whereConstraint('path', 'in', tagsPaths)
+      )
+      .subscribe((tags: Tag[]) => {
+        this.allTags.push(...tags);
+        this.loadEntities();
       });
-      this.db
-      .loadDoc('entities', cert.issuer)
-      .subscribe((entityData: Entity) => {
-        this.allEntities.update((entities) => {
-          if (entities.every(entity => entity.name !== entityData.name)) entities.push(entityData);
-          return entities;
-        });
+  }
+
+  private loadEntities() {
+    const enititiesPaths = [
+      ...new Set(this.certs().flatMap((cert) => cert.issuer))
+    ];
+    this.db
+      .queryData(
+        'entities',
+        this.db.whereConstraint('path', 'in', enititiesPaths)
+      )
+      .subscribe((entities: Entity[]) => {
+        this.allEntities.push(...entities);
         this.dataLoaded.set(true);
       });
-    }
   }
 
   protected toggleTag(tag: Tag) {
@@ -92,7 +96,7 @@ export class CertsComponent {
       this.selectedTags.push(tag.path);
     else
       this.selectedTags.splice(this.selectedTags.indexOf(tag.path), 1);
-    this.loadSelections();
+    this.queryFilteredSelection();
   }
 
   protected toggleEntity(entity: Entity) {
@@ -100,22 +104,26 @@ export class CertsComponent {
       this.selectedEntities.push(entity.path);
     else
       this.selectedEntities.splice(this.selectedEntities.indexOf(entity.path), 1);
-    this.loadSelections();
+    this.queryFilteredSelection();
   }
 
-  private loadSelections() {
+  private queryFilteredSelection() {
     this.certs.set([]);
-    if (this.selectedEntities.length > 0 || this.selectedTags.length > 0)
-      this.db
-      .queryCollectionByTags(
-        'certs', this.selectedTags,
-        'issuer', this.selectedEntities
-      )
-      .subscribe((data: Certificate[]) => {
-        this.certs.set(data);
-        this.loadTags();
-      });
-    else this.reset();
+    setTimeout(() => {
+      if (this.selectedEntities.length > 0 || this.selectedTags.length > 0)
+        this.certs.set(
+          this.allCerts.filter(cert => this.selectedEntities.includes(cert.issuer) || this.selectedTags.some(tag => cert.tags.includes(tag)))
+        );
+      else this.certs.set(this.allCerts);
+    });
+  }
+
+  protected getTags(tagsPaths: string[]) {
+    return this.allTags.filter(tag => tagsPaths.includes(tag.path));
+  }
+
+  protected getEntity(entityPath: string) {
+    return this.allEntities.find(entity => entityPath === entity.path) ?? new Entity('Unknown', '', '', '');
   }
 
   protected scrollUp() {

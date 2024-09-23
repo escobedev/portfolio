@@ -9,125 +9,109 @@ import {
   limit,
   query,
   where,
+  QueryConstraint,
 } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
-  private readonly collectionsWithDate = [
-    'certs',
-    'achievements',
-    'badges',
-  ];
-  private readonly collectionsWithRangeDate = [
-    'jobs',
-  ];
 
   constructor(private readonly firestore: Firestore) { }
 
-  loadSkill = (path: string) => {
-    const query = doc(this.firestore, 'skills', path);
-    return docData(query);
+  /**
+   * It creates a query where constraint for the Firestore database.
+   * @param fieldPath The field to compare.
+   * @param opStr The operation to perform.
+   * @param value The value to compare to.
+   * @returns The where constraint.
+   */
+  whereConstraint(
+    fieldPath: string,
+    opStr: '<' | '<=' | '==' | '!=' | '>=' | '>' | 'in' | 'array-contains' | 'array-contains-any',
+    value: any
+  ) {
+    return where(fieldPath, opStr, value);
   }
 
   /**
-   * Loads a document from the database.
-   * @param path The path of the document to load from the database, including the collection name and document name. "{collection}/{document}"
+   * It creates a query order-by constraint for the Firestore database.
+   * @param fieldPath The field to order by.
+   * @param directionStr The direction to order by.
+   * @returns The order-by constraint.
+   */
+  orderByConstraint(
+    fieldPath: string,
+    directionStr: 'asc' | 'desc'
+  ) {
+    return orderBy(fieldPath, directionStr);
+  }
+
+  /**
+   * It creates a query limit constraint for the Firestore database.
+   * @param lim The number of documents to limit.
+   * @returns The limit constraint.
+   */
+  limitConstraint(
+    lim: number
+  ) {
+    return limit(lim);
+  }
+
+  /**
+   * It loads a document from the database.
+   * @param collectionPath The collection to load from the database.
+   * @param docPath The path of the document to load from the database, including the collection name and document name. "{collection}/{document}"
    * @returns The document data as an observable.
    */
-  loadDoc = (collection: string, path: string) => {
-    const query = doc(this.firestore, collection, path);
-    return docData(query);
-  }
-
-  /**
-   * Loads a collection from the database.
-   * @param col The collection to load from the database.
-   * @param lim The number of documents to load.
-   * @returns The collection data as an observable.
-   */
-  loadCollection = (col: string, lim: number | null = null) => {
-    let queryConstraints: any = [];
-    if (this.collectionsWithDate.includes(col))
-      queryConstraints.push(orderBy('date', 'desc'));
-    else if (this.collectionsWithRangeDate.includes(col))
-      queryConstraints.push(orderBy('endDate', 'desc'));
-    if (lim !== null)
-      queryConstraints.push(limit(lim));
-    const q = query(
-      collection(this.firestore, col),
-      ...queryConstraints
-    );
-    return collectionData(q);
-  }
-
-  /**
-   * Queries a collection from the database.
-   * @param col The collection to query.
-   * @param field The field to query.
-   * @param value The value to query.
-   * @returns The collection data as an observable.
-   */
-  queryCollection = (col: string, field: string, value: string) => {
-    let queryConstraints: any = [ where(field, '==', value) ];
-    if (this.collectionsWithDate.includes(col))
-      queryConstraints.push(orderBy('date', 'desc'));
-    else if (this.collectionsWithRangeDate.includes(col))
-      queryConstraints.push(orderBy('endDate', 'desc'));
-    const q = query(
-      collection(this.firestore, col),
-      ...queryConstraints
-    );
-    return collectionData(q);
-  }
-
-  /**
-   * Queries a collection from the database for those that contains a tag.
-   * @param col The collection to query.
-   * @param tag Thr tag to query.
-   * @returns Thr collection data as an observable.
-   */
-  queryCollectionByTag = (col: string, tag: string) => {
-    let queryConstraints: any = [ where('tags', 'array-contains', tag) ];
-    if (this.collectionsWithDate.includes(col))
-      queryConstraints.push(orderBy('date', 'desc'));
-    else if (this.collectionsWithRangeDate.includes(col))
-      queryConstraints.push(orderBy('endDate', 'desc'));
-    const q = query(
-      collection(this.firestore, col),
-      ...queryConstraints
-    );
-    return collectionData(q);
-  }
-
-  /**
-   * Queries a collection from the database for those that contains a tag.
-   * @param col The collection to query.
-   * @param tags The tags to query.
-   * @param field The field to query.
-   * @param array The array to query.
-   * @returns Thr collection data as an observable.
-   */
-  queryCollectionByTags = (
-    col: string,
-    tags: string[],
-    field: string | null = null,
-    array: string[] | null = null
+  loadDoc = (
+    collectionPath: string,
+    docPath: string
   ) => {
-    let queryConstraints: any = [];
-    if (tags.length > 0)
-      queryConstraints.push(where('tags', 'array-contains-any', tags));
-    if (field !== null && array !== null && array.length > 0)
-      queryConstraints.push(where(field, 'in', array));
-    if (this.collectionsWithDate.includes(col))
-      queryConstraints.push(orderBy('date', 'desc'));
-    else if (this.collectionsWithRangeDate.includes(col))
-      queryConstraints.push(orderBy('endDate', 'desc'));
-    const q = query(
-      collection(this.firestore, col),
+    console.log('read');
+    const docRef = doc(
+      this.firestore,
+      collectionPath,
+      docPath
+    );
+    return docData(docRef);
+  }
+
+  /**
+   * It loads a collection from the database.
+   * @param collectionPath The collection to load from the database.
+   * @returns The collection data as an observable.
+   */
+  loadCollection = (
+    collectionPath: string
+  ) => {
+    console.log('read');
+    const collectionRef = collection(
+      this.firestore,
+      collectionPath
+    );
+    return collectionData(collectionRef);
+  }
+
+  /**
+   * It creates a query for the Firestore database.
+   * @param collectionPath The path of the collection to query.
+   * @param queryConstraints The constraints to apply to the query.
+   * @returns The collection data as an observable.
+   */
+  queryData = (
+    collectionPath: string,
+    ...queryConstraints: QueryConstraint[]
+  ) => {
+    console.log('read');
+    const collectionRef = collection(
+      this.firestore,
+      collectionPath
+    );
+    const queryResult = query(
+      collectionRef,
       ...queryConstraints
     );
-    return collectionData(q);
+    return collectionData(queryResult);
   }
 }

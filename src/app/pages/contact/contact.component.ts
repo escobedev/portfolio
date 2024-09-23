@@ -37,7 +37,7 @@ export class ContactComponent {
   }
 
   get currentTheme() {
-    return this.theme.currentTheme;
+    return this.theme.currentTheme ?? 'dark';
   }
 
   contactForm = new FormGroup({

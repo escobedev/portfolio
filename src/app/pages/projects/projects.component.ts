@@ -36,7 +36,8 @@ export class ProjectsComponent {
   protected readonly load = signal(false);
   protected readonly selected = signal<string | null>(null);
   protected readonly projects = signal<Project[]>([]);
-  protected readonly allTags = signal<Tag[]>([]);
+  protected readonly allTags: Tag[] = [];
+  protected readonly allProjects: Project[] = [];
   protected selectedTags: string[] = [];
   private readonly soon = new Project('Coming Soon', '', '', [], [], [], '', '');
 
@@ -47,66 +48,67 @@ export class ProjectsComponent {
     setTimeout(() => {
       this.load.set(true);
     }, 100 * (this.title.length + 1));
+    this.loadProjects();
   }
 
-  protected fetchProjects(field: string) {
-    this.projects.set([]);
-    this.selected.set(field);
+  private loadProjects() {
     this.db
-    .queryCollection('projects', 'type', field)
-    .subscribe((projects: Project[]) => {
-      this.projects.set([...projects, this.soon]);
-      this.loadTags();
-    });
+      .loadCollection('projects')
+      .subscribe((projects: Project[]) => {
+        this.allProjects.push(...projects);
+        this.loadTags();
+      });
   }
 
   private loadTags() {
-    for (const project of this.projects()) {
-      if (project.name === 'Coming Soon')
-        continue;
-      let tags: Tag[] = [];
-      for (const tag of project.tags)
-        this.db
-        .loadDoc('tags', tag as string)
-        .subscribe((tagData: Tag) => {
-          tags.push(tagData);
-          this.allTags.update((tags) => {
-            if (tags.every(tag => tag.name !== tagData.name))
-              tags.push(tagData);
-            this.dataLoaded.set(true);
-            return tags;
-          });
-        });
-      this.projects.update((projects) => {
-        const index = projects.findIndex((c) => c.name === project.name);
-        projects[index].tags = tags;
-        return projects;
-      });
-    }
+    const tagsPaths = [
+      ...new Set(this.allProjects.flatMap((project) => project.tags))
+    ];
+    this.db
+      .queryData(
+        'tags',
+        this.db.whereConstraint('path', 'in', tagsPaths)
+      )
+      .subscribe((tags: Tag[]) => this.allTags.push(...tags));
+  }
+
+  protected filterProjects(field: string) {
+    this.projects.set([]);
+    this.selected.set(field);
+    this.projects.set([...this.allProjects.filter((project) => project.type === field), this.soon]);
+    this.dataLoaded.set(true);
   }
 
   protected toggleTag(tag: Tag) {
+    this.projects.set([]);
     if (!this.selectedTags.includes(tag.path))
       this.selectedTags.push(tag.path);
     else
       this.selectedTags.splice(this.selectedTags.indexOf(tag.path), 1);
-    this.loadSelections();
+    setTimeout(() => {
+      if (this.selectedTags.length > 0)
+        this.projects.set(
+          [
+            ...this.allProjects.filter((project) => {
+              if (project.type === this.selected())
+                for (const tagPath of project.tags)
+                  if (this.selectedTags.includes(tagPath))
+                    return true;
+              return false;
+            }),
+            this.soon,
+          ]
+        );
+      else this.filterProjects(this.selected() ?? '');
+    });
   }
 
-  private loadSelections() {
-    this.projects.set([]);
-    const field = this.selected() as string;
-    if (this.selectedTags.length === 0)
-      this.db
-      .queryCollectionByTags(
-        'projects', this.selectedTags,
-        'type', [ field ]
-      )
-      .subscribe((projects: Project[]) => {
-        this.projects.set([...projects, this.soon]);
-        this.loadTags();
-      });
-    else this.fetchProjects(field);
+  protected getTagsByType(tagsType: string) {
+    return this.allTags.filter((tag) => tagsType === tag.type)
+  }
+
+  protected getTags(tagsPaths: string[]) {
+    return this.allTags.filter((tag) => tagsPaths.includes(tag.path));
   }
 
   protected scrollUp() {

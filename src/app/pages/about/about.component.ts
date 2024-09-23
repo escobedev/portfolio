@@ -40,18 +40,27 @@ export class AboutComponent {
     "Additionally, I am deeply interested in software engineering and have been enhancing my skills through coding in various programming languages such as Python, C, C++, JavaScript, TypeScript, SQL, and using frameworks such as Angular.",
     "Driven by a passion for protecting digital assets and developing robust software solutions, I am committed to continuous learning and eager to contribute to a proactive cybersecurity and software engineering team. My goal is to leverage my technical expertise and collaborative spirit to enhance information security, resilience, and software development practices.",
   ];
+  protected readonly latestCerts: Certificate[] = [];
   protected readonly years_of_experience = new Date(Date.now()).getFullYear() - new Date('2023-01-01').getFullYear();
   protected readonly last_job = jobEntries[0];
   protected readonly load = signal(false);
-  protected readonly latestCerts = signal<Certificate[]>([]);
 
   constructor(private readonly db: FirestoreService) {
     window.scrollTo(0, 0);
     setTimeout(() => {
       this.load.set(true);
     }, 100 * (this.title.length + 1));
-    db.loadCollection('certs', 5).subscribe((certs: Certificate[]) => {
-      this.latestCerts.set(certs);
+    this.queryLatestCertificates();
+  }
+
+  protected queryLatestCertificates() {
+    this.db
+    .queryData(
+      'certs',
+      this.db.limitConstraint(5)
+    )
+    .subscribe((certs: Certificate[]) => {
+      this.latestCerts.push(...certs);
     });
   }
   
