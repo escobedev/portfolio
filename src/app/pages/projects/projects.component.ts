@@ -36,8 +36,8 @@ export class ProjectsComponent {
   protected readonly load = signal(false);
   protected readonly selected = signal<string | null>(null);
   protected readonly projects = signal<Project[]>([]);
-  protected readonly allTags: Tag[] = [];
-  protected readonly allProjects: Project[] = [];
+  protected allTags: Tag[] = [];
+  protected allProjects: Project[] = [];
   protected selectedTags: string[] = [];
   private readonly soon = new Project('Coming Soon', '', '', [], [], [], '', '');
 
@@ -55,7 +55,7 @@ export class ProjectsComponent {
     this.db
       .loadCollection('projects')
       .subscribe((projects: Project[]) => {
-        this.allProjects.push(...projects);
+        this.allProjects = projects;
         this.loadTags();
       });
   }
@@ -69,7 +69,7 @@ export class ProjectsComponent {
         'tags',
         this.db.whereConstraint('path', 'in', tagsPaths)
       )
-      .subscribe((tags: Tag[]) => this.allTags.push(...tags));
+      .subscribe((tags: Tag[]) => this.allTags = tags);
   }
 
   protected filterProjects(field: string) {

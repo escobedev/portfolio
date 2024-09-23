@@ -34,16 +34,16 @@ import { Certificate } from '../../utils/certificate';
 export class AboutComponent {
   protected readonly title: string = 'About Me';
   protected readonly paragraphs: string[] = [
-    "Hello! I'm Bruno Escobedo, a passionate software developer based in Lima, Peru. I am a dedicated and detail-oriented professional with a background in fiber optic projects, currently transitioning into the dynamic fields of software development and cybersecurity.",
-    "With a strong foundation in technical problem-solving, project management, and risk assessment, I bring a unique perspective to the challenges of protecting digital assets and better software development practices.",
-    `My passion for cybersecurity has driven me to learn about ethical hacking through <abbr role="Catch The Flag">CTF</abbr> platforms like <abbr role="Hack The Box">HTB</abbr> and <abbr role="TryHackMe">THM</abbr>, which helped me gain hands-on experience with tools like Nmap, Metasploit and Linux.`,
-    "Additionally, I am deeply interested in software engineering and have been enhancing my skills through coding in various programming languages such as Python, C, C++, JavaScript, TypeScript, SQL, and using frameworks such as Angular.",
-    "Driven by a passion for protecting digital assets and developing robust software solutions, I am committed to continuous learning and eager to contribute to a proactive cybersecurity and software engineering team. My goal is to leverage my technical expertise and collaborative spirit to enhance information security, resilience, and software development practices.",
+    "Hello! I'm Bruno Escobedo, a passionate self-taught software developer based in Lima, Peru.",
+    "My passion for software development has driven me to enhance my skills through coding in various programming languages such as Python, C, C++, C#, JavaScript, TypeScript, SQL, and using frameworks such as Angular and .NET.",
+    `Additionally, I am deeply interested in cybersecurity and have been learning about ethical hacking through <abbr role="Catch The Flag">CTF</abbr> platforms like <abbr role="Hack The Box">HTB</abbr> and <abbr role="TryHackMe">THM</abbr>.`,
+    "I also love learning spoken languages, I have a more than a 500-days streak in Duolingo learning French, German, Portuguese and so on.",
+    "I am committed to continuous learning and eager to contribute to a proactive software developing and cybersecurity team.",
   ];
-  protected readonly latestCerts: Certificate[] = [];
   protected readonly years_of_experience = new Date(Date.now()).getFullYear() - new Date('2023-01-01').getFullYear();
   protected readonly last_job = jobEntries[0];
   protected readonly load = signal(false);
+  protected latestCerts: Certificate[] = [];
 
   constructor(private readonly db: FirestoreService) {
     window.scrollTo(0, 0);
@@ -60,7 +60,7 @@ export class AboutComponent {
       this.db.limitConstraint(5)
     )
     .subscribe((certs: Certificate[]) => {
-      this.latestCerts.push(...certs);
+      this.latestCerts = certs;
     });
   }
   

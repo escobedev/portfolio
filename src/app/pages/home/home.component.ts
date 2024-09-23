@@ -5,6 +5,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
@@ -23,6 +24,7 @@ import { Tag } from '../../utils/tag';
     MatExpansionModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     RouterLink,
     FooterComponent,
     TypingTextComponent,
@@ -32,12 +34,12 @@ import { Tag } from '../../utils/tag';
 })
 export class HomeComponent {
   protected readonly title: string = 'Hello';
-  protected readonly allTags: Tag[] = [];
-  protected readonly latest_projects: Project[] = [];
   protected readonly projectsLoadingError = signal(false);
   protected readonly load = signal(false);
   protected readonly hide = signal(false);
   protected readonly step = signal(0);
+  protected allTags: Tag[] = [];
+  protected latest_projects: Project[] = [];
 
   constructor(
     private readonly theme: ThemeService,
@@ -64,7 +66,7 @@ export class HomeComponent {
       this.db.limitConstraint(5)
     )
     .subscribe((projects: Project[]) => {
-      this.latest_projects.push(...projects);
+      this.latest_projects = projects;
       this.loadTags();
     });
   }
@@ -78,10 +80,10 @@ export class HomeComponent {
         'tags',
         this.db.whereConstraint('path', 'in', tagsPaths)
       )
-      .subscribe((tags: Tag[]) => this.allTags.push(...tags));
+      .subscribe((tags: Tag[]) => this.allTags = tags);
   }
 
-  protected toTag(tag: string) {
+  protected getTag(tag: string) {
     return this.allTags.find((t) => t.path === tag) ?? new Tag('Unknown', '', '', '', '');
   }
 

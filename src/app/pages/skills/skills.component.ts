@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,6 +22,7 @@ import { hardSkills, languages } from '../../utils/skills-lists';
   standalone: true,
   imports: [
     DecimalPipe,
+    MatButtonModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,
@@ -40,12 +42,12 @@ export class SkillsComponent {
   protected readonly hide = signal(false);
   protected readonly load = signal(false);
   protected readonly loaded = signal(false);
-  protected readonly hardSkills: Skills[] = [];
-  protected readonly softSkills: SoftSkills[] = [];
-  protected readonly languages: Skills[] = [];
-  protected readonly tagsPaths: string[] = [];
-  protected readonly allTags: Tag[] = [];
-  protected readonly allSSTags: SoftSkillTag[] = [];
+  protected hardSkills: Skills[] = [];
+  protected softSkills: SoftSkills[] = [];
+  protected languages: Skills[] = [];
+  protected tagsPaths: string[] = [];
+  protected allTags: Tag[] = [];
+  protected allSSTags: SoftSkillTag[] = [];
 
 
   constructor(private readonly db: FirestoreService) {
@@ -64,21 +66,21 @@ export class SkillsComponent {
   private loadTags() {
     this.db
       .loadCollection('tags')
-      .subscribe((tags: Tag[]) => this.allTags.push(...tags));
+      .subscribe((tags: Tag[]) => this.allTags = tags);
   }
 
   private loadSSTags() {
     this.db
       .loadCollection('soft-skill-tags')
-      .subscribe((ssTags: SoftSkillTag[]) => this.allSSTags.push(...ssTags));
+      .subscribe((ssTags: SoftSkillTag[]) => this.allSSTags = ssTags);
   }
 
   private loadData() {
     this.db
       .loadDoc('data', 'skills')
       .subscribe((data: any) => {
-        this.tagsPaths.push(...data['hard-skills'] as string[], ...data['languages'] as string[]);
-        this.softSkills.push(...data['soft-skills'] as SoftSkills[]);
+        this.tagsPaths = [...data['hard-skills'] as string[], ...data['languages'] as string[]];
+        this.softSkills = data['soft-skills'] as SoftSkills[];
         for (const field of hardSkills) {
           const tags = this.getTagsByType(field);
           if (tags.length > 0)
@@ -112,5 +114,9 @@ export class SkillsComponent {
     for (const tag of tags)
       sum += this.getSSTag(tag).level * 10;
     return sum / tags.length;
+  }
+
+  protected scrollUp() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

@@ -178,6 +178,6 @@ abbr {
 
 .page-title { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 5px; padding-top: 10px; }
 .section-title { width: 100%; max-width: 720px; font-size: 2em; padding: 10px 20px; padding-top: 20px; margin: 0px; box-sizing: border-box; display: flex; align-items: center; }
-.panel { width: 100%; padding: 10px; }
+.panel { width: 100%; padding: 10px; box-sizing: border-box; }
 
 .transparent { opacity: 0; }

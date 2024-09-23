@@ -68,7 +68,6 @@ export class FirestoreService {
     collectionPath: string,
     docPath: string
   ) => {
-    console.log('read');
     const docRef = doc(
       this.firestore,
       collectionPath,
@@ -85,7 +84,6 @@ export class FirestoreService {
   loadCollection = (
     collectionPath: string
   ) => {
-    console.log('read');
     const collectionRef = collection(
       this.firestore,
       collectionPath
@@ -103,7 +101,6 @@ export class FirestoreService {
     collectionPath: string,
     ...queryConstraints: QueryConstraint[]
   ) => {
-    console.log('read');
     const collectionRef = collection(
       this.firestore,
       collectionPath

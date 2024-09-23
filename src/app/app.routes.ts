@@ -53,6 +53,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/certs/certs.component').then(m => m.CertsComponent),
     },
     {
+        path: '404',
+        title: 'Bruno Escobedo - Not Found',
+        pathMatch: 'full',
+        loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
+    },
+    {
         path: '**',
         redirectTo: '',
     }

@@ -1,10 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
 import { ProjectBoxComponent } from "../../components/project-box/project-box.component";
 import { FooterComponent } from "../../layout/footer/footer.component";
@@ -42,18 +42,19 @@ export class SkillComponent {
     protected title: string = '';
     protected path: string = '';
     protected selection: string = '';
+    protected allTags: Tag[] = [];
+    protected allSSTags: SoftSkillTag[] = [];
+    protected allEntities: Entity[] = [];
+    protected allCompanies: Company[] = [];
     protected readonly tag = signal<Tag | null>(null);
     protected readonly hide = signal(false);
     protected readonly load = signal(false);
-    protected readonly allTags: Tag[] = [];
-    protected readonly allSSTags: SoftSkillTag[] = [];
-    protected readonly allEntities: Entity[] = [];
-    protected readonly allCompanies: Company[] = [];
     protected readonly relatedCertificates = signal<Certificate[]>([]);
     protected readonly relatedAchievements = signal<Achievement[]>([]);
     protected readonly relatedBadges = signal<Badge[]>([]);
     protected readonly relatedProjects = signal<Project[]>([]);
     protected readonly relatedJobs = signal<Job[]>([]);
+    private readonly router = inject(Router);
 
     constructor(
         private readonly route: ActivatedRoute,
@@ -80,7 +81,8 @@ export class SkillComponent {
         this.db
             .queryData(
                 'certs',
-                this.db.whereConstraint('tags', 'array-contains', this.path)
+                this.db.whereConstraint('tags', 'array-contains', this.path),
+                this.db.orderByConstraint('date', 'desc')
             )
             .subscribe((certs: Certificate[]) => {
                 this.relatedCertificates.set(certs);
@@ -92,7 +94,8 @@ export class SkillComponent {
         this.db
             .queryData(
                 'achievements',
-                this.db.whereConstraint('tags', 'array-contains', this.path)
+                this.db.whereConstraint('tags', 'array-contains', this.path),
+                // this.db.orderByConstraint('date', 'desc')
             )
             .subscribe((achievements: Achievement[]) => {
                 this.relatedAchievements.set(achievements);
@@ -104,7 +107,8 @@ export class SkillComponent {
         this.db
             .queryData(
                 'badges',
-                this.db.whereConstraint('tags', 'array-contains', this.path)
+                this.db.whereConstraint('tags', 'array-contains', this.path),
+                // this.db.orderByConstraint('date', 'desc')
             )
             .subscribe((badges: Badge[]) => {
                 this.relatedBadges.set(badges);
@@ -128,7 +132,8 @@ export class SkillComponent {
         this.db
             .queryData(
                 'jobs',
-                this.db.whereConstraint('tags', 'array-contains', this.path)
+                this.db.whereConstraint('tags', 'array-contains', this.path),
+                // this.db.orderByConstraint('endDate', 'desc')
             )
             .subscribe((jobs: Job[]) => {
                 this.relatedJobs.set(jobs);
@@ -151,7 +156,7 @@ export class SkillComponent {
                     this.db.whereConstraint('path', 'in', tagsPaths)
                 )
                 .subscribe((tags: Tag[]) => {
-                    this.allTags.push(...tags);
+                    this.allTags = tags;
                     this.loadSSTags();
                 });
         else this.loadSSTags();
@@ -172,7 +177,7 @@ export class SkillComponent {
                     this.db.whereConstraint('path', 'in', ssTagsPaths)
                 )
                 .subscribe((sstags: SoftSkillTag[]) => {
-                    this.allSSTags.push(...sstags);
+                    this.allSSTags = sstags;
                     this.loadEntities();
                 });
         else this.loadEntities();
@@ -191,7 +196,7 @@ export class SkillComponent {
                     this.db.whereConstraint('path', 'in', entitiesPaths)
                 )
                 .subscribe((entities: Entity[]) => {
-                    this.allEntities.push(...entities);
+                    this.allEntities = entities;
                     this.loadCompanies();
                 });
         else this.loadCompanies();
@@ -208,7 +213,7 @@ export class SkillComponent {
                     this.db.whereConstraint('path', 'in', companiesPaths)
                 )
                 .subscribe((companies: Company[]) => {
-                    this.allCompanies.push(...companies);
+                    this.allCompanies = companies;
                     this.tag.set(this.allTags.find((tag) => tag.path === this.path) ?? null);
                     this.title = this.tag()?.name ?? 'Not Found';
                     setTimeout(() => {
@@ -218,16 +223,24 @@ export class SkillComponent {
                         }, 1000);
                     }, 100 * (this.title.length + 1));
                 });
-        else {
-            this.tag.set(this.allTags.find((tag) => tag.path === this.path) ?? null);
-            this.title = this.tag()?.name ?? 'Not Found';
-            setTimeout(() => {
-                this.load.set(true);
+        else this.loadTag();
+    }
+
+    private loadTag() {
+        this.db
+            .loadDoc('tags', this.path)
+            .subscribe((tag: Tag) => {
+                if (tag === undefined)
+                    this.router.navigate(['/404']);
+                this.tag.set(tag);
+                this.title = this.tag()?.name ?? 'Not Found';
                 setTimeout(() => {
-                    this.hide.set(true);
-                }, 1000);
-            }, 100 * (this.title.length + 1));
-        }
+                    this.load.set(true);
+                    setTimeout(() => {
+                        this.hide.set(true);
+                    }, 1000);
+                }, 100 * (this.title.length + 1));
+            });
     }
 
     protected getTags(tagsPaths: string[]) {

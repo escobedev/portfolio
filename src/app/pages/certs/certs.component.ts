@@ -34,9 +34,9 @@ export class CertsComponent {
   protected readonly hide = signal(false);
   protected readonly load = signal(false);
   protected readonly certs = signal<Certificate[]>([]);
-  protected readonly allCerts: Certificate[] = [];
-  protected readonly allTags: Tag[] = [];
-  protected readonly allEntities: Entity[] = [];
+  protected allCerts: Certificate[] = [];
+  protected allTags: Tag[] = [];
+  protected allEntities: Entity[] = [];
   protected selectedTags: string[] = [];
   protected selectedEntities: string[] = [];
 
@@ -53,9 +53,12 @@ export class CertsComponent {
 
   private loadCertificates() {
     this.db
-    .loadCollection('certs')
+    .queryData(
+      'certs',
+      this.db.orderByConstraint('date', 'desc')
+    )
     .subscribe((certs: Certificate[]) => {
-      this.allCerts.push(...certs);
+      this.allCerts = certs;
       this.certs.set(certs);
       this.loadTags();
     });
@@ -71,7 +74,7 @@ export class CertsComponent {
         this.db.whereConstraint('path', 'in', tagsPaths)
       )
       .subscribe((tags: Tag[]) => {
-        this.allTags.push(...tags);
+        this.allTags = tags;
         this.loadEntities();
       });
   }
@@ -86,7 +89,7 @@ export class CertsComponent {
         this.db.whereConstraint('path', 'in', enititiesPaths)
       )
       .subscribe((entities: Entity[]) => {
-        this.allEntities.push(...entities);
+        this.allEntities = entities;
         this.dataLoaded.set(true);
       });
   }
@@ -112,7 +115,16 @@ export class CertsComponent {
     setTimeout(() => {
       if (this.selectedEntities.length > 0 || this.selectedTags.length > 0)
         this.certs.set(
-          this.allCerts.filter(cert => this.selectedEntities.includes(cert.issuer) || this.selectedTags.some(tag => cert.tags.includes(tag)))
+          this.allCerts.filter(cert => {
+            if (this.selectedEntities.length > 0 && this.selectedTags.length > 0)
+              return this.selectedEntities.some(entity => cert.issuer.includes(entity)) && this.selectedTags.some(tag => cert.tags.includes(tag));
+            else if (this.selectedTags.length > 0)
+              return this.selectedTags.some(tag => cert.tags.includes(tag));
+            else if (this.selectedEntities.length > 0)
+              return this.selectedEntities.some(entity => cert.issuer.includes(entity));
+            else
+              return false;
+          })
         );
       else this.certs.set(this.allCerts);
     });
