@@ -1,0 +1,44 @@
+.spacer { flex: 1 1 auto; }
+
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.is-mobile .toolbar { position: fixed; z-index: 2; }
+h1.app-name { margin-left: 8px; }
+
+.sidenav-container {
+    flex: 1;
+    mat-sidenav {
+        width: min-content;
+        min-width: 200px;
+        mat-nav-list {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            a[mat-list-item] {
+                padding-left: 10px;
+                padding-right: 30px;
+            }
+        }
+    }
+}
+
+.is-mobile .sidenav-container { flex: 1 0 auto; }
+
+.flex-list {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 5px;
+    justify-content: center;
+    gap: 5px;
+    a[mat-list-item] { text-align: center; }
+}

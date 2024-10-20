@@ -10,12 +10,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from "../../layout/footer/footer.component";
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
-import { FirestoreService } from '../../services/firestore.service';
-import { Tag } from '../../utils/tag';
-import { Skills } from '../../utils/skills';
-import { SoftSkillTag, SoftSkills } from '../../utils/soft-skills';
-import { hardSkills, languages } from '../../utils/skills-lists';
+import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { Tag } from '../../shared/models/tag';
+import { Skills } from '../../shared/models/skills';
+import { SoftSkillTag, SoftSkills } from '../../shared/models/soft-skills';
+import { hardSkills, languages } from '../../shared/models/skills-lists';
+import { PageCommons } from '../../shared/utils/page-commons';
+import { SpinnerComponent } from "../../shared/components/spinner/spinner.component";
 
 @Component({
   selector: 'app-skills',
@@ -33,14 +35,12 @@ import { hardSkills, languages } from '../../utils/skills-lists';
     RouterLink,
     TypingTextComponent,
     FooterComponent,
+    SpinnerComponent
 ],
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
-export class SkillsComponent {
-  protected readonly title: string = 'Skills';
-  protected readonly hide = signal(false);
-  protected readonly load = signal(false);
+export class SkillsComponent extends PageCommons {
   protected readonly loaded = signal(false);
   protected hardSkills: Skills[] = [];
   protected softSkills: SoftSkills[] = [];
@@ -51,54 +51,51 @@ export class SkillsComponent {
 
 
   constructor(private readonly db: FirestoreService) {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      this.load.set(true);
-      setTimeout(() => {
-        this.hide.set(true);
-      }, 1000);
-    }, 100 * (this.title.length + 1));
+    super('Skills');
     this.loadTags();
     this.loadSSTags();
     this.loadData();
   }
 
   private loadTags() {
-    this.db
-      .loadCollection('tags')
-      .subscribe((tags: Tag[]) => this.allTags = tags);
+    this.db.getDataWithCache(
+      'tags',
+      () => this.db.loadCollection('tags')
+    ).subscribe((tags: Tag[]) => this.allTags = tags);
   }
 
   private loadSSTags() {
-    this.db
-      .loadCollection('soft-skill-tags')
-      .subscribe((ssTags: SoftSkillTag[]) => this.allSSTags = ssTags);
+    this.db.getDataWithCache(
+      'sstags',
+      () => this.db.loadCollection('soft-skill-tags')
+    ).subscribe((ssTags: SoftSkillTag[]) => this.allSSTags = ssTags);
   }
 
   private loadData() {
-    this.db
-      .loadDoc('data', 'skills')
-      .subscribe((data: any) => {
-        this.tagsPaths = [...data['hard-skills'] as string[], ...data['languages'] as string[]];
-        this.softSkills = data['soft-skills'] as SoftSkills[];
-        for (const field of hardSkills) {
-          const tags = this.getTagsByType(field);
-          if (tags.length > 0)
-            this.hardSkills.push({
-              name: field,
-              skills: tags,
-            });
-        }
-        for (const field of languages) {
-          const tags = this.getTagsByType(field);
-          if (tags.length > 0)
-            this.languages.push({
-              name: field,
-              skills: tags,
-            });
-        }
-        this.loaded.set(true);
-      })
+    this.db.getDataWithCache(
+      'data_skills',
+      () => this.db.loadDoc('data', 'skills')
+    ).subscribe((data: any) => {
+      this.tagsPaths = [...data['hard-skills'] as string[], ...data['languages'] as string[]];
+      this.softSkills = data['soft-skills'] as SoftSkills[];
+      for (const field of hardSkills) {
+        const tags = this.getTagsByType(field);
+        if (tags.length > 0)
+          this.hardSkills.push({
+            name: field,
+            skills: tags,
+          });
+      }
+      for (const field of languages) {
+        const tags = this.getTagsByType(field);
+        if (tags.length > 0)
+          this.languages.push({
+            name: field,
+            skills: tags,
+          });
+      }
+      this.loaded.set(true);
+    })
   }
 
   private getTagsByType(tagsType: string) {
@@ -114,9 +111,5 @@ export class SkillsComponent {
     for (const tag of tags)
       sum += this.getSSTag(tag).level * 10;
     return sum / tags.length;
-  }
-
-  protected scrollUp() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

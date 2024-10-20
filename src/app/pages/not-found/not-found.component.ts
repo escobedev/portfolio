@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
+import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 
 @Component({
   selector: 'app-not-found',

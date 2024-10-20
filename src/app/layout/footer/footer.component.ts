@@ -3,9 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.component';
-import { ThemeService } from '../../services/theme.service';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-service.component';
+import { ThemeService } from '../../core/theme.service';
 
 @Component({
   selector: 'app-footer',

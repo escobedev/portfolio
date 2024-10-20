@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="full-stack">
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
@@ -15,7 +15,7 @@
     </p>
     @if (load()) {
         @if (dataLoaded()) {
-            <div class="flex-container fetch-animation">
+            <div class="full-stack fetch-animation">
                 <div class="page-title">
                     <mat-icon [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">workspace_premium</mat-icon>
                     <h1>Certificates</h1>
@@ -26,7 +26,7 @@
                             <mat-icon>filter_list</mat-icon>
                             &nbsp;Filter by skill
                         </ng-template>
-                        <div class="flex-container">
+                        <div class="full-stack">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
                                 @for (tag of allTags; track $index) {
                                     <mat-chip-option (click)="toggleTag(tag)">
@@ -49,7 +49,7 @@
                             <mat-icon>filter_list</mat-icon>
                             &nbsp;Filter by issuer
                         </ng-template>
-                        <div class="flex-container">
+                        <div class="full-stack">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
                                 @for (entity of allEntities; track $index) {
                                     <mat-chip-option (click)="toggleEntity(entity)">
@@ -70,12 +70,12 @@
                         <app-cert-box [certificate]="certificate" [index]="$index" [tags]="getTags(certificate.tags)" [entity]="getEntity(certificate.issuer)"/>
                     }
                 </div>
-                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
+                <button mat-fab (click)="scrollUp(0, 'smooth')"><mat-icon>arrow_upward</mat-icon></button>
                 <br>
                 <app-footer class="full-width"/>
             </div>
         } @else {
-            <div class="chunk">
+            <div class="viewport">
                 <mat-spinner></mat-spinner>
             </div>
         }

@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { Project } from '../../utils/project';
-import { Tag } from '../../utils/tag';
+import { Project } from '../../models/project';
+import { Tag } from '../../models/tag';
 
 @Component({
   selector: 'app-project-box',

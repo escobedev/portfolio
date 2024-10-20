@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="full-stack">
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
@@ -12,7 +12,7 @@
         <app-typing-text [text]="title"/>
     </p>
     @if (load()) {
-        <div class="flex-container">
+        <div class="full-stack">
             <div class="general-overview">
                 <div class="company-list">
                     @for (company of companies; track $index) {
@@ -43,7 +43,7 @@
                 }
             </div>
         </div>
-        <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
+        <button mat-fab (click)="scrollUp(0, 'smooth')"><mat-icon>arrow_upward</mat-icon></button>
         <br>
         <app-footer class="full-width" />
     }

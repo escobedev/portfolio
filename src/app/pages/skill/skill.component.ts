@@ -5,21 +5,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
-import { ProjectBoxComponent } from "../../components/project-box/project-box.component";
+import { CertBoxComponent } from "../../shared/components/cert-box/cert-box.component";
+import { ProjectBoxComponent } from "../../shared/components/project-box/project-box.component";
 import { FooterComponent } from "../../layout/footer/footer.component";
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
-import { FirestoreService } from '../../services/firestore.service';
-import { Certificate } from '../../utils/certificate';
-import { Achievement } from '../../utils/achievement';
-import { Badge } from '../../utils/badge';
-import { Project } from '../../utils/project';
-import { Job } from '../../utils/job';
-import { Entity } from '../../utils/entity';
-import { Tag } from '../../utils/tag';
-import { Company } from '../../utils/company';
-import { Place } from '../../utils/place';
-import { SoftSkillTag } from '../../utils/soft-skills';
+import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { Certificate } from '../../shared/models/certificate';
+import { Achievement } from '../../shared/models/achievement';
+import { Badge } from '../../shared/models/badge';
+import { Project } from '../../shared/models/project';
+import { Job } from '../../shared/models/job';
+import { Entity } from '../../shared/models/entity';
+import { Tag } from '../../shared/models/tag';
+import { Company } from '../../shared/models/company';
+import { Place } from '../../shared/models/place';
+import { SoftSkillTag } from '../../shared/models/soft-skills';
 
 @Component({
     selector: 'app-skill',
@@ -73,167 +73,141 @@ export class SkillComponent {
             this.hide.set(false);
             this.load.set(false);
             this.path = params.get('skill') ?? '';
-            this.loadRelatedCertificates();
+            setTimeout(() => this.loadRelatedCertificates());
         });
     }
 
     private loadRelatedCertificates() {
-        this.db
-            .queryData(
+        this.db.getDataWithCache(
+            'certs_orderby_date_desc',
+            () => this.db.queryData(
                 'certs',
-                this.db.whereConstraint('tags', 'array-contains', this.path),
                 this.db.orderByConstraint('date', 'desc')
             )
-            .subscribe((certs: Certificate[]) => {
-                this.relatedCertificates.set(certs);
-                this.loadRelatedAchievements();
-            });
+        ).subscribe((certs: Certificate[]) => {
+            this.relatedCertificates.set(certs.filter(cert => cert.tags.includes(this.path)));
+            this.loadRelatedAchievements();
+        });
     }
 
     private loadRelatedAchievements() {
-        this.db
-            .queryData(
+        this.db.getDataWithCache(
+            'achievements_orderby_date_desc',
+            () => this.db.queryData(
                 'achievements',
-                this.db.whereConstraint('tags', 'array-contains', this.path),
                 // this.db.orderByConstraint('date', 'desc')
             )
-            .subscribe((achievements: Achievement[]) => {
-                this.relatedAchievements.set(achievements);
-                this.loadRelatedBadges();
-            });
+        ).subscribe((achievements: Achievement[]) => {
+            this.relatedAchievements.set(achievements.filter(achievement => achievement.tags.includes(this.path)));
+            this.loadRelatedBadges();
+        });
     }
 
     private loadRelatedBadges() {
-        this.db
-            .queryData(
+        this.db.getDataWithCache(
+            'badges_orderby_date_desc',
+            () => this.db.queryData(
                 'badges',
-                this.db.whereConstraint('tags', 'array-contains', this.path),
                 // this.db.orderByConstraint('date', 'desc')
             )
-            .subscribe((badges: Badge[]) => {
-                this.relatedBadges.set(badges);
-                this.loadRelatedProjects();
-            });
+        ).subscribe((badges: Badge[]) => {
+            this.relatedBadges.set(badges.filter(badge => badge.tags.includes(this.path)));
+            this.loadRelatedProjects();
+        });
     }
 
     private loadRelatedProjects() {
-        this.db
-            .queryData(
-                'projects',
-                this.db.whereConstraint('tags', 'array-contains', this.path)
-            )
-            .subscribe((projects: Project[]) => {
-                this.relatedProjects.set(projects);
-                this.loadRelatedJobs();
-            });
+        this.db.getDataWithCache(
+            'projects',
+            () => this.db.loadCollection('projects')
+        ).subscribe((projects: Project[]) => {
+            this.relatedProjects.set(projects.filter(project => project.tags.includes(this.path)));
+            this.loadRelatedJobs();
+        });
     }
 
     private loadRelatedJobs() {
-        this.db
-            .queryData(
+        this.db.getDataWithCache(
+            'jobs_orderby_enddate_desc',
+            () => this.db.queryData(
                 'jobs',
-                this.db.whereConstraint('tags', 'array-contains', this.path),
                 // this.db.orderByConstraint('endDate', 'desc')
             )
-            .subscribe((jobs: Job[]) => {
-                this.relatedJobs.set(jobs);
-                this.loadTags();
-            });
+        ).subscribe((jobs: Job[]) => {
+            this.relatedJobs.set(jobs.filter(job => job.hardSkills.includes(this.path)));
+            this.loadTags();
+        });
     }
 
     private loadTags() {
         const tagsPaths = [
-          ...new Set(this.relatedCertificates().flatMap((cert) => cert.tags)),
-          ...new Set(this.relatedAchievements().flatMap((achievement) => achievement.tags)),
-          ...new Set(this.relatedBadges().flatMap((badge) => badge.tags)),
-          ...new Set(this.relatedProjects().flatMap((project) => project.tags)),
-          ...new Set(this.relatedJobs().flatMap((job) => job.hardSkills)),
+          ...new Set(this.relatedCertificates().flatMap(cert => cert.tags)),
+          ...new Set(this.relatedAchievements().flatMap(achievement => achievement.tags)),
+          ...new Set(this.relatedBadges().flatMap(badge => badge.tags)),
+          ...new Set(this.relatedProjects().flatMap(project => project.tags)),
+          ...new Set(this.relatedJobs().flatMap(job => job.hardSkills)),
         ];
         if (tagsPaths.length > 0)
-            this.db
-                .queryData(
-                    'tags',
-                    this.db.whereConstraint('path', 'in', tagsPaths)
-                )
-                .subscribe((tags: Tag[]) => {
-                    this.allTags = tags;
-                    this.loadSSTags();
-                });
+            this.db.getDataWithCache(
+                'tags',
+                () => this.db.loadCollection('tags')
+            ).subscribe((tags: Tag[]) => {
+                this.allTags = tags.filter(tag => tagsPaths.includes(tag.path));
+                this.loadSSTags();
+            });
         else this.loadSSTags();
     }
 
     private loadSSTags() {
         const ssTagsPaths = [
-          ...new Set(this.relatedCertificates().flatMap((cert) => cert.tags)),
-          ...new Set(this.relatedAchievements().flatMap((achievement) => achievement.tags)),
-          ...new Set(this.relatedBadges().flatMap((badge) => badge.tags)),
-          ...new Set(this.relatedProjects().flatMap((project) => project.tags)),
-          ...new Set(this.relatedJobs().flatMap((job) => job.softSkills)),
+          ...new Set(this.relatedCertificates().flatMap(cert => cert.tags)),
+          ...new Set(this.relatedAchievements().flatMap(achievement => achievement.tags)),
+          ...new Set(this.relatedBadges().flatMap(badge => badge.tags)),
+          ...new Set(this.relatedProjects().flatMap(project => project.tags)),
+          ...new Set(this.relatedJobs().flatMap(job => job.softSkills)),
         ];
         if (ssTagsPaths.length > 0)
-            this.db
-                .queryData(
-                    'soft-skill-tags',
-                    this.db.whereConstraint('path', 'in', ssTagsPaths)
-                )
-                .subscribe((sstags: SoftSkillTag[]) => {
-                    this.allSSTags = sstags;
-                    this.loadEntities();
-                });
+            this.db.getDataWithCache(
+                'sstags',
+                () => this.db.loadCollection('soft-skill-tags')
+            ).subscribe((sstags: SoftSkillTag[]) => {
+                this.allSSTags = sstags.filter(sstag => ssTagsPaths.includes(sstag.path));
+                this.loadEntities();
+            });
         else this.loadEntities();
     }
 
     private loadEntities() {
         const entitiesPaths = [
-          ...new Set(this.relatedCertificates().flatMap((cert) => cert.issuer)),
-          ...new Set(this.relatedAchievements().flatMap((achievement) => achievement.issuer)),
-          ...new Set(this.relatedBadges().flatMap((badge) => badge.issuer)),
+          ...new Set(this.relatedCertificates().flatMap(cert => cert.issuer)),
+          ...new Set(this.relatedAchievements().flatMap(achievement => achievement.issuer)),
+          ...new Set(this.relatedBadges().flatMap(badge => badge.issuer)),
         ];
         if (entitiesPaths.length > 0)
-            this.db
-                .queryData(
-                    'entities',
-                    this.db.whereConstraint('path', 'in', entitiesPaths)
-                )
-                .subscribe((entities: Entity[]) => {
-                    this.allEntities = entities;
-                    this.loadCompanies();
-                });
+            this.db.getDataWithCache(
+                'entities',
+                () => this.db.loadCollection('entities')
+            ).subscribe((entities: Entity[]) => {
+                this.allEntities = entities.filter(entity => entitiesPaths.includes(entity.path));
+                this.loadCompanies();
+            });
         else this.loadCompanies();
     }
 
     private loadCompanies() {
         const companiesPaths = [
-          ...new Set(this.relatedJobs().flatMap((job) => job.hardSkills)),
+          ...new Set(this.relatedJobs().flatMap(job => job.hardSkills)),
         ];
         if (companiesPaths.length > 0)
-            this.db
-                .queryData(
-                    'companies',
-                    this.db.whereConstraint('path', 'in', companiesPaths)
-                )
-                .subscribe((companies: Company[]) => {
-                    this.allCompanies = companies;
-                    this.tag.set(this.allTags.find((tag) => tag.path === this.path) ?? null);
-                    this.title = this.tag()?.name ?? 'Not Found';
-                    setTimeout(() => {
-                        this.load.set(true);
-                        setTimeout(() => {
-                            this.hide.set(true);
-                        }, 1000);
-                    }, 100 * (this.title.length + 1));
-                });
-        else this.loadTag();
-    }
-
-    private loadTag() {
-        this.db
-            .loadDoc('tags', this.path)
-            .subscribe((tag: Tag) => {
-                if (tag === undefined)
-                    this.router.navigate(['/404']);
-                this.tag.set(tag);
-                this.title = this.tag()?.name ?? 'Not Found';
+            this.db.getDataWithCache(
+                'companies',
+                () => this.db.loadCollection('companies')
+            ).subscribe((companies: Company[]) => {
+                this.allCompanies = companies.filter(company => companiesPaths.includes(company.path));
+                const currentTag = this.allTags.find(tag => tag.path === this.path) ?? null
+                this.tag.set(currentTag);
+                this.title = currentTag?.name ?? 'Not Found';
+                this.load.set(false);
                 setTimeout(() => {
                     this.load.set(true);
                     setTimeout(() => {
@@ -241,6 +215,27 @@ export class SkillComponent {
                     }, 1000);
                 }, 100 * (this.title.length + 1));
             });
+        else this.loadTag();
+    }
+
+    private loadTag() {
+        this.db.getDataWithCache(
+            'tags',
+            () => this.db.loadCollection('tags')
+        ).subscribe((tags: Tag[]) => {
+            const currentTag = tags.find(tag => tag.path === this.path);
+            if (currentTag === undefined)
+                this.router.navigate(['/404']);
+            this.tag.set(currentTag ?? null);
+            this.title = currentTag?.name ?? 'Not Found';
+            this.load.set(false);
+            setTimeout(() => {
+                this.load.set(true);
+                setTimeout(() => {
+                    this.hide.set(true);
+                }, 1000);
+            }, 100 * (this.title.length + 1));
+        });
     }
 
     protected getTags(tagsPaths: string[]) {

@@ -35,10 +35,10 @@ export class Job {
     set position(position: string) { this._position = position; }
     get company() { return this._company; }
     set company(company: string) { this._company = company; }
-    get startDate() { return this._startDate.toDate(); }
-    set startDate(startDate: Date) { this._startDate = Timestamp.fromDate(startDate); }
-    get endDate() { return this._endDate.toDate(); }
-    set endDate(endDate: Date) { this._endDate = Timestamp.fromDate(endDate); }
+    get startDate() { return this._startDate; }
+    set startDate(startDate: Timestamp) { this._startDate = startDate; }
+    get endDate() { return this._endDate; }
+    set endDate(endDate: Timestamp) { this._endDate = endDate; }
     get hardSkills() { return this._hardSkills; }
     set hardSkills(hardSkills: (string)[]) { this._hardSkills = hardSkills; }
     get softSkills() { return this._softSkills; }

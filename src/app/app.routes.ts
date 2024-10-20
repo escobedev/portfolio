@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
-import { ProjectsComponent } from './pages/projects/projects.component';
-import { SkillsComponent } from './pages/skills/skills.component';
-import { ExperienceComponent } from './pages/experience/experience.component';
 
 export const routes: Routes = [
     {
         path: '',
+        pathMatch: 'full',
+        redirectTo: 'home',
+    },
+    {
+        path: 'home',
         title: 'Bruno Escobedo',
         pathMatch: 'full',
         loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),

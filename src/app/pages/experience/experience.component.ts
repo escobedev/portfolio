@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
+import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { FooterComponent } from '../../layout/footer/footer.component';
-import { JobBoxComponent } from '../../components/job-box/job-box.component';
-import { JobEntry, jobEntries } from '../../interfaces/job-entry.interface';
-import { companies } from '../../interfaces/company.interface';
+import { JobBoxComponent } from '../../shared/components/job-box/job-box.component';
+import { JobEntry, jobEntries } from '../../shared/interfaces/job-entry.interface';
+import { companies } from '../../shared/interfaces/company.interface';
+import { PageCommons } from '../../shared/utils/page-commons';
 
 @Component({
   selector: 'app-experience',
@@ -20,21 +21,14 @@ import { companies } from '../../interfaces/company.interface';
   templateUrl: './experience.component.html',
   styleUrl: './experience.component.scss'
 })
-export class ExperienceComponent {
-  protected readonly title: string = 'Job Experience';
+export class ExperienceComponent extends PageCommons {
   protected readonly jobEntries = signal<JobEntry[]>([]);
-  protected readonly load = signal(false);
+  protected readonly JobEntries = jobEntries;
+  protected readonly companies = companies;
 
   constructor() {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      this.load.set(true);
-      this.loadJobEntry(0);
-    }, 100 * (this.title.length + 1));
+    super('Job Experience', undefined, undefined, () => this.loadJobEntry(0));
   }
-
-  JobEntries = jobEntries;
-  companies = companies;
 
   private loadJobEntry(index: number) {
     if (index < this.JobEntries.length)
@@ -42,11 +36,7 @@ export class ExperienceComponent {
         return [...oldEntries, this.JobEntries[index]];
       });
   }
-  loaded(name: string) {
+  protected loaded(name: string) {
     if (name) this.loadJobEntry(this.jobEntries().length);
-  }
-
-  scrollUp() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

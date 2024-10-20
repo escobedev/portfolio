@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="full-stack">
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
@@ -20,11 +20,11 @@
         </div>
         <div class="grid-button-list">
             @for (field of fields; track field) {
-                <button mat-fab extended (click)="filterProjects(field.name)" [disabled]="!['Web'].includes(field.name)"><mat-icon>{{ field.icon }}</mat-icon>{{ field.name }}</button>
+                <button mat-fab extended (click)="filterProjectsByField(field.name)" [disabled]="!['Web'].includes(field.name)"><mat-icon>{{ field.icon }}</mat-icon>{{ field.name }}</button>
             }
         </div>
         @if (dataLoaded()) {
-            <div class="flex-container fetch-animation">
+            <div class="full-stack fetch-animation">
                 <p class="section-title">
                     {{ selected() }} Projects&nbsp;
                     <mat-chip>{{ projects().length - 1 }}</mat-chip>
@@ -35,7 +35,7 @@
                             <mat-icon>filter_list</mat-icon>
                             &nbsp;Filter by skill
                         </ng-template>
-                        <div class="flex-container">
+                        <div class="full-stack">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
                                 @for (tag of allTags; track $index) {
                                     <mat-chip-option (click)="toggleTag(tag)">
@@ -59,7 +59,7 @@
                         <app-project-box [project]="project" [index]="$index % 4 + 1" [tags]="getTags(project.tags)"/>
                     }
                 </div>
-                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button>
+                <button mat-fab (click)="scrollUp(330, 'smooth')"><mat-icon>arrow_upward</mat-icon></button>
                 <app-footer class="full-width" />
             </div>
         } @else if (selected()) {

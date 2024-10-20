@@ -39,9 +39,7 @@
         </mat-chip-set>
         <p><strong>Responsibilities:</strong></p>
         <ul>
-            @for (responsability of job.responsibilities; track $index) {
-                <li>{{ responsability }}</li>
-            }
+            @for (responsability of job.responsibilities; track $index) { <li>{{ responsability }}</li> }
         </ul>
     </mat-card-content>
     <mat-card-actions align="end">

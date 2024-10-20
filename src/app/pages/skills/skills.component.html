@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="full-stack">
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
@@ -19,14 +19,14 @@
             <h1>Skills</h1>
         </div>
         @if (loaded()) {
-            <div class="flex-container fetch-animation">
+            <div class="full-stack fetch-animation">
                 <mat-tab-group class="full-width" mat-stretch-tabs="false" mat-align-tabs="center" dynamicHeight>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon>build</mat-icon>
                             &nbsp;Hard Skills
                         </ng-template>
-                        <div class="flex-container content">
+                        <div class="full-stack content">
                             @for (set of hardSkills; track $index) {
                                 @defer (on viewport) {
                                     <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
@@ -53,7 +53,7 @@
                                         </mat-card-content>
                                     </mat-card>
                                 } @placeholder {
-                                    <div class="placeholder flex-container" [style.height.px]="200"><mat-spinner></mat-spinner></div>
+                                    <div class="placeholder full-stack" [style.height.px]="200"><mat-spinner></mat-spinner></div>
                                 }
                             }
                         </div>
@@ -64,7 +64,7 @@
                             <mat-icon>handshake</mat-icon>
                             &nbsp;Soft Skills
                         </ng-template>
-                        <div class="flex-container content">
+                        <div class="full-stack content">
                             @for (set of softSkills; track $index) {
                                 @defer (on viewport) {
                                     <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
@@ -75,15 +75,12 @@
                                         <mat-card-content>
                                             <br>
                                             @defer (on viewport) {
-                                                <div class="flex-container bloom-animation">
-                                                    <div class="relative">
-                                                        @let score = avgLevels(set.skills);
-                                                        <mat-progress-spinner matListItemIcon mode="determinate" [value]="score"></mat-progress-spinner>
-                                                        <span class="absolute spinner-text">{{ score | number: '1.1-1' }}</span>
-                                                    </div>
+                                                <div class="full-stack bloom-animation">
+                                                    @let score = avgLevels(set.skills);
+                                                    <app-spinner [value]="score"/><br>
                                                 </div>
                                             } @placeholder (minimum 250ms) {
-                                                <div class="flex-container transparent">
+                                                <div class="full-stack transparent">
                                                     <div class="relative">
                                                         <mat-spinner></mat-spinner>
                                                     </div>
@@ -94,7 +91,7 @@
                                                     @let ssTag = getSSTag(skill);
                                                     @defer (on viewport) {
                                                         <mat-list-item class="fetch-animation" lines="3">
-                                                            <mat-progress-spinner matListItemIcon diameter="30" mode="determinate" [value]="ssTag.level * 10"></mat-progress-spinner>
+                                                            <app-spinner matListItemIcon [style.width.px]="40" [value]="ssTag.level * 10" [diameter]="40"/>
                                                             <span matListItemTitle>{{ ssTag.name }}</span>
                                                             <span>{{ ssTag.description }}</span>
                                                         </mat-list-item>
@@ -110,11 +107,11 @@
                                         </mat-card-content>
                                     </mat-card>
                                 } @placeholder {
-                                    <div class="placeholder flex-container" [style.height.px]="500"><mat-spinner></mat-spinner></div>
+                                    <div class="placeholder full-stack" [style.height.px]="500"><mat-spinner></mat-spinner></div>
                                 } @loading {
-                                    <div class="placeholder flex-container" [style.height.px]="500"><mat-spinner></mat-spinner></div>
+                                    <div class="placeholder full-stack" [style.height.px]="500"><mat-spinner></mat-spinner></div>
                                 } @error {
-                                    <div class="placeholder flex-container" [style.height.px]="500">
+                                    <div class="placeholder full-stack" [style.height.px]="500">
                                         <mat-icon>error</mat-icon>
                                         <span>Error loading skills.</span>
                                     </div>
@@ -128,7 +125,7 @@
                             <mat-icon>language</mat-icon>
                             &nbsp;Languages
                         </ng-template>
-                        <div class="flex-container content">
+                        <div class="full-stack content">
                             @for (set of languages; track $index) {
                                 @defer (on viewport) {
                                     <mat-card class="skills-card fetch-animation" [class]="'border-' + ($index % 4 + 1)" appearance="outlined">
@@ -155,7 +152,7 @@
                                         </mat-card-content>
                                     </mat-card>
                                 } @placeholder {
-                                    <div class="placeholder flex-container" [style.height.px]="200"><mat-spinner></mat-spinner></div>
+                                    <div class="placeholder full-stack" [style.height.px]="200"><mat-spinner></mat-spinner></div>
                                 }
                             }
                             @defer (on viewport) {
@@ -177,11 +174,11 @@
                         </div>
                     </mat-tab>
                 </mat-tab-group>
-                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button><br>
+                <button mat-fab (click)="scrollUp(0, 'smooth')"><mat-icon>arrow_upward</mat-icon></button><br>
                 <app-footer class="full-width" />
             </div>
         } @else {
-            <div class="chunk">
+            <div class="viewport">
                 <mat-spinner></mat-spinner>
             </div>
         }

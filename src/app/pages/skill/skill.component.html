@@ -1,5 +1,5 @@
-<div class="flex-container">
-    @if (tag()) {
+<div class="full-stack">
+    @if (tag() !== null) {
         <p
             [style.font-size]="'3rem'"
             [style.text-align]="'center'"
@@ -104,7 +104,7 @@
             }
         }
     } @else {
-        <div class="chunk">
+        <div class="viewport">
             <mat-spinner></mat-spinner>
         </div>
     }

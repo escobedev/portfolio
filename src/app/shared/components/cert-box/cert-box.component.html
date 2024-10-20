@@ -37,8 +37,8 @@
                 </a>
                 <mat-list-item>
                     <mat-icon matListItemIcon>event</mat-icon>
-                    <div matListItemTitle>{{ certificate.date.toDate() | date: 'MMMM dd' }}</div>
-                    <div matListItemLine>{{ certificate.date.toDate() | date: 'yyyy' }}</div>
+                    <div matListItemTitle>{{ getDate(certificate.date) | date: 'MMMM dd' }}</div>
+                    <div matListItemLine>{{ getDate(certificate.date) | date: 'yyyy' }}</div>
                 </mat-list-item>
             </mat-list>
         </mat-card-content>

@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="full-stack">
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
@@ -12,7 +12,7 @@
         <app-typing-text [text]="title"/>
     </p>
     @if (load()) {
-        <div class="container">
+        <div class="stack">
             <div class="card-container">
                 <div class="relative card-container no-padding">
                     @for (p of paragraphs; track p) {
@@ -25,120 +25,176 @@
                             </div>
                         }
                     </div>
-                </div>
-                <mat-card class="about-card border-1" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-1" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>school</mat-icon>
-                        <mat-card-title class="gradient-text-1">Education</mat-card-title>
-                        <mat-card-subtitle>Universidad Nacional de Ingeniería</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>
-                            I hold a Bachelor's degree in Electronic Engineering from <abbr matTooltip="Universidad Nacional de Ingeniería">UNI</abbr>.
-                        </p>
-                        <p>Coming soon...</p>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button disabled routerLink="/education">See more</button>
-                    </mat-card-actions>
-                </mat-card>
-
-                <mat-card class="about-card border-2" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-2" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>work</mat-icon>
-                        <mat-card-title class="gradient-text-2">Work Experience</mat-card-title>
-                        <mat-card-subtitle>{{ last_job.company.name }}</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>Previously, I worked at {{ last_job.company.name }} as {{ last_job.position }} where I was responsible of {{ last_job.responsibilities.join('. ') }}</p>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button routerLink="/experience">See more</button>
-                    </mat-card-actions>
-                </mat-card>
-
-                <mat-card class="about-card border-3" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-3" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>electric_bolt</mat-icon>
-                        <mat-card-title class="gradient-text-3">Principal Skills</mat-card-title>
-                        <mat-card-subtitle>Principal skills</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <ul>
-                            <li><strong>Spoken Languages:</strong> Spanish (Native), English (B2), Portuguese (A2), French (A1), German (A1).</li>
-                            <li><strong>Technical Skills:</strong> HTML, CSS, JavaScript, TypeScript, Angular, C, C++, Python, SQL.</li>
-                            <li><strong>Soft Skills:</strong> Problem-Solving, Time Management, Critical Thinking, Self-Esteem, Empathy, Collaboration, Adaptability, Flexibility, Creativity.</li>
-                        </ul>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button routerLink="/skills">See more</button>
-                    </mat-card-actions>
-                </mat-card>
-
-                <mat-card class="about-card border-4" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-4" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>workspace_premium</mat-icon>
-                        <mat-card-title class="gradient-text-4">Certificates</mat-card-title>
-                        <mat-card-subtitle>My latest certificates</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <ul>
-                            @for (certificate of latestCerts; track certificate) {
-                                <li><strong>{{ certificate.name }}</strong> - {{ certificate.date.toDate() | date: 'MMMM dd, yyyy' }}</li>
-                            }
-                        </ul>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button routerLink="/certs">See more</button>
-                    </mat-card-actions>
-                </mat-card>
-            
-                <mat-card class="about-card border-1" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-1" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>emoji_events</mat-icon>
-                        <mat-card-title class="gradient-text-1">Achievements</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>
-                            Coming soon...
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button disabled routerLink="/achievements">See more</button>
-                    </mat-card-actions>
-                </mat-card>
-
-                <mat-card class="about-card border-2" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-2" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>military_tech</mat-icon>
-                        <mat-card-title class="gradient-text-2">Badges</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>
-                            Coming soon...
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button disabled routerLink="/badges">See more</button>
-                    </mat-card-actions>
-                </mat-card>
-
-                <mat-card class="about-card border-3" appearance="outlined">
-                    <mat-card-header>
-                        <mat-icon class="gradient-text-3" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>interests</mat-icon>
-                        <mat-card-title class="gradient-text-3">Interests</mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>Outside of work, I enjoy hanging out with my friends and working on my personal projects, which helps me maintain a balanced perspective.</p>
-                        <p>Coming soon...</p>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                        <button mat-button disabled routerLink="/about">See more</button>
-                    </mat-card-actions>
-                </mat-card>
+                </div><br>
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-1" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-1" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>school</mat-icon>
+                            <mat-card-title class="gradient-text-1">Education</mat-card-title>
+                            <mat-card-subtitle>Universidad Nacional de Ingeniería</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>
+                                I hold a Bachelor's degree in Electronic Engineering from <abbr matTooltip="Universidad Nacional de Ingeniería">UNI</abbr>.
+                            </p>
+                            <p>Coming soon...</p>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button disabled routerLink="/education">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
+                
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-2" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-2" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>work</mat-icon>
+                            <mat-card-title class="gradient-text-2">Work Experience</mat-card-title>
+                            <mat-card-subtitle>{{ last_job.company.name }}</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Previously, I worked at {{ last_job.company.name }} as {{ last_job.position }} where I was responsible of {{ last_job.responsibilities.join('. ') }}</p>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button routerLink="/experience">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
+                
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-3" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-3" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>electric_bolt</mat-icon>
+                            <mat-card-title class="gradient-text-3">Principal Skills</mat-card-title>
+                            <mat-card-subtitle>My high knowledge skills</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-list>
+                                <div mat-subheader>Spoken Languages</div>
+                                <mat-chip-set class="padding-20-h">
+                                    @for (lang of principalLangs; track lang) {
+                                        <mat-chip routerLink="/skills/{{ lang.path }}" matTooltip="{{ lang.level }}">
+                                            <img matChipAvatar src="{{ lang.image }}" />
+                                            {{ lang.name }}
+                                        </mat-chip>
+                                    }
+                                </mat-chip-set>
+                                <div mat-subheader>Technical Skills</div>
+                                <mat-chip-set class="padding-20-h">
+                                    @for (skill of principalHSTags; track skill) {
+                                        <mat-chip routerLink="/skills/{{ skill.path }}" matTooltip="{{ skill.level }}">
+                                            <img matChipAvatar src="{{ skill.image }}" />
+                                            {{ skill.name }}
+                                        </mat-chip>
+                                    }
+                                </mat-chip-set>
+                                
+                                <div mat-subheader>Soft Skills</div>
+                                <mat-chip-set class="padding-20-h">
+                                    @for (skill of principalSSTags; track skill) {
+                                        <mat-chip matTooltip="{{ skill.description }}">
+                                            {{ skill.name }}
+                                        </mat-chip>
+                                    }
+                                </mat-chip-set>
+                            </mat-list>
+                                
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button routerLink="/skills">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
+                
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-4" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-4" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>workspace_premium</mat-icon>
+                            <mat-card-title class="gradient-text-4">Certificates</mat-card-title>
+                            <mat-card-subtitle>My latest certificates</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-list class="grid-button-list">
+                                @for (certificate of latestCerts; track certificate) {
+                                    <mat-list-item>
+                                        <span matListItemTitle>{{ certificate.name }}</span>
+                                        <span>{{ parseDate(certificate.date) | date: 'MMMM dd, yyyy' }}</span>
+                                    </mat-list-item>
+                                }
+                            </mat-list>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button routerLink="/certs">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
+                
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-1" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-1" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>emoji_events</mat-icon>
+                            <mat-card-title class="gradient-text-1">Achievements</mat-card-title>
+                            <mat-card-subtitle></mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>
+                                Coming soon...
+                            </p>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button disabled routerLink="/achievements">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
+                
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-2" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-2" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>military_tech</mat-icon>
+                            <mat-card-title class="gradient-text-2">Badges</mat-card-title>
+                            <mat-card-subtitle></mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>
+                                Coming soon...
+                            </p>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button disabled routerLink="/badges">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
+                
+                @defer (on viewport) {
+                    <mat-card class="about-card fetch-animation border-3" appearance="outlined">
+                        <mat-card-header>
+                            <mat-icon class="gradient-text-3" [style.font-size.px]="45" [style.width.px]="50" [style.height.px]="50" mat-card-avatar>interests</mat-icon>
+                            <mat-card-title class="gradient-text-3">Interests</mat-card-title>
+                            <mat-card-subtitle></mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p>Outside of work, I enjoy hanging out with my friends and working on my personal projects, which helps me maintain a balanced perspective.</p>
+                            <p>Coming soon...</p>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions" align="end">
+                            <button mat-button disabled routerLink="/about">See more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+                @placeholder { <div [style.height.px]="500"></div> }
+                @loading { <div [style.height.px]="500"></div> }
             </div>
         </div>
         <app-footer class="full-width" />

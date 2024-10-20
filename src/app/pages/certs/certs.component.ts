@@ -4,14 +4,20 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CertBoxComponent } from "../../components/cert-box/cert-box.component";
+import { CertBoxComponent } from "../../shared/components/cert-box/cert-box.component";
 import { FooterComponent } from "../../layout/footer/footer.component";
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
-import { FirestoreService } from '../../services/firestore.service';
-import { Certificate } from '../../utils/certificate';
-import { Entity } from '../../utils/entity';
-import { Tag } from '../../utils/tag';
+import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { Certificate } from '../../shared/models/certificate';
+import { Entity } from '../../shared/models/entity';
+import { Tag } from '../../shared/models/tag';
+import { PageCommons } from '../../shared/utils/page-commons';
 
+/**
+ * Certificates page.
+ * @class CertsComponent
+ * @extends PageCommons
+ */
 @Component({
   selector: 'app-certs',
   standalone: true,
@@ -28,89 +34,108 @@ import { Tag } from '../../utils/tag';
   templateUrl: './certs.component.html',
   styleUrl: './certs.component.scss'
 })
-export class CertsComponent {
-  protected readonly title: string = 'Certificates';
+export class CertsComponent extends PageCommons {
   protected readonly dataLoaded = signal(false);
-  protected readonly hide = signal(false);
-  protected readonly load = signal(false);
   protected readonly certs = signal<Certificate[]>([]);
   protected allCerts: Certificate[] = [];
   protected allTags: Tag[] = [];
   protected allEntities: Entity[] = [];
   protected selectedTags: string[] = [];
   protected selectedEntities: string[] = [];
-
+  
+  /**
+   * Constructs the Certificates page.
+   * @constructor
+   * @param db Firestore service.
+   */
   constructor(private readonly db: FirestoreService) {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      this.load.set(true);
-      setTimeout(() => {
-        this.hide.set(true);
-      }, 1000);
-    }, 100 * (this.title.length + 1));
+    super('Certificates');
     this.loadCertificates();
   }
 
+  /**
+   * Loads the certificates from the database.
+   * @function loadCertificates
+   */
   private loadCertificates() {
-    this.db
-    .queryData(
-      'certs',
-      this.db.orderByConstraint('date', 'desc')
-    )
-    .subscribe((certs: Certificate[]) => {
+    this.db.getDataWithCache(
+      'certs_orderby_date_desc',
+      () => this.db.queryData(
+        'certs',
+        this.db.orderByConstraint('date', 'desc')
+      )
+    ).subscribe((certs: Certificate[]) => {
       this.allCerts = certs;
       this.certs.set(certs);
       this.loadTags();
     });
   }
 
+  /**
+   * Loads the tags from the database.
+   * @function loadTags
+   */
   private loadTags() {
     const tagsPaths = [
-      ...new Set(this.certs().flatMap((cert) => cert.tags))
+      ...new Set(this.certs().flatMap(cert => cert.tags))
     ];
-    this.db
-      .queryData(
-        'tags',
-        this.db.whereConstraint('path', 'in', tagsPaths)
-      )
-      .subscribe((tags: Tag[]) => {
-        this.allTags = tags;
-        this.loadEntities();
-      });
+    this.db.getDataWithCache(
+      'tags',
+      () => this.db.loadCollection('tags')
+    ).subscribe((tags: Tag[]) => {
+      this.allTags = tags.filter(tag => tagsPaths.includes(tag.path));
+      this.loadEntities();
+    });
   }
 
+  /**
+   * Loads the entities from the database.
+   * @function loadEntities
+   */
   private loadEntities() {
     const enititiesPaths = [
-      ...new Set(this.certs().flatMap((cert) => cert.issuer))
+      ...new Set(this.certs().flatMap(cert => cert.issuer))
     ];
-    this.db
-      .queryData(
-        'entities',
-        this.db.whereConstraint('path', 'in', enititiesPaths)
-      )
-      .subscribe((entities: Entity[]) => {
-        this.allEntities = entities;
-        this.dataLoaded.set(true);
-      });
+    this.db.getDataWithCache(
+      'entities',
+      () => this.db.loadCollection('entities')
+    ).subscribe((entities: Entity[]) => {
+      this.allEntities = entities.filter(entity => enititiesPaths.includes(entity.path));
+      this.dataLoaded.set(true);
+    });
   }
 
+  /**
+   * Toggles the tag and updates the selected tags.
+   * @function toggleTag
+   * @param tag Tag to toggle.
+   */
   protected toggleTag(tag: Tag) {
     if (!this.selectedTags.includes(tag.path))
       this.selectedTags.push(tag.path);
     else
       this.selectedTags.splice(this.selectedTags.indexOf(tag.path), 1);
-    this.queryFilteredSelection();
+    this.filteredSelection();
   }
 
+  /**
+   * Toggles the entity and updates the selected entities.
+   * @function toggleEntity
+   * @param entity Entity to toggle.
+   */
   protected toggleEntity(entity: Entity) {
     if (!this.selectedEntities.includes(entity.path))
       this.selectedEntities.push(entity.path);
     else
       this.selectedEntities.splice(this.selectedEntities.indexOf(entity.path), 1);
-    this.queryFilteredSelection();
+    this.filteredSelection();
   }
 
-  private queryFilteredSelection() {
+  /**
+   * Filters the certificates based on the selected tags and entities.
+   * @function filteredSelection
+   */
+  private filteredSelection() {
     this.certs.set([]);
     setTimeout(() => {
       if (this.selectedEntities.length > 0 || this.selectedTags.length > 0)
@@ -130,15 +155,23 @@ export class CertsComponent {
     });
   }
 
+  /**
+   * Finds the Tags by their given paths.
+   * @function getTags
+   * @param tagsPaths List of tags' firestore paths.
+   * @returns List of Tags.
+   */
   protected getTags(tagsPaths: string[]) {
     return this.allTags.filter(tag => tagsPaths.includes(tag.path));
   }
 
+  /**
+   * Finds the Entity class by the given path from the list of entities or returns a default 'Unknown' Entity class.
+   * @function getEntity
+   * @param entityPath Firestore path to the entity.
+   * @returns An Entity class.
+   */
   protected getEntity(entityPath: string) {
     return this.allEntities.find(entity => entityPath === entity.path) ?? new Entity('Unknown', '', '', '');
-  }
-
-  protected scrollUp() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

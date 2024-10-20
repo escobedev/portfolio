@@ -5,9 +5,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { TypingTextComponent } from "../../layout/typing-text/typing-text.component";
-import { ThemeService } from '../../services/theme.service';
+import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
+import { ThemeService } from '../../core/theme.service';
+import { PageCommons } from '../../shared/utils/page-commons';
 
+/**
+ * Contact Me page.
+ * @class ContactComponent
+ * @extends PageCommons
+ */
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -24,34 +30,36 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
-export class ContactComponent {
-  protected readonly title: string = 'Contact Me';
-  protected readonly load = signal(false);
-  protected readonly hide = signal(true);
-
-  constructor(private theme: ThemeService) {
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      this.load.set(true);
-    }, 100 * (this.title.length + 1));
-  }
-
-  get currentTheme() {
-    return this.theme.currentTheme ?? 'dark';
-  }
-
-  contactForm = new FormGroup({
+export class ContactComponent extends PageCommons {
+  protected readonly contactForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     subject: new FormControl('', [Validators.required, Validators.maxLength(100)]),
     message: new FormControl('', [Validators.required, Validators.maxLength(2000)])
   });
 
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
+  /**
+   * Constructs the Contact Me page.
+   * @constructor
+   * @param theme Theme service.
+   */
+  constructor(private theme: ThemeService) {
+    super('Contact me');
   }
 
+  /**
+   * Get the current theme.
+   * @function get currentTheme
+   * @returns Current theme.
+   */
+  get currentTheme() {
+    return this.theme.currentTheme ?? 'dark';
+  }
+
+  /**
+   * Send an email.
+   * @function sendEmail
+   */
   sendEmail() {
     const name = this.contactForm.value.name ?? '';
     const email = this.contactForm.value.email ?? '';

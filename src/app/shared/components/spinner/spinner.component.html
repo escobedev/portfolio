@@ -1,0 +1,19 @@
+@if (diameter) {
+    <div class="relative" [style.width.px]="diameter" [style.height.px]="diameter">
+        <mat-progress-spinner matListItemIcon mode="determinate" [diameter]="diameter" [value]="floater"></mat-progress-spinner>
+        <span
+            class="absolute full-width full-height flex all-center"
+            [style.font-size.px]="diameter * 0.3"
+        >
+            {{ floater | number: '1.1-1' }}
+        </span>
+    </div>
+}
+@else {
+    <div class="relative">
+        <mat-progress-spinner matListItemIcon mode="determinate" [value]="floater"></mat-progress-spinner>
+        <span class="absolute full-width full-height flex all-center" [style.font-size]="'1.5em'">
+            {{ floater | number: '1.1-1' }}
+        </span>
+    </div>
+}

@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="full-stack">
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
@@ -19,13 +19,11 @@
                 <div class="profile">
                     @defer (on viewport) {
                         <div class="profile-img bloom-animation">
-                            @defer (on viewport; prefetch on idle) {
-                                <img [style.transform]="'scale(1.2)'" src="assets/profile-pic.jpg" alt="EscobeDev" loading="lazy">
-                            } @placeholder {
-                                <div width="150px" height="150px" class="image-placeholder"><mat-spinner></mat-spinner></div>
-                            }
+                            @defer (on viewport; prefetch on idle) { <img [style.transform]="'scale(1.2)'" src="assets/profile-pic.jpg" alt="EscobeDev" loading="lazy"> }
+                            @placeholder { <div width="150px" height="150px" class="image-placeholder"><mat-spinner></mat-spinner></div> }
                         </div>
-                    } @placeholder (minimum 500ms) { <div class="profile-img transparent"><div height="150px"> </div></div> }
+                    }
+                    @placeholder (minimum 500ms) { <div class="profile-img transparent"><div height="150px"> </div></div> }
                     <div class="profile-info">
                         @defer (on viewport) { <h1 class="fetch-animation" [style.font-family]="'Arial'">Bruno Escobedo</h1> }
                         @placeholder (minimum 500ms) { <h1 class="transparent" [style.font-family]="'Arial'">Bruno Escobedo</h1> }
@@ -38,7 +36,8 @@
                                     <li><a href="https://x.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
                                 </ul>
                             </div>
-                        } @placeholder (minimum 750ms) {
+                        }
+                        @placeholder (minimum 750ms) {
                             <div class="transparent">
                                 <div class="social"><span>&#64;escobedev</span></div>
                                 <ul class="social-icons">
@@ -48,15 +47,13 @@
                                 </ul>
                             </div>
                         }
-                        
                     </div>
                 </div>
                 @defer (on viewport) { <p class="fetch-animation">Hi, I'm <strong>Bruno Jair Escobedo Aguilar</strong>, a self-taught <strong>software developer</strong></p> }
                 @placeholder (minimum 1000ms) { <p class="transparent">Hi, I'm <strong>Bruno Jair Escobedo Aguilar</strong>, a self-taught <strong>software developer</strong></p> }
             </div><br>
-        } @placeholder {
-            <div class="block" height="100vh"></div>
         }
+        @placeholder { <div class="block" height="100vh"></div> }
 
         @defer (on viewport) {
             <div class="block fetch-animation gradient-background-radial">
@@ -65,19 +62,11 @@
                     Hello! I'm Bruno Escobedo, a passionate software developer based in Lima, Peru.
                     I am a dedicated and detail-oriented professional with a background in fiber optic projects, currently transitioning into the dynamic fields of software development and cybersecurity.
                 </p>
-                @defer (on viewport) {
-                    <div class="section-item bloom-animation">
-                        <button mat-flat-button routerLink="/about">Read more</button>
-                    </div>
-                } @placeholder (minimum 250ms) {
-                    <div class="section-item transparent">
-                        <button mat-flat-button> </button>
-                    </div>
-                }
+                @defer (on viewport) { <div class="section-item bloom-animation"><a mat-flat-button routerLink="/about">Read more</a></div> }
+                @placeholder (minimum 250ms) { <div class="section-item transparent"><a mat-flat-button> </a></div> }
             </div>
-        } @placeholder (minimum 500ms) {
-            <div class="block" height="100vh"></div>
         }
+        @placeholder (minimum 500ms) { <div class="block" height="100vh"></div> }
 
         @defer (on viewport) {
             <div class="block fetch-animation">
@@ -107,20 +96,11 @@
                         </mat-expansion-panel>
                     }
                 </mat-accordion>
-                @defer (on viewport) {
-                    <div class="section-item bloom-animation">
-                        <button mat-flat-button routerLink="/projects">See more</button>
-                    </div>
-                } @placeholder (minimum 250ms) {
-                    <div class="section-item transparent">
-                        <button mat-flat-button> </button>
-                    </div>
-                }
+                @defer (on viewport) { <div class="section-item bloom-animation"><a mat-flat-button routerLink="/projects">See more</a></div> }
+                @placeholder (minimum 250ms) { <div class="section-item transparent"><a mat-flat-button> </a></div> }
             </div>
-        } @placeholder (minimum 500ms) {
-            <div class="block" height="100vh"></div>
         }
-
+        @placeholder (minimum 500ms) { <div class="block" height="100vh"></div> }
         <app-footer class="full-width" />
     }
 </div>
