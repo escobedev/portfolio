@@ -75,7 +75,7 @@
                         <mat-card-content>
                             <mat-list>
                                 <div mat-subheader>Spoken Languages</div>
-                                <mat-chip-set class="padding-20-h">
+                                <mat-chip-set class="padding-10-h">
                                     @for (lang of principalLangs; track lang) {
                                         <mat-chip routerLink="/skills/{{ lang.path }}" matTooltip="{{ lang.level }}">
                                             <img matChipAvatar src="{{ lang.image }}" />
@@ -84,7 +84,7 @@
                                     }
                                 </mat-chip-set>
                                 <div mat-subheader>Technical Skills</div>
-                                <mat-chip-set class="padding-20-h">
+                                <mat-chip-set class="padding-10-h">
                                     @for (skill of principalHSTags; track skill) {
                                         <mat-chip routerLink="/skills/{{ skill.path }}" matTooltip="{{ skill.level }}">
                                             <img matChipAvatar src="{{ skill.image }}" />
@@ -94,7 +94,7 @@
                                 </mat-chip-set>
                                 
                                 <div mat-subheader>Soft Skills</div>
-                                <mat-chip-set class="padding-20-h">
+                                <mat-chip-set class="padding-10-h">
                                     @for (skill of principalSSTags; track skill) {
                                         <mat-chip matTooltip="{{ skill.description }}">
                                             {{ skill.name }}
@@ -123,6 +123,7 @@
                             <mat-list class="grid-button-list">
                                 @for (certificate of latestCerts; track certificate) {
                                     <mat-list-item>
+                                        <img matListItemAvatar [src]="certificate.image"/>
                                         <span matListItemTitle>{{ certificate.name }}</span>
                                         <span>{{ parseDate(certificate.date) | date: 'MMMM dd, yyyy' }}</span>
                                     </mat-list-item>

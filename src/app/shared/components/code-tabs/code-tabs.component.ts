@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Code } from '../../interfaces/code';
+import { Code } from '../../models/code';
 import { CodeTextComponent } from "../code-text/code-text.component";
 
 @Component({

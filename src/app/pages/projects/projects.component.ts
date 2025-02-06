@@ -60,20 +60,20 @@ export class ProjectsComponent extends PageCommons {
    */
   constructor(private readonly db: FirestoreService) {
     super('Projects');
-    this.loadProjects();
+    this.loadProjects(() => this.loadTags());
   }
 
   /**
    * Loads the projects from the database.
    * @function loadProjects
    */
-  private loadProjects() {
+  private loadProjects(callback: () => void = () => {}) {
     this.db.getDataWithCache(
       'projects',
       () => this.db.loadCollection('projects')
     ).subscribe((projects: Project[]) => {
       this.allProjects = projects;
-      this.loadTags();
+      callback();
     });
   }
 

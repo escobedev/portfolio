@@ -1,39 +1,46 @@
 <mat-card class="job-card fetch-animation" [class]="'border-' + index" appearance="outlined">
     <mat-card-header>
         <div mat-card-avatar [style.width.px]="45" [style.height.px]="45">
-            <div class="logo-wrapper" [class]="'border-' + index"><img src="{{ job.company.logo }}" alt="{{ job.company.name }}"></div>
+            <div class="logo-wrapper" [class]="'border-' + index"><img src="{{ company.logo }}" alt="{{ company.name }}"></div>
         </div>
         <mat-card-title [class]="'gradient-text-' + index"><strong>{{ job.position }}</strong></mat-card-title>
-        <mat-card-subtitle>{{ job.company.industry }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ company.industry }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <mat-list>
             <mat-list-item>
                 <mat-icon matListItemIcon>place</mat-icon>
-                <div matListItemTitle>{{ job.company.name }}</div>
-                <div matListItemLine>{{ job.location }}</div>
+                <div matListItemTitle>{{ company.name }}</div>
+                <div matListItemLine>{{ company.location.address }}</div>
             </mat-list-item>
             <mat-list-item>
                 <mat-icon matListItemIcon>date_range</mat-icon>
-                <div matListItemTitle>{{ job.startDate | date: 'MMM yyyy' }} - {{ job.endDate | date: 'MMM yyyy' }}</div>
-                <div matListItemLine>{{ convertDate(job.startDate, job.endDate) }}</div>
+                @let startDate = getDate(job.startDate) | date: 'MMM yyyy';
+                @let endDate = job.endDate ? (getDate(job.endDate) | date: 'MMM yyyy') : 'Present';
+                @let timeSpan = convertDate(job.startDate, job.endDate);
+                <div matListItemTitle>{{ startDate }} - {{ endDate }}</div>
+                <div matListItemLine>{{ timeSpan }}</div>
             </mat-list-item>
         </mat-list>
         <p><strong>Hard Skills:</strong></p>
         <mat-chip-set>
-            @for (badge of job.hardSkills; track $index) {
-                <mat-chip>
-                    <img matChipAvatar src="{{ badge }}" alt="{{ badge }}">
-                    {{ badge }}
+            @for (skill of job.hardSkills; track $index) {
+                @let tag = getTag(skill) ?? { name: skill, image: '', path: '' };
+                <mat-chip routerLink="/skills/{{ tag.path }}" matTooltip="{{ tag.name }} {{ job.technologies[$index] ? job.technologies[$index].version : '' }}">
+                    <img matChipAvatar src="{{ tag.image }}" alt="{{ tag.name }}">
+                    {{ tag.name }}
                 </mat-chip>
             }
         </mat-chip-set>
         <p><strong>Soft Skills:</strong></p>
         <mat-chip-set>
-            @for (badge of job.softSkills; track $index) {
-                <mat-chip>
-                    <img matChipAvatar src="{{ badge }}" alt="{{ badge }}">
-                    {{ badge }}
+            @for (skill of job.softSkills; track $index) {
+                @let tag = getTag(skill);
+                @let ssTag = getSSTag(skill);
+                @let ss = getSS(ssTag.path);
+                <mat-chip routerLink="/skills/{{ tag ? tag.path : '' }}" matTooltip="{{ tag ? tag.name : ssTag.description + ' (' + ss?.name + ')' }}">
+                    <img matChipAvatar src="{{ tag ? tag.image : ss?.image }}" alt="{{ tag ? tag.name : ssTag.name }}">
+                    {{ tag ? tag.name : ssTag.name }}
                 </mat-chip>
             }
         </mat-chip-set>

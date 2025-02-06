@@ -2,49 +2,64 @@
     <p
         [style.font-size]="'3rem'"
         [style.text-align]="'center'"
-        [style.margin]="'20px'"
-        [style.height]="load() ? '3em' : '75vh'"
-        [style.transition]="'height 1s ease-in-out'"
-        [style.display]="'flex'"
+        [style.margin]="load() ? '0px' : '20px'"
+        [style.height]="load() ? '0px' : '75vh'"
+        [style.opacity]="load() ? '0' : '1'"
+        [style.transform]="load() ? 'translateY(-100px)' : 'translateY(0)'"
+        [style.transition]="'height 1s ease-in-out, margin 1s ease-in-out, opacity 0.5s ease-in-out, transform 1s ease-in-out'"
+        [style.display]="hide() ? 'none' : 'flex'"
         [style.justify-content]="'center'"
         [style.align-items]="'center'"
     >
         <app-typing-text [text]="title"/>
     </p>
     @if (load()) {
-        <div class="full-stack">
-            <div class="general-overview">
-                <div class="company-list">
-                    @for (company of companies; track $index) {
-                        <div class="company">
-                            <div class="company-title">
-                                <div class="company-logo"><img src="{{ company.logo }}" alt="{{ company.name }}"></div>
-                                <div class="company-name">{{ company.name }}</div>
-                            </div>
-                            <div class="company-description">{{ company.description }}</div>
-                            <div class="company-positions">
-                                @for (jobPosition of JobEntries; track $index) {
-                                    @if (jobPosition.company.name == company.name) {
-                                        <div class="job-position">{{ jobPosition.position }}</div>
+        <div class="page-title">
+            <mat-icon [style.font-size.px]="45" [style.width.px]="45" [style.height.px]="45">work</mat-icon>
+            <h1>Job Experience</h1>
+        </div>
+        @if (loaded()) {
+            <div class="full-stack">
+                <!-- <div class="general-overview">
+                    <div class="company-list">
+                        @for (company of allCompanies; track $index) {
+                            <div class="company">
+                                <div class="company-title">
+                                    <div class="company-logo"><img src="{{ company.logo }}" alt="{{ company.name }}"></div>
+                                    <div class="company-name">{{ company.name }}</div>
+                                </div>
+                                <div class="company-description">{{ company.description }}</div>
+                                <div class="company-positions">
+                                    @for (jobPosition of allJobs; track $index) {
+                                        @if (getCompany(jobPosition.company).name == company.name) {
+                                            <div class="job-position">{{ jobPosition.position }}</div>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
-                        </div>
+                        }
+                    </div>
+                </div> -->
+                <div class="grid-list">
+                    @for (job of jobs(); track $index) {
+                        @let company = getCompany(job.company);
+                        @let tags = getTags(job.hardSkills.concat(job.softSkills));
+                        @let ssTags = getSSTags(job.softSkills);
+                        @defer (on viewport) {
+                            <app-job-box [job]="job" [company]="company" [tags]="tags" [ssTags]="ssTags" [index]="$index % 4 + 1" [soft-skills]="softSkills" (loaded)="loadNextJob($event)" />
+                        } @placeholder {
+                            <app-job-box [job]="job" [company]="company" [tags]="tags" [ssTags]="ssTags" [style.opacity]="0" />
+                        }
                     }
                 </div>
             </div>
-            <div class="grid-list">
-                @for (jobEntry of jobEntries(); track $index) {
-                    @defer (on viewport) {
-                        <app-job-box [job]="jobEntry" [index]="$index % 4 + 1" (loaded)="loaded($event)" />
-                    } @placeholder {
-                        <app-job-box [job]="jobEntry" [style.opacity]="0" />
-                    }
-                }
+            <button mat-fab (click)="scrollUp(0, 'smooth')"><mat-icon>arrow_upward</mat-icon></button>
+            <br>
+            <app-footer class="full-width" />
+        } @else {
+            <div class="viewport">
+                <mat-spinner></mat-spinner>
             </div>
-        </div>
-        <button mat-fab (click)="scrollUp(0, 'smooth')"><mat-icon>arrow_upward</mat-icon></button>
-        <br>
-        <app-footer class="full-width" />
+        }
     }
 </div>

@@ -55,7 +55,7 @@ export class HomeComponent extends PageCommons {
     private readonly db: FirestoreService,
   ) {
     super('Hello', 200);
-    this.loadLatestsProjects();
+    this.loadLatestsProjects(() => this.loadTags());
   }
 
   /**
@@ -70,14 +70,15 @@ export class HomeComponent extends PageCommons {
   /**
    * Loads the 5 latest projects.
    * @function loadLatestsProjects
+   * @param callback Callback function.
    */
-  private loadLatestsProjects() {
+  private loadLatestsProjects(callback: () => void = () => {}) {
     this.db.getDataWithCache(
       'projects_limit_5',
       () => this.db.queryData('projects', this.db.limitConstraint(5))
     ).subscribe((projects: Project[]) => {
       this.latest_projects = projects;
-      this.loadTags();
+      callback();
     });
   }
 

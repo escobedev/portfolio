@@ -204,7 +204,7 @@ export class SkillComponent {
                 () => this.db.loadCollection('companies')
             ).subscribe((companies: Company[]) => {
                 this.allCompanies = companies.filter(company => companiesPaths.includes(company.path));
-                const currentTag = this.allTags.find(tag => tag.path === this.path) ?? null
+                const currentTag = this.allTags.find(tag => tag.path === this.path) ?? null;
                 this.tag.set(currentTag);
                 this.title = currentTag?.name ?? 'Not Found';
                 this.load.set(false);

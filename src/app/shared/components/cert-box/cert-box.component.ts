@@ -10,7 +10,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { Certificate } from '../../models/certificate';
 import { Entity } from '../../models/entity';
-import { Software } from '../../models/software';
 import { Tag } from '../../models/tag';
 import { Timestamp } from '@angular/fire/firestore';
 

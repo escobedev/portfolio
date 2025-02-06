@@ -22,7 +22,7 @@ import { Observable, of, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class FirestoreService {
-  private readonly currentToken = '24101902';
+  private readonly currentToken = '2025020608';
 
   /**
    * Constructs a new instance of FirestoreService.

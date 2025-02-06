@@ -8,7 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Anchor } from './shared/models/anchor';
+import { Anchor } from './shared/interfaces/anchor';
 import { ThemeService } from './core/theme.service';
 import { ComingSoonDialogComponent } from './shared/components/coming-soon-dialog/coming-soon-dialog.component';
 

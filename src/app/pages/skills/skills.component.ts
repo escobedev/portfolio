@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -23,7 +22,6 @@ import { SpinnerComponent } from "../../shared/components/spinner/spinner.compon
   selector: 'app-skills',
   standalone: true,
   imports: [
-    DecimalPipe,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,

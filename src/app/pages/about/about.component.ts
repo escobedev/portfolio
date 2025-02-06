@@ -46,7 +46,7 @@ export class AboutComponent extends PageCommons {
     "Hello! I'm Bruno Escobedo, a passionate self-taught software developer based in Lima, Peru.",
     "My passion for software development has driven me to enhance my skills through coding in various programming languages such as Python, C, C++, C#, JavaScript, TypeScript, SQL, and using frameworks such as Angular and .NET.",
     `Additionally, I am deeply interested in cybersecurity and have been learning about ethical hacking through <abbr role="Catch The Flag">CTF</abbr> platforms like <abbr role="Hack The Box">HTB</abbr> and <abbr role="TryHackMe">THM</abbr>.`,
-    "I also love learning spoken languages, I have a more than a 600-days streak in Duolingo learning French, German, Portuguese and so on.",
+    "I also love learning spoken languages, I have a more than a 700-days streak in Duolingo learning French, German, Portuguese and so on.",
     "I am committed to continuous learning and eager to contribute to a proactive software developing and cybersecurity team.",
   ];
   protected readonly years_of_experience = new Date(Date.now()).getFullYear() - new Date('2023-01-01').getFullYear();
