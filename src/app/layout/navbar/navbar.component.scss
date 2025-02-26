@@ -44,11 +44,11 @@ mat-sidenav-content { min-height: 100lvh; }
 .blur { filter: blur(10px); }
 
 /* Responsive Design */
-@media (max-width: 850px) {
+@media (max-width: 774px) {
     .desktop-menu { display: none; }
     .menu-button { display: block; }
     .mobile-menu { width: 250px; }
 }
-@media (min-width: 850px) {
+@media (min-width: 774px) {
     .hide { transform: translateY(-100%); }
 }
