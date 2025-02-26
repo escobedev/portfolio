@@ -15,20 +15,19 @@ import { PageCommons } from '../../shared/utils/page-commons';
  * @extends PageCommons
  */
 @Component({
-  selector: 'app-contact',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    TypingTextComponent,
-  ],
-  templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss'
+    selector: 'app-contact',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        TypingTextComponent,
+    ],
+    templateUrl: './contact.component.html',
+    styleUrl: './contact.component.scss'
 })
 export class ContactComponent extends PageCommons {
   protected readonly contactForm = new FormGroup({

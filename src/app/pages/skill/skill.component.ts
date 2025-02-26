@@ -23,7 +23,6 @@ import { SoftSkillTag } from '../../shared/models/soft-skills';
 
 @Component({
     selector: 'app-skill',
-    standalone: true,
     imports: [
         MatButtonModule,
         MatChipsModule,

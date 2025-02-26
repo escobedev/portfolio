@@ -14,18 +14,17 @@ import { Place } from '../../shared/models/place';
 import { SoftSkillTag, SoftSkills } from '../../shared/models/soft-skills';
 
 @Component({
-  selector: 'app-experience',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    JobBoxComponent,
-    TypingTextComponent,
-    FooterComponent,
-  ],
-  templateUrl: './experience.component.html',
-  styleUrl: './experience.component.scss'
+    selector: 'app-experience',
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        JobBoxComponent,
+        TypingTextComponent,
+        FooterComponent,
+    ],
+    templateUrl: './experience.component.html',
+    styleUrl: './experience.component.scss'
 })
 export class ExperienceComponent extends PageCommons {
   protected readonly loaded = signal(false);

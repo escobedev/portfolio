@@ -11,20 +11,19 @@ import { Project } from '../../models/project';
 import { Tag } from '../../models/tag';
 
 @Component({
-  selector: 'app-project-box',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    MatProgressSpinner,
-    MatTooltipModule,
-    RouterLink,
-  ],
-  templateUrl: './project-box.component.html',
-  styleUrl: './project-box.component.scss'
+    selector: 'app-project-box',
+    imports: [
+        AsyncPipe,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        MatProgressSpinner,
+        MatTooltipModule,
+        RouterLink,
+    ],
+    templateUrl: './project-box.component.html',
+    styleUrl: './project-box.component.scss'
 })
 export class ProjectBoxComponent {
   @Input() project: Project = {} as Project;

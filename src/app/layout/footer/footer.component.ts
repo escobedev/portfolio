@@ -8,18 +8,17 @@ import { TermsOfServiceComponent } from './components/terms-of-service/terms-of-
 import { ThemeService } from '../../core/theme.service';
 
 @Component({
-  selector: 'app-footer',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatListModule,
-    PrivacyPolicyComponent,
-    TermsOfServiceComponent,
-  ],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+    selector: 'app-footer',
+    imports: [
+        MatButtonModule,
+        MatDialogModule,
+        MatIconModule,
+        MatListModule,
+        PrivacyPolicyComponent,
+        TermsOfServiceComponent,
+    ],
+    templateUrl: './footer.component.html',
+    styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
 

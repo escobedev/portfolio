@@ -14,20 +14,19 @@ import { Tag } from '../../models/tag';
 import { SoftSkillTag, SoftSkills } from '../../models/soft-skills';
 
 @Component({
-  selector: 'app-job-box',
-  standalone: true,
-  imports: [
-    DatePipe,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    MatListModule,
-    MatTooltipModule,
-    RouterLink,
-  ],
-  templateUrl: './job-box.component.html',
-  styleUrl: './job-box.component.scss'
+    selector: 'app-job-box',
+    imports: [
+        DatePipe,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        MatListModule,
+        MatTooltipModule,
+        RouterLink,
+    ],
+    templateUrl: './job-box.component.html',
+    styleUrl: './job-box.component.scss'
 })
 export class JobBoxComponent implements OnInit {
   @Input() job: Job = {} as Job;

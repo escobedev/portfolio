@@ -18,21 +18,20 @@ import { PageCommons } from '../../shared/utils/page-commons';
  * @class ProjectsComponent
  */
 @Component({
-  selector: 'app-projects',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatTabsModule,
-    ProjectBoxComponent,
-    TypingTextComponent,
-    FooterComponent,
-  ],
-  templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss'
+    selector: 'app-projects',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatTabsModule,
+        ProjectBoxComponent,
+        TypingTextComponent,
+        FooterComponent,
+    ],
+    templateUrl: './projects.component.html',
+    styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent extends PageCommons {
   protected readonly dataLoaded = signal(false);

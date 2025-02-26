@@ -3,11 +3,10 @@ import { Component, Input } from '@angular/core';
 import Prism from 'prismjs';
 
 @Component({
-  selector: 'app-code-text',
-  standalone: true,
-  imports: [],
-  templateUrl: './code-text.component.html',
-  styleUrl: './code-text.component.scss'
+    selector: 'app-code-text',
+    imports: [],
+    templateUrl: './code-text.component.html',
+    styleUrl: './code-text.component.scss'
 })
 export class CodeTextComponent {
   @Input() code = '';

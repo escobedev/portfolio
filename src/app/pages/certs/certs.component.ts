@@ -19,20 +19,19 @@ import { PageCommons } from '../../shared/utils/page-commons';
  * @extends PageCommons
  */
 @Component({
-  selector: 'app-certs',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatChipsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatTabsModule,
-    CertBoxComponent,
-    FooterComponent,
-    TypingTextComponent,
-],
-  templateUrl: './certs.component.html',
-  styleUrl: './certs.component.scss'
+    selector: 'app-certs',
+    imports: [
+        MatButtonModule,
+        MatChipsModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatTabsModule,
+        CertBoxComponent,
+        FooterComponent,
+        TypingTextComponent,
+    ],
+    templateUrl: './certs.component.html',
+    styleUrl: './certs.component.scss'
 })
 export class CertsComponent extends PageCommons {
   protected readonly dataLoaded = signal(false);

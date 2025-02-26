@@ -23,23 +23,22 @@ import { SoftSkillTag } from '../../shared/models/soft-skills';
  * @extends PageCommons
  */
 @Component({
-  selector: 'app-about',
-  standalone: true,
-  imports: [
-    DatePipe,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    MatListModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-    RouterModule,
-    TypingTextComponent,
-    FooterComponent,
-  ],
-  templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+    selector: 'app-about',
+    imports: [
+        DatePipe,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        MatListModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        RouterModule,
+        TypingTextComponent,
+        FooterComponent,
+    ],
+    templateUrl: './about.component.html',
+    styleUrl: './about.component.scss'
 })
 export class AboutComponent extends PageCommons {
   protected readonly paragraphs: string[] = [

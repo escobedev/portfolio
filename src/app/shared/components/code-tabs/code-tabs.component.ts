@@ -4,14 +4,13 @@ import { Code } from '../../models/code';
 import { CodeTextComponent } from "../code-text/code-text.component";
 
 @Component({
-  selector: 'app-code-tabs',
-  standalone: true,
-  imports: [
-    MatTabsModule,
-    CodeTextComponent
-],
-  templateUrl: './code-tabs.component.html',
-  styleUrl: './code-tabs.component.scss'
+    selector: 'app-code-tabs',
+    imports: [
+        MatTabsModule,
+        CodeTextComponent
+    ],
+    templateUrl: './code-tabs.component.html',
+    styleUrl: './code-tabs.component.scss'
 })
 export class CodeTabsComponent {
   @Input() codes: Code[] = [];

@@ -14,21 +14,20 @@ import { Tag } from '../../models/tag';
 import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-cert-box',
-  standalone: true,
-  imports: [
-    DatePipe,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    MatListModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule,
-    RouterLink,
-  ],
-  templateUrl: './cert-box.component.html',
-  styleUrl: './cert-box.component.scss'
+    selector: 'app-cert-box',
+    imports: [
+        DatePipe,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        MatListModule,
+        MatProgressSpinnerModule,
+        MatTooltipModule,
+        RouterLink,
+    ],
+    templateUrl: './cert-box.component.html',
+    styleUrl: './cert-box.component.scss'
 })
 export class CertBoxComponent {
   @Input() certificate: Certificate = {} as Certificate;

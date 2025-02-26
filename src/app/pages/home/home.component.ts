@@ -21,22 +21,21 @@ import { PageCommons } from '../../shared/utils/page-commons';
  * @extends PageCommons
  */
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule,
-    RouterLink,
-    FooterComponent,
-    TypingTextComponent,
-],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatExpansionModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatTooltipModule,
+        RouterLink,
+        FooterComponent,
+        TypingTextComponent,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent extends PageCommons {
   protected readonly projectsLoadingError = signal(false);

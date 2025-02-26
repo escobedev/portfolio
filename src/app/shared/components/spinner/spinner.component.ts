@@ -3,14 +3,13 @@ import { DecimalPipe } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-spinner',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    MatProgressSpinnerModule,
-  ],
-  templateUrl: './spinner.component.html',
-  styleUrl: './spinner.component.scss'
+    selector: 'app-spinner',
+    imports: [
+        DecimalPipe,
+        MatProgressSpinnerModule,
+    ],
+    templateUrl: './spinner.component.html',
+    styleUrl: './spinner.component.scss'
 })
 export class SpinnerComponent {
   protected floater: number = 0;

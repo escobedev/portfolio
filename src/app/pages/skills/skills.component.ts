@@ -19,24 +19,23 @@ import { PageCommons } from '../../shared/utils/page-commons';
 import { SpinnerComponent } from "../../shared/components/spinner/spinner.component";
 
 @Component({
-  selector: 'app-skills',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatIconModule,
-    MatListModule,
-    MatProgressSpinnerModule,
-    MatTabsModule,
-    MatTooltipModule,
-    RouterLink,
-    TypingTextComponent,
-    FooterComponent,
-    SpinnerComponent
-],
-  templateUrl: './skills.component.html',
-  styleUrl: './skills.component.scss'
+    selector: 'app-skills',
+    imports: [
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatIconModule,
+        MatListModule,
+        MatProgressSpinnerModule,
+        MatTabsModule,
+        MatTooltipModule,
+        RouterLink,
+        TypingTextComponent,
+        FooterComponent,
+        SpinnerComponent
+    ],
+    templateUrl: './skills.component.html',
+    styleUrl: './skills.component.scss'
 })
 export class SkillsComponent extends PageCommons {
   protected readonly loaded = signal(false);
