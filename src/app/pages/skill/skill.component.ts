@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CertBoxComponent } from "../../shared/components/cert-box/cert-box.component";
 import { ProjectBoxComponent } from "../../shared/components/project-box/project-box.component";
-import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Certificate } from '../../shared/models/certificate';
@@ -31,7 +30,6 @@ import { SoftSkillTag } from '../../shared/models/soft-skills';
         MatProgressSpinnerModule,
         CertBoxComponent,
         ProjectBoxComponent,
-        FooterComponent,
         TypingTextComponent,
     ],
     templateUrl: './skill.component.html',

@@ -31,9 +31,9 @@
                             <div class="fetch-animation">
                                 <div class="social"><span class="gradient-text">&#64;escobedev</span></div>
                                 <ul class="social-icons">
-                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
-                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
-                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
+                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="30px" src="{{ isDarkMode ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
+                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="30px" src="{{ isDarkMode ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
+                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="30px" src="{{ isDarkMode ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
                                 </ul>
                             </div>
                         }
@@ -41,9 +41,9 @@
                             <div class="transparent">
                                 <div class="social"><span>&#64;escobedev</span></div>
                                 <ul class="social-icons">
-                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
-                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
-                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="30px" src="{{ currentTheme === 'dark' ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
+                                    <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="30px" src="{{ isDarkMode ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
+                                    <li><a href="https://github.com/escobedev" target="_blank"><img width="30px" src="{{ isDarkMode ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
+                                    <li><a href="https://x.com/escobedev" target="_blank"><img width="30px" src="{{ isDarkMode ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
                                 </ul>
                             </div>
                         }
@@ -101,6 +101,5 @@
             </div>
         }
         @placeholder (minimum 500ms) { <div class="block" height="100vh"></div> }
-        <app-footer class="full-width" />
     }
 </div>

@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { ThemeService } from '../../core/theme.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
@@ -15,11 +14,6 @@ import { Project } from '../../shared/models/project';
 import { Tag } from '../../shared/models/tag';
 import { PageCommons } from '../../shared/utils/page-commons';
 
-/**
- * Home page.
- * @class HomeComponent
- * @extends PageCommons
- */
 @Component({
     selector: 'app-home',
     imports: [
@@ -31,7 +25,6 @@ import { PageCommons } from '../../shared/utils/page-commons';
         MatProgressSpinnerModule,
         MatTooltipModule,
         RouterLink,
-        FooterComponent,
         TypingTextComponent,
     ],
     templateUrl: './home.component.html',
@@ -40,15 +33,10 @@ import { PageCommons } from '../../shared/utils/page-commons';
 export class HomeComponent extends PageCommons {
   protected readonly projectsLoadingError = signal(false);
   protected readonly step = signal(0);
+
   protected allTags: Tag[] = [];
   protected latest_projects: Project[] = [];
 
-  /**
-   * Constructs the Home page.
-   * @constructor
-   * @param theme Theme service.
-   * @param db Firestore service.
-   */
   constructor(
     private readonly theme: ThemeService,
     private readonly db: FirestoreService,
@@ -56,6 +44,8 @@ export class HomeComponent extends PageCommons {
     super('Hello', 200);
     this.loadLatestsProjects(() => this.loadTags());
   }
+
+  get isDarkMode() { return this.theme.isDarkMode; }
 
   /**
    * Sets the current step.
@@ -103,14 +93,5 @@ export class HomeComponent extends PageCommons {
    */
   protected getTag(tag: string) {
     return this.allTags.find(t => t.path === tag) ?? new Tag('Unknown', '', '', '', '');
-  }
-
-  /**
-   * Gets the current theme.
-   * @function get currentTheme
-   * @returns Current theme.
-   */
-  get currentTheme() {
-    return this.theme.currentTheme ?? 'dark';
   }
 }

@@ -1,29 +1,25 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ThemeService {
-  get currentTheme(): string | null { return localStorage.getItem('theme'); }
-  set currentTheme(theme: string | null) { theme ? localStorage.setItem('theme', theme) : null; }
+    private _isDarkMode: boolean;
 
-  constructor() {
-    if (this.currentTheme) {
-      document.documentElement.setAttribute('data-theme', this.currentTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      document.documentElement.setAttribute('data-theme', 'dark');
+    constructor() {
+        const theme = window.localStorage.getItem('theme') || "dark-mode";
+        this._isDarkMode = theme === 'dark-mode';
+        document.documentElement.setAttribute('data-theme', this._isDarkMode ? 'dark-mode' : 'light-mode');
+        window.localStorage.setItem('theme', theme);
     }
-  }
-  
-  toggleTheme() {
-    let theme = document.documentElement.getAttribute('data-theme');
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+
+    get isDarkMode() { return this._isDarkMode; }
+    get toggleTheme() {
+        return () => {
+            this._isDarkMode = ! this._isDarkMode;
+            const newTheme = this._isDarkMode ? 'dark-mode' : 'light-mode';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            window.localStorage.setItem('theme', newTheme);
+        }
     }
-    this.currentTheme = localStorage.getItem('theme');
-  }
 }

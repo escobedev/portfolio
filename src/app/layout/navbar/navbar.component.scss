@@ -1,0 +1,54 @@
+mat-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background-color: var(--secondary-color);
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
+    justify-content: center;
+    padding: 0 16px;
+    .toolbar {
+        width: 100%;
+        max-width: 1440px;
+        display: flex;
+        align-items: center;
+    }
+}
+mat-nav-list { padding: 8px; display: grid; gap: 8px; }
+
+mat-sidenav-content { min-height: 100lvh; }
+
+.title {
+    padding-left: 2rem;
+    position: relative;
+    font-family: 'Arial';
+    color: var(--text-color);
+    &::before {
+        content: '';
+        width: 2rem;
+        height: 2rem;
+        position: absolute;
+        transform: translateX(calc(-2rem + 3px)) translateY(-3px);
+        background-image: url('/assets/logo/escobedev.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+.nav-button { min-width: 100px; }
+.desktop-menu { display: flex; gap: 8px; margin: 0 8px; }
+.menu-button { display: none; }
+
+.spacer { flex: 1; }
+.blur { filter: blur(10px); }
+
+/* Responsive Design */
+@media (max-width: 850px) {
+    .desktop-menu { display: none; }
+    .menu-button { display: block; }
+    .mobile-menu { width: 250px; }
+}
+@media (min-width: 850px) {
+    .hide { transform: translateY(-100%); }
+}

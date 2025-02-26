@@ -18,14 +18,14 @@
         <div class="social-media">
             <h4>Follow Me</h4>
             <ul class="social-icons">
-                <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
-                <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
-                <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="{{ currentTheme === 'dark' ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
+                <li><a href="https://www.linkedin.com/in/bruno-escobedo/" target="_blank"><img width="40px" src="{{ isDarkMode ? 'assets/linkedin-light.png' : 'assets/linkedin-dark.svg' }}" alt="LinkedIn"></a></li>
+                <li><a href="https://github.com/escobedev" target="_blank"><img width="40px" src="{{ isDarkMode ? 'assets/github-light.png' : 'assets/github-dark.svg' }}" alt="GitHub"></a></li>
+                <li><a href="https://x.com/escobedev" target="_blank"><img width="40px" src="{{ isDarkMode ? 'assets/twitter-light.png' : 'assets/twitter-dark.png' }}" alt="Twitter"></a></li>
             </ul>
         </div>
     </div>
     <div class="legal">
-        <p>&copy; 2024  <a mat-button href="https://escobedev.com" target="_blank">EscobeDev by Bruno Escobedo</a></p>
-        <p><button mat-button (click)="openPrivacyPolicy()">Privacy Policy</button> | <button mat-button (click)="openTermsOfService()">Terms of Service</button></p>
+        <p>&copy; {{ year }}  <a mat-button href="https://escobedev.com" target="_blank">EscobeDev by Bruno Escobedo</a></p>
+        <p><button mat-button (click)="openDialog('privacy-policy')">Privacy Policy</button> | <button mat-button (click)="openDialog('terms-of-service')">Terms of Service</button></p>
     </div>
 </footer>

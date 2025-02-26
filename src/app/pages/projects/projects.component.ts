@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ProjectBoxComponent } from '../../shared/components/project-box/project-box.component';
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
-import { FooterComponent } from "../../layout/footer/footer.component";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Project } from '../../shared/models/project';
 import { Tag } from '../../shared/models/tag';
@@ -28,7 +27,6 @@ import { PageCommons } from '../../shared/utils/page-commons';
         MatTabsModule,
         ProjectBoxComponent,
         TypingTextComponent,
-        FooterComponent,
     ],
     templateUrl: './projects.component.html',
     styleUrl: './projects.component.scss'

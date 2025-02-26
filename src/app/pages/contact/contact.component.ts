@@ -9,11 +9,6 @@ import { TypingTextComponent } from "../../shared/components/typing-text/typing-
 import { ThemeService } from '../../core/theme.service';
 import { PageCommons } from '../../shared/utils/page-commons';
 
-/**
- * Contact Me page.
- * @class ContactComponent
- * @extends PageCommons
- */
 @Component({
     selector: 'app-contact',
     imports: [
@@ -37,36 +32,20 @@ export class ContactComponent extends PageCommons {
     message: new FormControl('', [Validators.required, Validators.maxLength(2000)])
   });
 
-  /**
-   * Constructs the Contact Me page.
-   * @constructor
-   * @param theme Theme service.
-   */
   constructor(private theme: ThemeService) {
     super('Contact me');
   }
 
-  /**
-   * Get the current theme.
-   * @function get currentTheme
-   * @returns Current theme.
-   */
-  get currentTheme() {
-    return this.theme.currentTheme ?? 'dark';
-  }
+  get isDarkMode() { return this.theme.isDarkMode; }
 
-  /**
-   * Send an email.
-   * @function sendEmail
-   */
-  sendEmail() {
+  protected sendEmail() {
     const name = this.contactForm.value.name ?? '';
     const email = this.contactForm.value.email ?? '';
     const subject = this.contactForm.value.subject ?? '';
     const message = this.contactForm.value.message ?? '';
 
     if (this.contactForm.valid) {
-      const mailtoLink = `mailto:bruno.jair.ea@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Hi, I'm " + name + "\n" + message)}`;
+      const mailtoLink = `mailto:escobedev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Hi, I'm " + name + "\n" + message)}`;
       window.location.href = mailtoLink;
       this.contactForm.reset();
     }

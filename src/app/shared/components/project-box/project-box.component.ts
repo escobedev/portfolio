@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -13,7 +12,6 @@ import { Tag } from '../../models/tag';
 @Component({
     selector: 'app-project-box',
     imports: [
-        AsyncPipe,
         MatButtonModule,
         MatCardModule,
         MatChipsModule,

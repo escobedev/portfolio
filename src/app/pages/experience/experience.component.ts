@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
-import { FooterComponent } from '../../layout/footer/footer.component';
 import { JobBoxComponent } from '../../shared/components/job-box/job-box.component';
 import { PageCommons } from '../../shared/utils/page-commons';
 import { FirestoreService } from '../../shared/services/firestore.service';
@@ -21,7 +20,6 @@ import { SoftSkillTag, SoftSkills } from '../../shared/models/soft-skills';
         MatProgressSpinnerModule,
         JobBoxComponent,
         TypingTextComponent,
-        FooterComponent,
     ],
     templateUrl: './experience.component.html',
     styleUrl: './experience.component.scss'

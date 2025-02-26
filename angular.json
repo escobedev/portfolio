@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "myapp:build:production"
+              "buildTarget": "escobedev:build:production"
             },
             "development": {
-              "buildTarget": "myapp:build:development"
+              "buildTarget": "escobedev:build:development"
             }
           },
           "defaultConfiguration": "development"

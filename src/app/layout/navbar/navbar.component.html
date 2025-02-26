@@ -1,49 +1,67 @@
-<mat-toolbar color="primary" [class.hide]="isHidden()">
+<mat-toolbar color="primary" [class.hide]="isHidden()" [class.blur]="">
     <div class="toolbar">
-        <button mat-icon-button (click)="snav.toggle()" class="menu-button"><mat-icon>menu</mat-icon></button>
-        <span class="title">hronova</span>
+        <strong class="title">&nbsp;escobe<span class="gradient-text">dev</span></strong>
         <span class="spacer"></span>
         <nav class="desktop-menu">
             @for (nav of menu; track nav) {
-                <a
-                    mat-button
-                    routerLink="{{ nav.path }}"
-                    routerLinkActive
-                    #rla="routerLinkActive"
-                    [routerLinkActiveOptions]="{ exact: nav.name === 'Home' }"
-                    [class.menu-button]="rla.isActive"
-                >{{ nav.name }}</a>
-                @if (rla.isActive) {
-                    <a mat-flat-button routerLink="{{ nav.path }}">{{ nav.name }}</a>
+                @if (nav.name !== 'Codex') {
+                    <a
+                        mat-button
+                        routerLink="{{ nav.path }}"
+                        routerLinkActive
+                        #rla="routerLinkActive"
+                        [routerLinkActiveOptions]="{ exact: nav.name === 'Home' }"
+                        [class.menu-button]="rla.isActive"
+                    >{{ nav.name }}</a>
+                    @if (rla.isActive) {
+                        <a mat-flat-button routerLink="{{ nav.path }}">{{ nav.name }}</a>
+                    }
+                } @else {
+                    <a class="nav-button" mat-button (click)="openDialog()">{{ random() }}</a>
                 }
             }
         </nav>
         <span class="spacer"></span>
-        <button mat-icon-button (click)="toggleTheme()()">
-            <mat-icon>{{ isDarkMode() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+        <button class="desktop-menu" mat-icon-button (click)="toggleTheme()">
+            <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
         </button>
+        <button mat-icon-button (click)="snav.toggle()" class="menu-button"><mat-icon>menu</mat-icon></button>
     </div>
 </mat-toolbar>
 
 <!-- Sidenav for Mobile -->
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #snav mode="over" fixedInViewport fixedTopGap="64" class="mobile-menu">
+    <mat-sidenav #snav mode="over" fixedInViewport fixedTopGap="64" class="mobile-menu" position="end">
         <mat-nav-list>
             @for (nav of menu; track nav) {
-                <a
-                    mat-list-item
-                    routerLink="{{ nav.path }}"
-                    routerLinkActive
-                    #rla="routerLinkActive"
-                    [routerLinkActiveOptions]="{ exact: nav.name === 'Home' }"
-                    [activated]="rla.isActive"
-                    (click)="snav.close()"
-                >{{ nav.name }}</a>
+                @if (nav.name !== 'Codex') {
+                    <a
+                        mat-list-item
+                        routerLink="{{ nav.path }}"
+                        routerLinkActive
+                        #rla="routerLinkActive"
+                        [routerLinkActiveOptions]="{ exact: nav.name === 'Home' }"
+                        [activated]="rla.isActive"
+                        (click)="snav.close()"
+                    >
+                        <mat-icon matListItemIcon>{{ nav.icon }}</mat-icon>
+                        {{ nav.name }}
+                    </a>
+                } @else {
+                    <a mat-list-item (click)="openDialog(); snav.close();">
+                        <mat-icon matListItemIcon>{{ nav.icon }}</mat-icon>
+                        {{ random() }}
+                    </a>
+                }
             }
+            <button mat-fab extended (click)="toggleTheme()">
+                <mat-icon matListItemIcon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+                <div matListItemTitle>{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</div>
+            </button>
         </mat-nav-list>
     </mat-sidenav>
     
     <mat-sidenav-content [class.blur]="snav.opened">
-        <router-outlet/>
+        <ng-content />
     </mat-sidenav-content>
 </mat-sidenav-container>

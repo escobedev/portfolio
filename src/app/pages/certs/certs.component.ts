@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CertBoxComponent } from "../../shared/components/cert-box/cert-box.component";
-import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Certificate } from '../../shared/models/certificate';
@@ -27,7 +26,6 @@ import { PageCommons } from '../../shared/utils/page-commons';
         MatProgressSpinnerModule,
         MatTabsModule,
         CertBoxComponent,
-        FooterComponent,
         TypingTextComponent,
     ],
     templateUrl: './certs.component.html',

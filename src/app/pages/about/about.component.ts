@@ -8,7 +8,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { jobEntries } from '../../shared/interfaces/job-entry.interface';
@@ -35,7 +34,6 @@ import { SoftSkillTag } from '../../shared/models/soft-skills';
         MatTooltipModule,
         RouterModule,
         TypingTextComponent,
-        FooterComponent,
     ],
     templateUrl: './about.component.html',
     styleUrl: './about.component.scss'

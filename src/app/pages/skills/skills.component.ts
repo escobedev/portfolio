@@ -8,7 +8,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { FooterComponent } from "../../layout/footer/footer.component";
 import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Tag } from '../../shared/models/tag';
@@ -31,7 +30,6 @@ import { SpinnerComponent } from "../../shared/components/spinner/spinner.compon
         MatTooltipModule,
         RouterLink,
         TypingTextComponent,
-        FooterComponent,
         SpinnerComponent
     ],
     templateUrl: './skills.component.html',

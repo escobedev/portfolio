@@ -49,3 +49,6 @@ Thumbs.db
 
 # IDX
 .idx
+
+# Angular
+.angular
