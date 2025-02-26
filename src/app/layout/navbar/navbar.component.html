@@ -1,0 +1,49 @@
+<mat-toolbar color="primary" [class.hide]="isHidden()">
+    <div class="toolbar">
+        <button mat-icon-button (click)="snav.toggle()" class="menu-button"><mat-icon>menu</mat-icon></button>
+        <span class="title">hronova</span>
+        <span class="spacer"></span>
+        <nav class="desktop-menu">
+            @for (nav of menu; track nav) {
+                <a
+                    mat-button
+                    routerLink="{{ nav.path }}"
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                    [routerLinkActiveOptions]="{ exact: nav.name === 'Home' }"
+                    [class.menu-button]="rla.isActive"
+                >{{ nav.name }}</a>
+                @if (rla.isActive) {
+                    <a mat-flat-button routerLink="{{ nav.path }}">{{ nav.name }}</a>
+                }
+            }
+        </nav>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="toggleTheme()()">
+            <mat-icon>{{ isDarkMode() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
+
+<!-- Sidenav for Mobile -->
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #snav mode="over" fixedInViewport fixedTopGap="64" class="mobile-menu">
+        <mat-nav-list>
+            @for (nav of menu; track nav) {
+                <a
+                    mat-list-item
+                    routerLink="{{ nav.path }}"
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                    [routerLinkActiveOptions]="{ exact: nav.name === 'Home' }"
+                    [activated]="rla.isActive"
+                    (click)="snav.close()"
+                >{{ nav.name }}</a>
+            }
+        </mat-nav-list>
+    </mat-sidenav>
+    
+    <mat-sidenav-content [class.blur]="snav.opened">
+        <router-outlet/>
+    </mat-sidenav-content>
+</mat-sidenav-container>
