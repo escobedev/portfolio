@@ -20,13 +20,14 @@ export class NavbarComponent {
   protected readonly isHidden = signal(false);
 
   protected readonly menu = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Topics', path: '/topics' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Resources', path: '/resources' },
-  ];
+      { name: 'Home', path: 'home', icon: 'home' },
+      { name: 'About', path: 'about', icon: 'person' },
+      { name: 'Projects', path: 'projects', icon: 'token' },
+      { name: 'Skills', path: 'skills', icon: 'electric_bolt' },
+      { name: 'Experience', path: 'experience', icon: 'work' },
+      { name: 'Contact', path: 'contact', icon: 'mail' },
+      { name: 'Codex', path: 'codex', icon: 'api' },
+    ];
 
   constructor() {
     this.scrollEffect();
