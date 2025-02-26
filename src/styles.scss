@@ -23,7 +23,10 @@ $light-theme: mat.define-theme((
     )
 ));
 
-:root { @include mat.all-component-themes($dark-theme); }
+:root {
+    --mdc-chip-with-avatar-avatar-shape-radius: 0 !important;
+    @include mat.all-component-themes($dark-theme);
+}
 
 :root[data-theme="dark-mode"] {
     --primary-color: #006a6a;
@@ -34,6 +37,8 @@ $light-theme: mat.define-theme((
     --border-color: #335757;
     --mat-toolbar-container-text-color: #00dddd !important;
     --mdc-icon-button-icon-color: #00dddd !important;
+    --box-shadow-color: rgba(255, 255, 255, 0.25);
+    --box-border-color: rgba(255, 255, 255, 0.08);
 }
 
 :root[data-theme="light-mode"] {
@@ -43,6 +48,8 @@ $light-theme: mat.define-theme((
     --accent-color: #008f8f;
     --surface-color: #dbd9dd;
     --border-color: #b2ecec;
+    --box-shadow-color: rgba(9, 30, 66, 0.25);
+    --box-border-color: rgba(9, 30, 66, 0.08);
     --mat-toolbar-container-text-color: #005cbb !important;
     --mdc-icon-button-icon-color: #005cbb !important;
     @include mat.all-component-colors($light-theme);
@@ -82,9 +89,9 @@ body {
 
 .stack { @extend .flex-column, .center; }
 .full-stack {
-    padding-top: 64px;
-    @media (max-width: 600px) { padding-top: 56px; }
+    margin-top: 64px;
     @extend .full-width, .stack;
+    @media (max-height: 60px) { margin-top: 56px; }
 }
 .viewport { @extend .screen-height, .stack; }
 
@@ -174,6 +181,15 @@ body {
 .border-3 { border: var(--theme-color-2) 2px solid !important; }
 
 // ANIMATIONS REGION
+// Animations
+@keyframes show {
+    from { opacity: 0; filter: blur(10px); scale: 1.01; }
+    to { opacity: 1; filter: blur(0); scale: 1; }
+}
+@keyframes jump {
+    from { opacity: 0; filter: blur(10px); transform: translateY(0.2rem); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
 @keyframes blink {
     0% { border-color: unset; }
     50% { border-color: transparent; }

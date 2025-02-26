@@ -1,48 +1,98 @@
-.home {
-    height: calc(100svh - 56px);
-    text-align: center;
-    padding: 20px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: 0.5s ease-out;
+h1 {
+    margin-bottom: 0;
+    font-size: 2rem;
+    font-family: Arial;
+    @media (max-width: 1079px) and (min-width: 830px) { font-size: 3rem; }
+    @media (min-width: 1079px) { font-size: 4rem; }
+    @media (max-width: 493px) { margin: 0; }
+}
+
+mat-expansion-panel {
+    background-color: color-mix(in srgb, var(--surface-color), transparent);
+    backdrop-filter: blur(10px);
+    mat-card-title { font-weight: bold; }
+    mat-card-content { color: #9997a4; }
+}
+
+.main {
+    height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+    color: var(--text-color);
+    align-content: center;
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: color-mix(in srgb, var(--secondary-color) 50%, transparent 50%);
+        z-index: -1;
+    }
+
     .profile {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        .profile-img {
+        .profile-image {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             overflow: hidden;
             margin: 20px;
-            border: 5px solid var(--theme-color-1);
             background-size: 160px 160px;
             background-position: -5px -5px;
-            box-shadow: 0 0 5px var(--theme-color-1);
+            box-shadow:
+                0px 4px 8px var(--box-shadow-color),
+                0px 0px 0px 1px var(--box-border-color);
             img { width: 100%; height: 100%; object-fit: cover; }
         }
-        .profile-info { margin-top: 15px; text-align: left; }
+        .profile-info {
+            margin-top: 15px; text-align: left;
+            @media (max-width: 493px) { margin: 0; }
+            .social {
+                .social-chip {
+                    backdrop-filter: blur(10px);
+                    background-color: color-mix(in srgb, var(--surface-color) 80%, transparent 20%);
+                }
+                .social-icons {
+                    list-style-type: none;
+                    margin: 10px 0px;
+                    padding: 0px;
+                    display: flex;
+                    gap: 10px;
+                    opacity: 0.8;
+                    li a img:hover { opacity: 0.8; }
+                }
+            }
+        }
+    }
+    .subtitle {
+        padding-bottom: 2rem;
+        font-size: large;
+        text-align: center;
     }
 }
 
-.social-icons {
-    list-style-type: none;
-    margin: 10px 0px;
-    padding: 0px;
-    display: flex;
-    gap: 10px;
-    opacity: 0.8;
-    li a img:hover { opacity: 0.8; }
+.ani-show {
+    opacity: 0;
+    animation: show 1s ease-in-out forwards;
+}
+.ani-jump {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.2rem);
+    animation: jump 0.5s ease-in-out forwards;
 }
 
 .block {
-    padding: 10px;
-    height: calc(100svh - 56px);
+    padding: 20px;
     max-width: 720px;
-    margin: 0px;
+    min-height: 100vh;
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -54,4 +104,89 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+/* Floating + Scroll-based Parallax */
+@keyframes float {
+    from { transform: translate(-50%, -50%) translateX(-10px) translateY(0) rotate(-5deg) }
+    25% { transform: translate(-50%, -50%) translateX(0) translateY(10px) rotate(5deg) }
+    50% { transform: translate(-50%, -50%) translateX(10px) translateY(0) rotate(-5deg) }
+    25% { transform: translate(-50%, -50%) translateX() translateY(-10px) rotate(5deg) }
+    to { transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(180deg) }
+}
+@keyframes bounce-top {
+    from { transform: translate(-50%, -50%) translateY(0) rotate(0) }
+    50% { transform: translate(-50%, -50%) translateY(-10px) rotate(3deg) }
+    to { transform: translate(-50%, -50%) translateY(0) rotate(-3deg) }
+}
+@keyframes bounce-bottom {
+    from { transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) }
+    50% { transform: translate(-50%, -50%) translateX(12px) translateY(6px) rotate(-3deg) }
+    to { transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(3deg) }
+}
+@keyframes bounce-left {
+    from { transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(0) }
+    50% { transform: translate(-50%, -50%) translateX(-12px) translateY(6px) rotate(3deg) }
+    to { transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(-3deg) }
+}
+
+.parallax-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+
+    @media (max-width: 830px) { pointer-events: none; }
+
+    .floating-image {
+        position: absolute;
+        top: 50vh;
+        left: 50vw;
+        animation: show 100ms ease-in-out, float 10s ease-in-out infinite alternate;
+        transition: top 100ms ease-in-out, left 100ms ease-in-out;
+        
+        .logo-wrap {
+            position: relative;
+
+            >[class*='logo-'] { position: absolute; }
+            >.logo-top {
+                animation:
+                    bounce-top 4s linear(
+                        0 0%, 0 2.27%, 0.02 4.53%, 0.04 6.8%, 0.06 9.07%, 0.1 11.33%,
+                        0.14 13.6%, 0.25 18.15%, 0.39 22.7%, 0.56 27.25%, 0.77 31.8%, 1 36.35%,
+                        0.89 40.9%, 0.85 43.18%, 0.81 45.45%, 0.79 47.72%, 0.77 50%, 0.75 52.27%,
+                        0.75 54.55%, 0.75 56.82%, 0.77 59.1%, 0.79 61.38%, 0.81 63.65%, 0.85 65.93%,
+                        0.89 68.2%, 1 72.7%, 0.97 74.98%, 0.95 77.25%, 0.94 79.53%, 0.94 81.8%,
+                        0.94 84.08%, 0.95 86.35%, 0.97 88.63%, 1 90.9%, 0.99 93.18%, 0.98 95.45%,
+                        0.99 97.73%, 1 100%
+                    ) infinite alternate;
+            }
+            >.logo-bottom {
+                animation:
+                    bounce-bottom 3.5s linear(
+                        0 0%, 0 2.27%, 0.02 4.53%, 0.04 6.8%, 0.06 9.07%, 0.1 11.33%,
+                        0.14 13.6%, 0.25 18.15%, 0.39 22.7%, 0.56 27.25%, 0.77 31.8%, 1 36.35%,
+                        0.89 40.9%, 0.85 43.18%, 0.81 45.45%, 0.79 47.72%, 0.77 50%, 0.75 52.27%,
+                        0.75 54.55%, 0.75 56.82%, 0.77 59.1%, 0.79 61.38%, 0.81 63.65%, 0.85 65.93%,
+                        0.89 68.2%, 1 72.7%, 0.97 74.98%, 0.95 77.25%, 0.94 79.53%, 0.94 81.8%,
+                        0.94 84.08%, 0.95 86.35%, 0.97 88.63%, 1 90.9%, 0.99 93.18%, 0.98 95.45%,
+                        0.99 97.73%, 1 100%
+                    ) infinite alternate;
+            }
+            >.logo-left {
+                animation:
+                    bounce-left 4.5s linear(
+                        0 0%, 0 2.27%, 0.02 4.53%, 0.04 6.8%, 0.06 9.07%, 0.1 11.33%,
+                        0.14 13.6%, 0.25 18.15%, 0.39 22.7%, 0.56 27.25%, 0.77 31.8%, 1 36.35%,
+                        0.89 40.9%, 0.85 43.18%, 0.81 45.45%, 0.79 47.72%, 0.77 50%, 0.75 52.27%,
+                        0.75 54.55%, 0.75 56.82%, 0.77 59.1%, 0.79 61.38%, 0.81 63.65%, 0.85 65.93%,
+                        0.89 68.2%, 1 72.7%, 0.97 74.98%, 0.95 77.25%, 0.94 79.53%, 0.94 81.8%,
+                        0.94 84.08%, 0.95 86.35%, 0.97 88.63%, 1 90.9%, 0.99 93.18%, 0.98 95.45%,
+                        0.99 97.73%, 1 100%
+                    ) infinite alternate;
+            }
+        }
+    }
 }

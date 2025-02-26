@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -7,12 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { TypingTextComponent } from "../../shared/components/typing-text/typing-text.component";
 import { ThemeService } from '../../core/theme.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Project } from '../../shared/models/project';
 import { Tag } from '../../shared/models/tag';
-import { PageCommons } from '../../shared/utils/page-commons';
 
 @Component({
     selector: 'app-home',
@@ -25,14 +23,16 @@ import { PageCommons } from '../../shared/utils/page-commons';
         MatProgressSpinnerModule,
         MatTooltipModule,
         RouterLink,
-        TypingTextComponent,
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
-export class HomeComponent extends PageCommons {
+export class HomeComponent {
   protected readonly projectsLoadingError = signal(false);
   protected readonly step = signal(0);
+
+  protected readonly scale = signal(1);
+  protected readonly opacity = signal(1);
 
   protected allTags: Tag[] = [];
   protected latest_projects: Project[] = [];
@@ -41,11 +41,23 @@ export class HomeComponent extends PageCommons {
     private readonly theme: ThemeService,
     private readonly db: FirestoreService,
   ) {
-    super('Hello', 200);
+    this.parallaxEffect();
     this.loadLatestsProjects(() => this.loadTags());
   }
 
   get isDarkMode() { return this.theme.isDarkMode; }
+
+  private parallaxEffect() {
+    effect(() => {
+      const setPosition = () => {
+        const displacement = document.scrollingElement?.scrollTop ?? 0;
+        this.scale.set(Math.exp(displacement / 1200));
+        this.opacity.set(Math.exp(- displacement / 600));
+      };
+      window.addEventListener('scroll', setPosition);
+      return () => window.removeEventListener('scroll', setPosition);
+    });
+  }
 
   /**
    * Sets the current step.
