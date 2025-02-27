@@ -1,17 +1,12 @@
-<div class="full-stack">
-    <p
-        [style.font-size]="'3rem'"
-        [style.text-align]="'center'"
-        [style.margin]="'20px'"
-        [style.height]="load() ? '3em' : '75dvh'"
-        [style.transition]="'height 1s ease-in-out'"
-        [style.display]="'flex'"
-        [style.justify-content]="'center'"
-        [style.align-items]="'center'"
-    >
-        <app-typing-text [text]="title"/>
-    </p>
-    @if (load()) {
+<div class="persistent-viewport-title"
+    [style.margin-top]="load() ? '64px' : '0px'"
+    [style.height]="load() ? '3em' : '100dvh'"
+>
+    <app-typing-text [text]="title"/>
+</div>
+
+@if (load()) {
+    <div class="full-stack">
         <div class="stack">
             <div class="card-container">
                 <div class="relative card-container no-padding">
@@ -198,5 +193,5 @@
                 @loading { <div [style.height.px]="500"></div> }
             </div>
         </div>
-    }
-</div>
+    </div>
+}

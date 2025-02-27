@@ -1,110 +1,101 @@
-<div class="full-stack">
-    @if (tag() !== null) {
-        <p
-            [style.font-size]="'3rem'"
-            [style.text-align]="'center'"
-            [style.margin]="load() ? '0px' : '20px'"
-            [style.height]="load() ? '0px' : '75dvh'"
-            [style.opacity]="load() ? '0' : '1'"
-            [style.transform]="load() ? 'translateY(-100px)' : 'translateY(0)'"
-            [style.transition]="'height 1s ease-in-out, margin 1s ease-in-out, opacity 0.5s ease-in-out, transform 1s ease-in-out'"
-            [style.display]="hide() ? 'none' : 'flex'"
-            [style.justify-content]="'center'"
-            [style.align-items]="'center'"
-        >
-            <app-typing-text [text]="'&nbsp;' + title" [infinite]="false"/>
-        </p>
-        @if (load()) {
-            <mat-list
-                [style.max-width]="'720px'"
-                [style.padding]="'50px 20px'"
-                [style.box-sizing]="'border-box'"
-            >
-                <div class="skill-chip" [style.height.px]="120">
-                    <div
-                        [style.width.px]="100"
-                        [style.height.px]="100"
-                        [style.background-image]="'url(' + tag()?.image + ')'"
-                        [style.background-size]="'contain'"
-                        [style.background-position]="'center'"
-                        [style.background-repeat]="'no-repeat'"
-                    ></div>
-                    <div [style.padding-left.px]="10">
-                        <div class="skill-title">{{ title }}</div>
-                        <div class="skill-subtitle">{{ tag()?.type }}</div>
-                        <mat-chip>
-                            <mat-icon matChipAvatar>
-                                @switch (tag()?.level) {
-                                    @case ('Basic') { signal_cellular_alt_1_bar }
-                                    @case ('A1') { signal_cellular_alt_1_bar }
-                                    @case ('Medium') { signal_cellular_alt_2_bar }
-                                    @case ('A2') { signal_cellular_alt_2_bar }
-                                    @case ('High') { signal_cellular_alt }
-                                    @case ('B1') { signal_cellular_alt }
-                                    @case ('Expert') { verified }
-                                    @case ('B2') { verified }
-                                    @case ('Native') { verified }
-                                    @default { }
-                                }
-                            </mat-icon>
-                            {{ tag()?.level }}
-                        </mat-chip>
-                    </div>
+@if (tag() !== null) {
+    <div class="dynamic-viewport-title"
+        [style.height]="load() ? '0px' : '100dvh'"
+        [style.opacity]="load() ? '0' : '1'"
+        [style.transform]="load() ? 'translateY(-100px)' : 'translateY(0)'"
+        [style.display]="hide() ? 'none' : 'flex'"
+    >
+        <app-typing-text [text]="'&nbsp;' + title" [infinite]="false"/>
+    </div>
+} @else {
+    <div class="viewport">
+        <mat-spinner></mat-spinner>
+    </div>
+}
+
+@if (load()) {
+    <div class="full-stack">
+        <mat-list class="page-title">
+            <div class="skill-chip">
+                <div
+                    [style.width.px]="100"
+                    [style.height.px]="100"
+                    [style.background-image]="'url(' + tag()?.image + ')'"
+                    [style.background-size]="'contain'"
+                    [style.background-position]="'center'"
+                    [style.background-repeat]="'no-repeat'"
+                ></div>
+                <div [style.padding-left.px]="10">
+                    <div class="skill-title">{{ title }}</div>
+                    <div class="skill-subtitle">{{ tag()?.type }}</div>
+                    <mat-chip>
+                        <mat-icon matChipAvatar>
+                            @switch (tag()?.level) {
+                                @case ('Basic') { signal_cellular_alt_1_bar }
+                                @case ('A1') { signal_cellular_alt_1_bar }
+                                @case ('Medium') { signal_cellular_alt_2_bar }
+                                @case ('A2') { signal_cellular_alt_2_bar }
+                                @case ('High') { signal_cellular_alt }
+                                @case ('B1') { signal_cellular_alt }
+                                @case ('Expert') { verified }
+                                @case ('B2') { verified }
+                                @case ('Native') { verified }
+                                @default { }
+                            }
+                        </mat-icon>
+                        {{ tag()?.level }}
+                    </mat-chip>
                 </div>
-            </mat-list>
-            <div class="grid-button-list">
-                <button mat-fab extended [disabled]="!relatedCertificates().length" (click)="selection = 'certs'">
-                    <mat-icon [style.width.px]="40">workspace_premium</mat-icon>
-                    <span>Related Certificates</span>
-                </button>
-                <button mat-fab extended [disabled]="!relatedAchievements().length" (click)="selection = 'achievements'">
-                    <mat-icon [style.width.px]="40">emoji_events</mat-icon>
-                    <span>Related Achievements</span>
-                </button>
-                <button mat-fab extended [disabled]="!relatedBadges().length" (click)="selection = 'badges'">
-                    <mat-icon [style.width.px]="40">military_tech</mat-icon>
-                    <span>Related Badges</span>
-                </button>
-                <button mat-fab extended [disabled]="!relatedProjects().length" (click)="selection = 'projects'">
-                    <mat-icon [style.width.px]="40">token</mat-icon>
-                    <span>Related Projects</span>
-                </button>
             </div>
-            @switch (selection) {
-                @case('certs') {
-                    <p class="section-title">
-                        Related Certificates&nbsp;
-                        <mat-chip>{{ relatedCertificates().length }}</mat-chip>
-                    </p>
-                    <div class="grid-list">
-                        @for (certificate of relatedCertificates(); track $index) {
-                            <app-cert-box [certificate]="certificate" [index]="$index" [tags]="getTags(certificate.tags)" [entity]="getEntity(certificate.issuer)"/>
-                        } @empty {
-                            <h2>No certificates found.</h2>
-                        }
-                    </div>
-                }
-                @case ('projects') {
-                    <p class="section-title">
-                        Related Projects&nbsp;
-                        <mat-chip>{{ relatedProjects().length }}</mat-chip>
-                    </p>
-                    <div class="grid-list">
-                        @for (project of relatedProjects(); track project) {
-                            <app-project-box [project]="project" [index]="$index % 4 + 1" [tags]="getTags(project.tags)"/>
-                        } @empty {
-                            <h2>No projects found.</h2>
-                        }
-                    </div>
-                }
+        </mat-list>
+        <div class="grid-button-list">
+            <button mat-fab extended [disabled]="!relatedCertificates().length" (click)="selection = 'certs'">
+                <mat-icon [style.width.px]="40">workspace_premium</mat-icon>
+                <span>Related Certificates</span>
+            </button>
+            <button mat-fab extended [disabled]="!relatedAchievements().length" (click)="selection = 'achievements'">
+                <mat-icon [style.width.px]="40">emoji_events</mat-icon>
+                <span>Related Achievements</span>
+            </button>
+            <button mat-fab extended [disabled]="!relatedBadges().length" (click)="selection = 'badges'">
+                <mat-icon [style.width.px]="40">military_tech</mat-icon>
+                <span>Related Badges</span>
+            </button>
+            <button mat-fab extended [disabled]="!relatedProjects().length" (click)="selection = 'projects'">
+                <mat-icon [style.width.px]="40">token</mat-icon>
+                <span>Related Projects</span>
+            </button>
+        </div>
+        @switch (selection) {
+            @case('certs') {
+                <p class="section-title">
+                    Related Certificates&nbsp;
+                    <mat-chip>{{ relatedCertificates().length }}</mat-chip>
+                </p>
+                <div class="grid-list">
+                    @for (certificate of relatedCertificates(); track $index) {
+                        <app-cert-box [certificate]="certificate" [index]="$index" [tags]="getTags(certificate.tags)" [entity]="getEntity(certificate.issuer)"/>
+                    } @empty {
+                        <h2>No certificates found.</h2>
+                    }
+                </div>
             }
-            @if (selection) {
-                <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button><br>
+            @case ('projects') {
+                <p class="section-title">
+                    Related Projects&nbsp;
+                    <mat-chip>{{ relatedProjects().length }}</mat-chip>
+                </p>
+                <div class="grid-list">
+                    @for (project of relatedProjects(); track project) {
+                        <app-project-box [project]="project" [index]="$index % 4 + 1" [tags]="getTags(project.tags)"/>
+                    } @empty {
+                        <h2>No projects found.</h2>
+                    }
+                </div>
             }
         }
-    } @else {
-        <div class="viewport">
-            <mat-spinner></mat-spinner>
-        </div>
-    }
-</div>
+        @if (selection) {
+            <button mat-fab (click)="scrollUp()"><mat-icon>arrow_upward</mat-icon></button><br>
+        }
+    </div>
+}
