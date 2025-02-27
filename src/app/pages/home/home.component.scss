@@ -15,7 +15,7 @@ mat-expansion-panel {
 }
 
 .main {
-    height: 100vh;
+    height: 100dvh;
     padding: 1rem;
     box-sizing: border-box;
     color: var(--text-color);
@@ -142,15 +142,19 @@ mat-expansion-panel {
 
     .floating-image {
         position: absolute;
-        top: 50vh;
-        left: 50vw;
+        top: 50dvh;
+        left: 50dvw;
         animation: show 100ms ease-in-out, float 10s ease-in-out infinite alternate;
         transition: top 100ms ease-in-out, left 100ms ease-in-out;
-        
+        will-change: transform;
+
         .logo-wrap {
             position: relative;
 
-            >[class*='logo-'] { position: absolute; }
+            >[class*='logo-'] {
+                position: absolute;
+                will-change: transform;
+            }
             >.logo-top {
                 animation:
                     bounce-top 4s linear(
