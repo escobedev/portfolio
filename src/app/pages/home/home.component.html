@@ -67,7 +67,7 @@
                         <mat-chip-set>
                             @for (tagPath of project.tags; track $index) {
                                 @let tag = getTag(tagPath);
-                                <mat-chip [routerLink]="'/skills/' + tagPath">
+                                <mat-chip class="tag" [routerLink]="'/skills/' + tagPath">
                                     <img matChipAvatar height="20px" src="{{ tag.image }}" alt="{{ tag.name }}">
                                     <span>{{ tag.name }}</span>
                                 </mat-chip>

@@ -24,6 +24,15 @@ $light-theme: mat.define-theme((
 ));
 
 :root {
+    --theme-color-1: #26ceaa;
+    --theme-color-1-light: #98e8c1;
+    --theme-color-1-dark: #078d70;
+    --theme-color-1-2: #3b8bbb;
+    --theme-color-2: #5049cc;
+    --theme-color-2-light: #7bade2;
+    --theme-color-2-dark: #3d1a78;
+    --theme-color-dark: #141d2b;
+    --mdc-list-list-item-leading-avatar-shape: 4px !important;
     --mdc-chip-with-avatar-avatar-shape-radius: 0 !important;
     @include mat.all-component-themes($dark-theme);
 }
@@ -35,10 +44,11 @@ $light-theme: mat.define-theme((
     --accent-color: #00a3a3;
     --surface-color: #003737;
     --border-color: #335757;
-    --mat-toolbar-container-text-color: #00dddd !important;
-    --mdc-icon-button-icon-color: #00dddd !important;
     --box-shadow-color: rgba(255, 255, 255, 0.25);
     --box-border-color: rgba(255, 255, 255, 0.08);
+    --mat-toolbar-container-text-color: #00dddd !important;
+    --mdc-icon-button-icon-color: #00dddd !important;
+    --mat-sidenav-content-text-color: var(--text-color) !important;
 }
 
 :root[data-theme="light-mode"] {
@@ -47,11 +57,12 @@ $light-theme: mat.define-theme((
     --text-color: #001b3f;
     --accent-color: #008f8f;
     --surface-color: #dbd9dd;
-    --border-color: #b2ecec;
+    --border-color: #c3cfeb;
     --box-shadow-color: rgba(9, 30, 66, 0.25);
     --box-border-color: rgba(9, 30, 66, 0.08);
     --mat-toolbar-container-text-color: #005cbb !important;
     --mdc-icon-button-icon-color: #005cbb !important;
+    --mat-sidenav-content-text-color: var(--text-color) !important;
     @include mat.all-component-colors($light-theme);
 }
 
@@ -60,6 +71,8 @@ body {
     margin: 0;
     font-family: sans-serif;
     background-color: var(--secondary-color);
+    scrollbar-color: var(--surface-color) transparent;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 // LAYOUT REGION
@@ -196,6 +209,30 @@ body {
 .fetch-animation { animation: fetch 1s ease-in-out; }
 .bloom-animation { animation: bloom 1s ease-in-out; }
 
+// COMPONENTS REGION
+mat-chip-set {
+    width: fit-content;
+    >[role] {
+        justify-content: space-between;
+        mat-chip { * { cursor: pointer !important; } }
+        mat-chip-option {
+            --mdc-chip-outline-color: var(--border-color);
+            --mdc-chip-container-shape-radius: 99px;
+            cursor: pointer !important;
+            padding-left: 2px;
+            border-color: var(--accent-color) !important;
+            background-color: color-mix(in srgb, var(--secondary-color), transparent) !important;
+        }
+        mat-chip, mat-chip-option {
+            flex: 1 1 auto;
+            button, span[matchipaction] {
+                width: 100%;
+                .mat-mdc-chip-graphic { flex: none !important; }
+            }
+        }
+    }
+}
+
 // FIXES
 abbr {
     padding: 0 2px;
@@ -257,20 +294,6 @@ abbr {
 .card-actions { align-items: end !important; @extend .full-height; }
 
 // ----------------------------------------------------------------
-
-:root {
-    --theme-color-1: #26ceaa;
-    --theme-color-1-light: #98e8c1;
-    --theme-color-1-dark: #078d70;
-    --theme-color-1-2: #3b8bbb;
-    --theme-color-2: #5049cc;
-    --theme-color-2-light: #7bade2;
-    --theme-color-2-dark: #3d1a78;
-    --theme-color-dark: #141d2b;
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 [class$='-viewport-title'] {
     font-size: 3rem;

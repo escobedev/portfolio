@@ -51,8 +51,10 @@ export class HomeComponent {
     effect(() => {
       const setPosition = () => {
         const displacement = document.scrollingElement?.scrollTop ?? 0;
-        this.scale.set(Math.exp(displacement / 1200));
-        this.opacity.set(Math.exp(- displacement / 600));
+        const maxChange = window.innerWidth * 2;
+        const change = displacement > maxChange ? maxChange : displacement;
+        this.scale.set(Math.exp(change / 1200));
+        this.opacity.set(Math.exp(-(change / 600)));
       };
       window.addEventListener('scroll', setPosition);
       return () => window.removeEventListener('scroll', setPosition);

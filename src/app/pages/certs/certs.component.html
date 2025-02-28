@@ -21,7 +21,7 @@
                             <mat-icon>filter_list</mat-icon>
                             &nbsp;Filter by skill
                         </ng-template>
-                        <div class="full-stack">
+                        <div class="tab-content">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
                                 @for (tag of allTags; track $index) {
                                     <mat-chip-option (click)="toggleTag(tag)">
@@ -44,7 +44,7 @@
                             <mat-icon>filter_list</mat-icon>
                             &nbsp;Filter by issuer
                         </ng-template>
-                        <div class="full-stack">
+                        <div class="tab-content">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
                                 @for (entity of allEntities; track $index) {
                                     <mat-chip-option (click)="toggleEntity(entity)">
