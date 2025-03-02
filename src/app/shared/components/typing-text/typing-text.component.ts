@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, input, Input, signal } from '@angular/core';
 
 @Component({
     selector: 'app-typing-text',
@@ -7,28 +7,25 @@ import { Component, Input, signal } from '@angular/core';
     styleUrl: './typing-text.component.scss'
 })
 export class TypingTextComponent {
-  @Input() text: string = '';
-  @Input() speed: number = 100;
-  @Input() delay: number = 0;
-  @Input() infinite: boolean = true;
-  protected typing_text = signal('');
-  private spd: number = this.speed;
-  
-  ngOnInit() {
+  public readonly text = input('');
+  public readonly speed = input(100);
+  public readonly delay = input(0);
+  public readonly infinite = input(true);
+  protected readonly typingText = signal('');
+
+  ngOnChanges() {
+    this.typingText.set('');
     setTimeout(() => {
-      this.spd = this.speed;
       const timer = setInterval(() => {
-        if (this.text[this.typing_text().length] === '<') {
-          while(this.text[this.typing_text().length] !== '>')
-          this.typing_text.update(value => value += this.text[this.typing_text().length]);
+        if (this.text()[this.typingText().length] === '<') {
+          while(this.text()[this.typingText().length] !== '>')
+          this.typingText.update(value => value += this.text()[this.typingText().length]);
         }
-        this.typing_text.update(value => value += this.text[this.typing_text().length]);
-        if (this.typing_text() === this.text) clearInterval(timer);
-      }, this.spd);
-    }, this.delay);
+        this.typingText.update(value => value += this.text()[this.typingText().length]);
+        if (this.typingText() === this.text()) clearInterval(timer);
+      }, this.speed());
+    }, this.delay());
   }
 
-  cleanText(text: string) {
-    return text.replace(/<[^>]*>/g, '');
-  }
+  cleanText() { return this.text().replace(/<[^>]*>/g, ''); }
 }

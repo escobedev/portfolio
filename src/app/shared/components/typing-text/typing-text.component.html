@@ -1,9 +1,9 @@
 <span
     [style.font-family]="'Roboto Mono'"
-    [innerHTML]="typing_text()"
+    [innerHTML]="typingText()"
 ></span>
 <span
     [style.border-right]="'1ch solid transparent'"
-    [style.animation]="'blink 1s step-end ' + (infinite ? 'infinite' : speed * cleanText(text).length / 1000)"
-    [style.animation-delay]="delay + 'ms'"
+    [style.animation]="'blink 1s step-end ' + (infinite() ? 'infinite' : speed() * cleanText().length / 1000)"
+    [style.animation-delay]="delay() + 'ms'"
 ></span>

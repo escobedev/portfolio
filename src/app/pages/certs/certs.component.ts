@@ -47,24 +47,29 @@ export class CertsComponent extends PageCommons {
    */
   constructor(private readonly db: FirestoreService) {
     super('Certificates');
-    this.loadCertificates();
+    this.loadCertificates(() => {
+      this.loadTags();
+      this.loadEntities();
+    });
   }
 
   /**
    * Loads the certificates from the database.
    * @function loadCertificates
    */
-  private loadCertificates() {
-    this.db.getDataWithCache(
+  private loadCertificates(callback: () => void = () => {}) {
+    this.db.getDataWithCache<Certificate[]>(
       'certs_orderby_date_desc',
       () => this.db.queryData(
         'certs',
         this.db.orderByConstraint('date', 'desc')
       )
-    ).subscribe((certs: Certificate[]) => {
-      this.allCerts = certs;
-      this.certs.set(certs);
-      this.loadTags();
+    ).subscribe({
+      next: certs => {
+        this.allCerts = certs ?? [];
+        this.certs.set(certs ?? []);
+      },
+      complete: () => callback(),
     });
   }
 
@@ -73,14 +78,12 @@ export class CertsComponent extends PageCommons {
    * @function loadTags
    */
   private loadTags() {
-    const tagsPaths = [
-      ...new Set(this.certs().flatMap(cert => cert.tags))
-    ];
-    this.db.getDataWithCache(
+    const tagsPaths = [ ...new Set(this.certs().flatMap(cert => cert.tags)) ];
+    this.db.getDataWithCache<Tag[]>(
       'tags',
       () => this.db.loadCollection('tags')
-    ).subscribe((tags: Tag[]) => {
-      this.allTags = tags.filter(tag => tagsPaths.includes(tag.path));
+    ).subscribe(tags => {
+      this.allTags = tags?.filter(tag => tagsPaths.includes(tag.path)) ?? [];
       this.loadEntities();
     });
   }
@@ -90,14 +93,12 @@ export class CertsComponent extends PageCommons {
    * @function loadEntities
    */
   private loadEntities() {
-    const enititiesPaths = [
-      ...new Set(this.certs().flatMap(cert => cert.issuer))
-    ];
-    this.db.getDataWithCache(
+    const enititiesPaths = [ ...new Set(this.certs().flatMap(cert => cert.issuer)) ];
+    this.db.getDataWithCache<Entity[]>(
       'entities',
       () => this.db.loadCollection('entities')
-    ).subscribe((entities: Entity[]) => {
-      this.allEntities = entities.filter(entity => enititiesPaths.includes(entity.path));
+    ).subscribe(entities => {
+      this.allEntities = entities?.filter(entity => enititiesPaths.includes(entity.path)) ?? [];
       this.dataLoaded.set(true);
     });
   }

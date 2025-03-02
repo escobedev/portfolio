@@ -45,8 +45,8 @@ export class ProjectsComponent extends PageCommons {
     { name: 'Blockchain', icon: 'currency_bitcoin' },
     { name: 'Game Dev', icon: 'sports_esports' },
   ];
-  protected allTags: Tag[] = [];
-  protected allProjects: Project[] = [];
+  protected readonly allTags = signal<Tag[]>([]);
+  protected readonly allProjects = signal<Project[]>([]);
   private readonly selectedTags: string[] = [];
   private readonly soon = new Project('Coming Soon', '', '', [], [], [], '', '');
   
@@ -57,35 +57,34 @@ export class ProjectsComponent extends PageCommons {
    */
   constructor(private readonly db: FirestoreService) {
     super('Projects');
-    this.loadProjects(() => this.loadTags());
+    this.tagsEffect();
+    this.loadProjects();
   }
 
   /**
    * Loads the projects from the database.
    * @function loadProjects
    */
-  private loadProjects(callback: () => void = () => {}) {
-    this.db.getDataWithCache(
+  private loadProjects() {
+    this.db.getDataWithCache<Project[]>(
       'projects',
       () => this.db.loadCollection('projects')
-    ).subscribe((projects: Project[]) => {
-      this.allProjects = projects;
-      callback();
-    });
+    ).subscribe(projects => this.allProjects.set(projects ?? []));
   }
 
   /**
    * Loads the tags from the database.
-   * @function loadTags
+   * @function tagsEffect
    */
-  private loadTags() {
-    const tagsPaths = [
-      ...new Set(this.allProjects.flatMap(project => project.tags))
-    ];
-    this.db.getDataWithCache(
-      'tags',
-      () => this.db.loadCollection('tags')
-    ).subscribe((tags: Tag[]) => this.allTags = tags.filter(tag => tagsPaths.includes(tag.path)));
+  private tagsEffect() {
+    effect(() => {
+      const tagsPaths = [ ...new Set(this.allProjects().flatMap(project => project.tags)) ];
+      const sub = this.db.getDataWithCache<Tag[]>(
+        'tags',
+        () => this.db.loadCollection('tags')
+      ).subscribe(tags => this.allTags.set(tags?.filter(tag => tagsPaths.includes(tag.path)) ?? []));
+      return () => sub.unsubscribe();
+    });
   }
 
   /**
@@ -97,7 +96,7 @@ export class ProjectsComponent extends PageCommons {
       if (this.selectedTags.length > 0)
         this.projects.set(
           [
-            ...this.allProjects.filter(project => {
+            ...this.allProjects().filter(project => {
               if (project.type === this.selected())
                 for (const tagPath of project.tags)
                   if (this.selectedTags.includes(tagPath))
@@ -120,7 +119,7 @@ export class ProjectsComponent extends PageCommons {
     this.projects.set([]);
     this.selected.set(field);
     this.projects.set([
-      ...this.allProjects.filter(project => project.type === field), 
+      ...this.allProjects().filter(project => project.type === field), 
       this.soon]
     );
     this.dataLoaded.set(true);
@@ -147,7 +146,7 @@ export class ProjectsComponent extends PageCommons {
    * @returns List of tags.
    */
   protected getTagsByType(tagsType: string) {
-    return this.allTags.filter(tag => tagsType === tag.type)
+    return this.allTags().filter(tag => tagsType === tag.type)
   }
 
   /**
@@ -157,6 +156,6 @@ export class ProjectsComponent extends PageCommons {
    * @returns List of tags.
    */
   protected getTags(tagsPaths: string[]) {
-    return this.allTags.filter(tag => tagsPaths.includes(tag.path));
+    return this.allTags().filter(tag => tagsPaths.includes(tag.path));
   }
 }

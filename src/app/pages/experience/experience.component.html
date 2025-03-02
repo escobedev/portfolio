@@ -41,7 +41,7 @@
                         @let tags = getTags(job.hardSkills.concat(job.softSkills));
                         @let ssTags = getSSTags(job.softSkills);
                         @defer (on viewport) {
-                            <app-job-box [job]="job" [company]="company" [tags]="tags" [ssTags]="ssTags" [index]="$index % 4 + 1" [soft-skills]="softSkills" (loaded)="loadNextJob($event)" />
+                            <app-job-box [job]="job" [company]="company" [tags]="tags" [ssTags]="ssTags" [index]="$index % 4 + 1" [soft-skills]="softSkills()" (loaded)="loadNextJob($event)" />
                         } @placeholder {
                             <app-job-box [job]="job" [company]="company" [tags]="tags" [ssTags]="ssTags" [style.opacity]="0" />
                         }

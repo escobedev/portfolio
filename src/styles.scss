@@ -161,24 +161,36 @@ body {
 }
 
 [class*='gradient-text'] {
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    &:is(span, [class*='mat-']), span {
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 }
 .gradient-text {
-    font-weight: bold;
-    background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    &:is(span, [class*='mat-']), span {
+        font-weight: bold;
+        background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-2));
+    }
 }
 .gradient-text-1 {
-    background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-1-2));
+    &:is(span, [class*='mat-']), span {
+        background-image: linear-gradient(135deg, var(--theme-color-1), var(--theme-color-1-2));
+    }
 }
 .gradient-text-2 {
-    background-image: linear-gradient(135deg, var(--theme-color-1-2), var(--theme-color-2));
+    &:is(span, [class*='mat-']), span {
+        background-image: linear-gradient(135deg, var(--theme-color-1-2), var(--theme-color-2));
+    }
 }
 .gradient-text-3 {
-    background-image: linear-gradient(135deg, var(--theme-color-2), var(--theme-color-1-2));
+    &:is(span, [class*='mat-']), span {
+        background-image: linear-gradient(135deg, var(--theme-color-2), var(--theme-color-1-2));
+    }
 }
 .gradient-text-4 {
-    background-image: linear-gradient(135deg, var(--theme-color-1-2), var(--theme-color-1));
+    &:is(span, [class*='mat-']), span {
+        background-image: linear-gradient(135deg, var(--theme-color-1-2), var(--theme-color-1));
+    }
 }
 .border-1 { border: var(--theme-color-1) 2px solid !important; }
 .border-2, .border-4 { border: var(--theme-color-1-2) 2px solid !important; }
@@ -190,7 +202,7 @@ body {
     from { opacity: 0; filter: blur(10px); scale: 1.01; }
     to { opacity: 1; filter: blur(0); scale: 1; }
 }
-@keyframes jump {
+@keyframes staggerLift {
     from { opacity: 0; filter: blur(10px); transform: translateY(0.2rem); }
     to { opacity: 1; filter: blur(0); transform: translateY(0); }
 }
@@ -273,6 +285,7 @@ abbr {
 }
 
 // BUILDS
+.placeholder { opacity: 0; pointer-events: none; }
 .image-placeholder { @extend .full-height, .stack; }
 .page-title {
     gap: 10px;

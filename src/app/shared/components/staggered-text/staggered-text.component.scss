@@ -1,0 +1,7 @@
+.stagger-word {
+    display: inline-block;
+    white-space: normal;
+    opacity: 0;
+    transform: translateY(0.2rem);
+    animation: staggerLift 500ms ease-in-out forwards;
+}

@@ -53,24 +53,24 @@ export class SkillsComponent extends PageCommons {
   }
 
   private loadTags() {
-    this.db.getDataWithCache(
+    this.db.getDataWithCache<Tag[]>(
       'tags',
       () => this.db.loadCollection('tags')
-    ).subscribe((tags: Tag[]) => this.allTags = tags);
+    ).subscribe(tags => this.allTags = tags ?? []);
   }
 
   private loadSSTags() {
-    this.db.getDataWithCache(
+    this.db.getDataWithCache<SoftSkillTag[]>(
       'sstags',
       () => this.db.loadCollection('soft-skill-tags')
-    ).subscribe((ssTags: SoftSkillTag[]) => this.allSSTags = ssTags);
+    ).subscribe(ssTags => this.allSSTags = ssTags ?? []);
   }
 
   private loadData() {
-    this.db.getDataWithCache(
+    this.db.getDataWithCache<any>(
       'data_skills',
       () => this.db.loadDoc('data', 'skills')
-    ).subscribe((data: any) => {
+    ).subscribe(data => {
       this.tagsPaths = [...data['hard-skills'] as string[], ...data['languages'] as string[]];
       this.softSkills = data['soft-skills'] as SoftSkills[];
       for (const field of hardSkills) {

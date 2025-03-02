@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Firestore,
   doc,
@@ -10,8 +10,14 @@ import {
   query,
   where,
   QueryConstraint,
+  DocumentData,
+  DocumentReference,
+  Query,
+  CollectionReference,
 } from '@angular/fire/firestore';
 import { Observable, of, tap } from 'rxjs';
+
+const TOKEN_KEY = 'Token';
 
 /**
  * Firestore service.
@@ -22,14 +28,9 @@ import { Observable, of, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class FirestoreService {
-  private readonly currentToken = '2025020608';
+  private readonly firestore = inject(Firestore);
 
-  /**
-   * Constructs a new instance of FirestoreService.
-   * @constructor
-   * @param firestore Database service.
-   */
-  constructor(private readonly firestore: Firestore) { }
+  constructor() { }
 
   /**
    * Gets the cached data from the local storage or the data from the Firestore query.
@@ -38,17 +39,16 @@ export class FirestoreService {
    * @param fireFn Firestore query function.
    * @returns The cached data or the data from the Firestore query.
    */
-  getDataWithCache(cachedDataPath: string, fireFn: () => Observable<any>): Observable<any> {
-    const lastToken = localStorage.getItem('Token');
-    if (!lastToken || lastToken !== this.currentToken) {
-      localStorage.clear();
-      localStorage.setItem('Token', this.currentToken);
-    }
+  public getDataWithCache<T>(cachedDataPath: string, fireFn: () => Observable<T | undefined>) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) localStorage.setItem(TOKEN_KEY, `token_${Date.now()}`);
     const cachedData = localStorage.getItem(cachedDataPath);
     if (cachedData)
-      return of(JSON.parse(cachedData));
+      return of(JSON.parse(cachedData) as T);
     else
-      return fireFn().pipe(tap(data => localStorage.setItem(cachedDataPath, JSON.stringify(data))));
+      return fireFn().pipe(tap({
+        next: data => localStorage.setItem(cachedDataPath, JSON.stringify(data)),
+      }));
   }
 
   /**
@@ -59,7 +59,7 @@ export class FirestoreService {
    * @param value The value to compare to.
    * @returns The where constraint.
    */
-  whereConstraint(
+  public whereConstraint(
     fieldPath: string,
     opStr: '<' | '<=' | '==' | '!=' | '>=' | '>' | 'in' | 'array-contains' | 'array-contains-any',
     value: any
@@ -74,7 +74,7 @@ export class FirestoreService {
    * @param directionStr The direction to order by.
    * @returns The order-by constraint.
    */
-  orderByConstraint(
+  public orderByConstraint(
     fieldPath: string,
     directionStr: 'asc' | 'desc'
   ) {
@@ -87,7 +87,7 @@ export class FirestoreService {
    * @param lim The number of documents to limit.
    * @returns The limit constraint.
    */
-  limitConstraint(
+  public limitConstraint(
     lim: number
   ) {
     return limit(lim);
@@ -100,16 +100,16 @@ export class FirestoreService {
    * @param docPath The path of the document to load from the database, including the collection name and document name. "{collection}/{document}"
    * @returns The document data as an observable.
    */
-  loadDoc = (
+  public loadDoc<T>(
     collectionPath: string,
     docPath: string
-  ) => {
+  ) {
     const docRef = doc(
       this.firestore,
       collectionPath,
       docPath
-    );
-    return docData(docRef);
+    ) as DocumentReference<T, DocumentData>;
+    return docData<T>(docRef);
   }
 
   /**
@@ -118,14 +118,14 @@ export class FirestoreService {
    * @param collectionPath The collection to load from the database.
    * @returns The collection data as an observable.
    */
-  loadCollection = (
+  public loadCollection<T>(
     collectionPath: string
-  ) => {
+  ) {
     const collectionRef = collection(
       this.firestore,
       collectionPath
-    );
-    return collectionData(collectionRef);
+    ) as Query<T, DocumentData>;
+    return collectionData<T>(collectionRef);
   }
 
   /**
@@ -135,18 +135,18 @@ export class FirestoreService {
    * @param queryConstraints The constraints to apply to the query.
    * @returns The collection data as an observable.
    */
-  queryData = (
+  public queryData<T>(
     collectionPath: string,
     ...queryConstraints: QueryConstraint[]
-  ) => {
+  ) {
     const collectionRef = collection(
       this.firestore,
       collectionPath
-    );
+    ) as CollectionReference<T>;
     const queryResult = query(
       collectionRef,
       ...queryConstraints
     );
-    return collectionData(queryResult);
+    return collectionData<T>(queryResult);
   }
 }

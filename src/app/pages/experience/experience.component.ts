@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -25,37 +25,41 @@ import { SoftSkillTag, SoftSkills } from '../../shared/models/soft-skills';
     styleUrl: './experience.component.scss'
 })
 export class ExperienceComponent extends PageCommons {
-  protected readonly loaded = signal(false);
   protected readonly jobs = signal<Job[]>([]);
-  protected allTags: Tag[] = [];
-  protected allSSTags: SoftSkillTag[] = [];
-  protected allJobs: Job[] = [];
-  protected allCompanies: Company[] = [];
-  protected softSkills: SoftSkills[] = [];
+  protected readonly allTags = signal<Tag[]>([]);
+  protected readonly allSSTags = signal<SoftSkillTag[]>([]);
+  protected readonly allJobs = signal<Job[]>([]);
+  protected readonly allCompanies = signal<Company[]>([]);
+  protected readonly softSkills = signal<SoftSkills[]>([]);
+  protected readonly loaded = computed(() => {
+    return this.allJobs().length > 0 &&
+      this.allCompanies().length > 0 &&
+      this.allTags().length > 0 &&
+      this.allSSTags().length > 0 &&
+      this.softSkills().length > 0;
+  });
 
   constructor(private readonly db: FirestoreService) {
-    super(
-      'Job Experience',
-      undefined,
-      undefined,
-      () => this.loadCompanies(() => this.loadAllJobs(() => {
-        this.loadTags();
-        this.loadSSTags();
-        this.loadData();
-        this.loadJob(0);
-        this.loaded.set(true);
-      }))
-    );
+    super('Job Experience');
+    this.jobEffect();
+    this.tagsEffect();
+    this.loadSSTags();
+    this.loadCompanies();
+    this.loadData();
+    this.loadAllJobs();
   }
 
-  protected loadCompanies(callback: () => void = () => {}) {
-    this.db.getDataWithCache(
+  private jobEffect() {
+    effect(() => {
+      if (this.loaded()) this.loadJob(0);
+    });
+  }
+
+  private loadCompanies() {
+    this.db.getDataWithCache<Company[]>(
       'companies',
       () => this.db.queryData('companies')
-    ).subscribe((companies: Company[]) => {
-      this.allCompanies = companies;
-      callback();
-    });
+    ).subscribe(companies => this.allCompanies.set(companies ?? []));
   }
 
   /**
@@ -64,28 +68,31 @@ export class ExperienceComponent extends PageCommons {
    * @param callback Callback function.
    */
   private loadAllJobs(callback: () => void = () => {}) {
-    this.db.getDataWithCache(
+    this.db.getDataWithCache<Job[]>(
       'jobs',
       () => this.db.queryData('jobs')
-    ).subscribe((jobs: Job[]) => {
-      this.allJobs = jobs.reverse();
-      callback();
+    ).subscribe({
+      next: jobs => this.allJobs.set(jobs?.reverse() ?? []),
+      complete: () => callback(),
     });
   }
 
   /**
    * Loads the tags of the 5 latest projects.
-   * @function loadTags
+   * @function tagsEffect
    */
-  private loadTags() {
-    const tagsPaths = [
-      ...new Set(this.allJobs.flatMap(job => job.hardSkills)),
-      ...new Set(this.allJobs.flatMap(job => job.softSkills)),
-    ];
-    this.db.getDataWithCache(
-      'tags',
-      () => this.db.loadCollection('tags')
-    ).subscribe((tags: Tag[]) => this.allTags = tags.filter(tag => tagsPaths.includes(tag.path)));
+  private tagsEffect() {
+    effect(() => {
+      const tagsPaths = [
+        ...new Set(this.allJobs().flatMap(job => job.hardSkills)),
+        ...new Set(this.allJobs().flatMap(job => job.softSkills)),
+      ];
+      const sub = this.db.getDataWithCache<Tag[]>(
+        'tags',
+        () => this.db.loadCollection('tags')
+      ).subscribe(tags => this.allTags.set(tags?.filter(tag => tagsPaths.includes(tag.path)) ?? []));
+      return () => sub.unsubscribe();
+    });
   }
 
   /**
@@ -93,22 +100,22 @@ export class ExperienceComponent extends PageCommons {
    * @function loadSSTags
    */
   private loadSSTags() {
-    this.db.getDataWithCache(
+    this.db.getDataWithCache<SoftSkillTag[]>(
       'sstags',
       () => this.db.loadCollection('soft-skill-tags')
-    ).subscribe((ssTags: SoftSkillTag[]) => this.allSSTags = ssTags);
+    ).subscribe(ssTags => this.allSSTags.set(ssTags ?? []));
   }
 
   private loadData() {
-    this.db.getDataWithCache(
+    this.db.getDataWithCache<any>(
       'data_skills',
       () => this.db.loadDoc('data', 'skills')
-    ).subscribe((data: any) => this.softSkills = data['soft-skills'] as SoftSkills[]);
+    ).subscribe(data => this.softSkills.set(data['soft-skills'] as SoftSkills[]));
   }
 
   private loadJob(index: number) {
-    if (index < this.allJobs.length)
-      this.jobs.update(olds => [...olds, this.allJobs[index]]);
+    if (index < this.allJobs().length)
+      this.jobs.update(olds => [...olds, this.allJobs()[index]]);
   }
 
   protected loadNextJob(name: string) {
@@ -116,7 +123,7 @@ export class ExperienceComponent extends PageCommons {
   }
 
   protected getCompany(company: string) {
-    return this.allCompanies.find(t => t.path === company) ?? new Company('Unknown', '', '', '', new Place('Unkown'), '');
+    return this.allCompanies().find(t => t.path === company) ?? new Company('Unknown', '', '', '', new Place('Unkown'), '');
   }
 
   /**
@@ -126,7 +133,7 @@ export class ExperienceComponent extends PageCommons {
    * @returns List of Tags.
    */
   protected getTags(tagsPaths: string[]) {
-    return this.allTags.filter(tag => tagsPaths.includes(tag.path));
+    return this.allTags().filter(tag => tagsPaths.includes(tag.path));
   }
 
   /**
@@ -136,6 +143,6 @@ export class ExperienceComponent extends PageCommons {
    * @returns List of Tags.
    */
   protected getSSTags(tagsPaths: string[]) {
-    return this.allSSTags.filter(ssTag => tagsPaths.includes(ssTag.path));
+    return this.allSSTags().filter(ssTag => tagsPaths.includes(ssTag.path));
   }
 }

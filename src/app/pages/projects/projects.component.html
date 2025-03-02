@@ -32,7 +32,7 @@
                         </ng-template>
                         <div class="full-stack">
                             <mat-chip-set [style.padding.px]="10" [style.max-width.px]="720">
-                                @for (tag of allTags; track $index) {
+                                @for (tag of allTags(); track $index) {
                                     <mat-chip-option (click)="toggleTag(tag)">
                                         <div
                                             matChipAvatar
