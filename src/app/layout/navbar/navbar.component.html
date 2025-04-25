@@ -35,8 +35,7 @@
         <mat-nav-list>
             @for (nav of menu; track nav) {
                 @if (nav.name !== 'Codex') {
-                    <a
-                        mat-list-item
+                    <a mat-list-item
                         routerLink="{{ nav.path }}"
                         routerLinkActive
                         #rla="routerLinkActive"

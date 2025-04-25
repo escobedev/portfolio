@@ -98,6 +98,26 @@ mat-expansion-panel {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        gap: 10px;
+    }
+}
+
+.card {
+    @media (min-width: 701px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    > img[mat-card-image] {
+        width: 100%;
+        @media (min-width: 701px) {
+            border-top-right-radius: 0;
+            border-bottom-left-radius: inherit;
+        }
+    }
+    > .card-content {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        align-items: end;
     }
 }
 
