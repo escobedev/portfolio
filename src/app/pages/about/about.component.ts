@@ -42,7 +42,7 @@ import { Company } from '../../shared/models/company';
 export class AboutComponent extends PageCommons {
   protected readonly paragraphs: string[] = [
     "Hello! I'm Bruno Escobedo, a software developer based in Lima, Peru, specializing in Angular, .NET, and PostgreSQL. I build modern, scalable, and secure applications, always striving for clean architecture and performance.",
-    "I'm also passionate about cybersecurity, actively sharpening my skills in ethical hacking through <abbr role=\"Catch The Flag\">CTF</abbr> platforms like <abbr role=\"Hack The Box\">HTB</abbr> and <abbr role=\"TryHackMe\">THM</abbr>. Currently, I'm expanding my expertise into React and Next.js to broaden my development stack.",
+    "I'm also passionate about cybersecurity, actively sharpening my skills in ethical hacking through <abbr role=\"Catch The Flag\">CTF</abbr> platforms like <abbr role=\"Hack The Box\">HTB</abbr> and <abbr role=\"TryHackMe\">THM</abbr>. Recently, I've been diving deep into iOS development using Swift and SwiftUI to broaden my stack.",
     "Beyond coding, I love learning languages like French, German, and Portuguese. I'm always eager to explore new technologies and contribute to innovative projects in software development and cybersecurity.",
   ];
   protected readonly years_of_experience = new Date(Date.now()).getFullYear() - new Date('2023-01-01').getFullYear();
