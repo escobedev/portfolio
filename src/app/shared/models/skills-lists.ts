@@ -3,6 +3,7 @@ export const hardSkills = [
     'Frontend',
     'Backend',
     'Database',
+    'Mobile',
     'Data Analytics',
     'Version Control',
     'Package Manager',
